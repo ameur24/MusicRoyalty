@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "338838505507",
+    "project_id": "music-royalty",
+    "storage_bucket": "music-royalty.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338838505507:android:7273492df2cdcbffb0c996",
+        "android_client_info": {
+          "package_name": "com.example.music_royalty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "338838505507-pf3h82rp1081ggc5mm8euogpo6qi4m0j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4m5O7zoiId7oykm4bWYgw5eEtrwxnNtA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "338838505507-pf3h82rp1081ggc5mm8euogpo6qi4m0j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "338838505507-b3aqp2dm0f089f56rn8llh3p9tnmq94p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.musicRoyalty"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
