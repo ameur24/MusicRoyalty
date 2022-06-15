@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:music_royalty/Utils/colors.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:http/http.dart' as http;
 
 class landingPage extends StatefulWidget {
   landingPage({Key? key}) : super(key: key);
@@ -43,7 +46,7 @@ class _ImageState extends State<landingPage> {
                 style: TextStyle(
                     decoration: TextDecoration.none,
                     color: MyColors.MainYellow,
-                    fontFamily: 'Exo',
+                    fontFamily: 'Exo-Black',
                     fontSize: 54,
                     height: 1.2),
               ),
@@ -70,7 +73,7 @@ class _ImageState extends State<landingPage> {
               height: screenHeight * .3,
             ),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () => signInWithGoogle(),
                 style: ElevatedButton.styleFrom(
                   elevation: 8,
                   primary: Colors.white,
@@ -108,7 +111,7 @@ class _ImageState extends State<landingPage> {
                 )),
             SizedBox(height: screenHeight * .02),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () => signInWithFacebook(),
                 style: ElevatedButton.styleFrom(
                   elevation: 8,
                   primary: Colors.white,
@@ -142,9 +145,45 @@ class _ImageState extends State<landingPage> {
                     ),
                   ],
                 )),
+            TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Sign up ',
+                  style: TextStyle(color: MyColors.ButtonIcon),
+                ))
           ],
         ),
       )
     ]);
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    // Once signed in, return the UserCredential
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 }
