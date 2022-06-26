@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:music_royalty/Utils/colors.dart';
 import 'package:music_royalty/Widgets/Texts/big_text.dart';
+import 'package:music_royalty/Widgets/Texts/hint_text.dart';
+import 'package:music_royalty/Widgets/froms/input_field.dart';
+import 'package:music_royalty/Widgets/menu.dart';
 
 import '../../Widgets/buttons/button_with_icon.dart';
+import 'music_steps/music_title.dart';
 
 class EmptyMain extends StatelessWidget {
   const EmptyMain({Key? key}) : super(key: key);
@@ -34,13 +40,14 @@ class EmptyMain extends StatelessWidget {
             ),
             Row(
               children: [
-                CircleAvatar(
+                circularMenu(),
+                /*   CircleAvatar(
                   backgroundColor: MyColors.mainblack,
                   child: Icon(
                     Icons.music_note,
                     color: MyColors.MainYellow,
                   ),
-                ),
+                ), */
                 Text("  Welcome Hamadi",
                     style: TextStyle(
                         decoration: TextDecoration.none,
@@ -59,14 +66,23 @@ class EmptyMain extends StatelessWidget {
                   decoration: TextDecoration.none,
                   color: MyColors.MainYellow,
                   fontFamily: 'Exo-Black',
-                  fontSize: 54,
+                  fontSize: 50,
                   height: 1.2),
             ),
             SizedBox(
               height: screenHeight * .08,
             ),
             ButtonWithIcon(
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                    isScrollControlled: true,
+                    barrierColor: Colors.black38,
+                    backgroundColor: Colors.transparent,
+                    builder: (BuildContext context) {
+                      return musicTitle();
+                    },
+                    context: context);
+              },
               iconCol: MyColors.mainGrey,
               text: "Get Started",
               MainColor: MyColors.MainYellow,

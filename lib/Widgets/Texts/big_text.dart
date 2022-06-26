@@ -23,10 +23,7 @@ class BigText extends StatelessWidget {
       textAlign: textAlign,
       overflow: overflow,
       style: TextStyle(
-          fontSize: size,
-          color: color,
-          fontFamily: 'Exo-Black',
-          height: 0.8499999618296926),
+          fontSize: size, color: color, fontFamily: 'Exo-Black', height: 1),
     );
   }
 }

@@ -27,6 +27,14 @@ class ButtonWithIcon extends StatelessWidget {
         ),
       ),
       child: Container(
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                color: Color.fromRGBO(167, 167, 18, 0.6100000143051147),
+                offset: Offset(0, 4),
+                blurRadius: 16)
+          ],
+        ),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(
             Icons.add_box,
