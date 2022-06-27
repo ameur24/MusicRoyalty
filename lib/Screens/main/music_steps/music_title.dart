@@ -83,8 +83,11 @@ class musicTitle extends StatelessWidget {
                       onPressed: () {},
                       child: Text(
                         'Next',
-                        style:
-                            TextStyle(color: MyColors.mainblack, fontSize: 16),
+                        style: TextStyle(
+                          color: MyColors.mainblack,
+                          fontSize: 16,
+                          fontFamily: 'Exo-Bold',
+                        ),
                       ),
                       style: ElevatedButton.styleFrom(
                         elevation: 8,

@@ -6,4 +6,6 @@ class MyColors {
   static final Color mainGrey = const Color(0xff202020);
   static final Color BordersGrey = const Color(0xff949494);
   static final Color mainblack = const Color(0xff1E1E1E);
+  static final Color blackbackground1 = const Color(0xff121212);
+  static final Color blackbackground2 = const Color(0xff161616);
 }

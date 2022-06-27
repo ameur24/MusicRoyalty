@@ -4,13 +4,15 @@ class ButtonWithIcon extends StatelessWidget {
   final String text;
   final Color MainColor;
   final Color? iconCol;
+  final double? fontSize;
   final Function? onPressed;
   const ButtonWithIcon(
       {this.text = "",
       this.onPressed,
       this.MainColor = const Color(0xff5669FF),
       required this.iconCol,
-      Key? key})
+      Key? key,
+      this.fontSize = 18})
       : super(key: key);
 
   @override
@@ -45,7 +47,7 @@ class ButtonWithIcon extends StatelessWidget {
             text,
             style: TextStyle(
               decoration: TextDecoration.none,
-              fontSize: 18,
+              fontSize: fontSize,
               color: iconCol,
               fontFamily: 'Exo-Black',
             ),

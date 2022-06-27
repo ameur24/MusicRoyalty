@@ -3,6 +3,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:music_royalty/Screens/Authentication/sign_up.dart';
 import 'package:music_royalty/Screens/main/empty_main.dart';
+import 'Screens/main/mymusic.dart';
 import 'firebase_options.dart';
 import 'Screens/Authentication/landing_page.dart';
 
@@ -29,8 +30,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/landing", page: () => landingPage()),
         GetPage(name: "/signup", page: () => signup()),
         GetPage(name: "/emptymain", page: () => EmptyMain()),
+        GetPage(name: "/mymusic", page: () => myMusic()),
       ],
-      initialRoute: "/emptymain",
+      initialRoute: "/mymusic",
     );
   }
 }
