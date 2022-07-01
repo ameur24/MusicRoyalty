@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_royalty/Utils/colors.dart';
 import 'package:music_royalty/Widgets/Texts/big_text.dart';
 import 'package:music_royalty/Widgets/music_details.dart';
 
 import '../../Widgets/buttons/button_with_icon.dart';
 import '../../Widgets/menu.dart';
+import 'music_steps/music_steps.dart';
 import 'music_steps/music_title.dart';
 
 class myMusic extends StatelessWidget {
@@ -86,6 +88,8 @@ class myMusic extends StatelessWidget {
               screenwidth: screenWidth,
             ),
             MusicDetails(
+              onPressed: () =>
+                  Get.to(musicSteps(), transition: Transition.downToUp),
               screenHeight: screenHeight,
               screenwidth: screenWidth,
             ),
