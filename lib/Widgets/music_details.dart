@@ -62,30 +62,24 @@ class MusicDetails extends StatelessWidget {
                               fontWeight: FontWeight.normal,
                               height: 1),
                         ),
-                        DropdownButton(
-                          items: [
+                        DropdownButton<dynamic>(
+                          dropdownColor: MyColors.mainGrey,
+                          iconDisabledColor: Colors.white,
+                          items: const [
                             DropdownMenuItem(
+                                value: 1,
                                 // onTap: menuItemSelected as void Function()?,
-                                child: Row(
-                              children: [
-                                Icon(
-                                  Icons.info,
-                                  color: MyColors.MainYellow,
-                                ),
-                                Text("Music Details")
-                              ],
-                            )),
+                                child: Text(
+                                  "Details",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                             DropdownMenuItem(
+                                value: 2,
                                 //  onTap: menuItemSelected as void Function()?,
-                                child: Row(
-                              children: [
-                                Icon(
-                                  Icons.delete,
-                                  color: MyColors.MainYellow,
-                                ),
-                                Text("Music Details")
-                              ],
-                            )),
+                                child: Text(
+                                  "Remove",
+                                  style: TextStyle(color: Colors.white),
+                                )),
                           ],
                           icon: IconButton(
                             onPressed: () => {},

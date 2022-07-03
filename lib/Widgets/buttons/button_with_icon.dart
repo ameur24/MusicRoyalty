@@ -45,12 +45,13 @@ class ButtonWithIcon extends StatelessWidget {
           ),
           Text(
             text,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              decoration: TextDecoration.none,
-              fontSize: fontSize,
-              color: iconCol,
-              fontFamily: 'Exo-Black',
-            ),
+                decoration: TextDecoration.none,
+                fontSize: fontSize,
+                color: iconCol,
+                fontFamily: 'Exo-Black',
+                fontWeight: FontWeight.bold),
           ),
         ]),
       ),
