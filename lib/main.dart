@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/mymusic", page: () => myMusic()),
         GetPage(name: "/musicSteps", page: () => musicSteps()),
       ],
-      initialRoute: "/mymusic",
+      initialRoute: "/landing",
     );
   }
 }

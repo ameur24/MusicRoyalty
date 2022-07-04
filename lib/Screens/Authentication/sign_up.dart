@@ -17,7 +17,7 @@ class signup extends GetView<SignUpController> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-
+    Get.put(SignUpController());
     return Scaffold(
       backgroundColor: MyColors.mainblack,
       appBar: AppBar(
