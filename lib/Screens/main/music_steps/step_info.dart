@@ -90,9 +90,11 @@ class StepInfo extends GetView<MusicController> {
                                   decoration: InputDecoration(
                                       hoverColor: MyColors.MainYellow,
                                       focusColor: MyColors.MainYellow,
-                                      border: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: MyColors.MainYellow))),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: MyColors.MainYellow,
+                                            width: 2.0),
+                                      )),
                                   dropdownColor: MyColors.blackbackground2,
                                   items: options(),
                                   focusColor: MyColors.MainYellow,

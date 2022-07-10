@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:music_royalty/Screens/Authentication/sign_up.dart';
+import 'package:music_royalty/Screens/Authentication/sign_up_google.dart';
 import 'package:music_royalty/Screens/main/empty_main.dart';
 import 'Screens/main/music_steps/music_steps.dart';
 import 'Screens/main/mymusic.dart';
@@ -26,14 +26,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Music Royalty',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.yellow,
       ),
       getPages: [
         GetPage(name: "/landing", page: () => landingPage()),
-        GetPage(name: "/signup", page: () => signup()),
+        GetPage(name: "/signup", page: () => const signup_google()),
         GetPage(name: "/emptymain", page: () => EmptyMain()),
-        GetPage(name: "/mymusic", page: () => myMusic()),
-        GetPage(name: "/musicSteps", page: () => musicSteps()),
+        GetPage(name: "/mymusic", page: () => const myMusic()),
+        GetPage(name: "/musicSteps", page: () => const musicSteps()),
       ],
       initialRoute: "/landing",
     );

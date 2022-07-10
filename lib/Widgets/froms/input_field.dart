@@ -10,9 +10,11 @@ class Myinput extends StatelessWidget {
   final Icon? icon;
   final int lines;
   final String? what;
+  final Iterable<String>? AutofillHints;
   final Function(String)? onChanged;
   final String? Function(String?)? validate;
   final Function(String)? onSubmitted;
+  final TextEditingController? controller;
   final String? errorText;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -21,6 +23,7 @@ class Myinput extends StatelessWidget {
   const Myinput(
       {required this.labelText,
       this.onChanged,
+      this.AutofillHints,
       this.onSubmitted,
       this.errorText,
       this.keyboardType = TextInputType.multiline,
@@ -33,17 +36,21 @@ class Myinput extends StatelessWidget {
       this.icon,
       this.hint = '',
       this.validate,
-      this.what})
+      this.what,
+      this.controller})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       style: TextStyle(color: Colors.white),
       cursorColor: MyColors.MainYellow,
       initialValue: what,
+      autofillHints: AutofillHints,
       keyboardType: keyboardType,
       autofocus: autoFocus,
+      controller: controller,
       onChanged: onChanged,
       onSaved: (v) {},
       validator: validate,

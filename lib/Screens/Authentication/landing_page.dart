@@ -1,7 +1,12 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:music_royalty/Screens/Authentication/sign_up.dart';
+import 'package:music_royalty/Screens/Authentication/sign_up_google.dart';
+import 'package:music_royalty/Screens/main/empty_main.dart';
 import 'package:music_royalty/Utils/colors.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -212,7 +217,20 @@ class _ImageState extends State<landingPage> {
     );
 
     // Once signed in, return the UserCredential
-
+    await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+      if (user != null) {
+        var Exists = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get()
+            .then((docSnapshot) => {
+                  if (docSnapshot.exists)
+                    {Get.off(EmptyMain()), print("azsss $e")}
+                  else
+                    {Get.to(signup_google())}
+                });
+      }
+    });
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 

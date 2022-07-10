@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
@@ -11,8 +12,9 @@ import '../../Widgets/buttons/button_with_icon.dart';
 import 'music_steps/music_title.dart';
 
 class EmptyMain extends StatelessWidget {
-  const EmptyMain({Key? key}) : super(key: key);
-
+  EmptyMain({Key? key}) : super(key: key);
+  final fullName =
+      FirebaseAuth.instance.currentUser!.displayName.toString().split(" ");
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -48,7 +50,7 @@ class EmptyMain extends StatelessWidget {
                     color: MyColors.MainYellow,
                   ),
                 ), */
-                Text("  Welcome Hamadi",
+                Text("  Welcome ${fullName[0]}",
                     style: TextStyle(
                         decoration: TextDecoration.none,
                         color: Colors.white70,

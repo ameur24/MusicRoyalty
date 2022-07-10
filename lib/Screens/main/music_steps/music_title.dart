@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_royalty/Utils/colors.dart';
+import 'package:music_royalty/controllers/music_controller.dart';
 
 import '../../../Widgets/Texts/big_text.dart';
 import '../../../Widgets/froms/input_field.dart';
 
 class musicTitle extends StatelessWidget {
-  const musicTitle({Key? key}) : super(key: key);
-
+  musicTitle({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-
+    MusicController controller = Get.put(MusicController());
     return SingleChildScrollView(
         child: Padding(
       padding: MediaQuery.of(context).viewInsets,
@@ -30,12 +31,13 @@ class musicTitle extends StatelessWidget {
                 ),
                 Text(
                   'Get Started',
-                  textAlign: TextAlign.left,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       decoration: TextDecoration.none,
                       color: MyColors.MainYellow,
                       fontFamily: 'Exo-Bold',
                       fontSize: 30,
+                      fontWeight: FontWeight.w700,
                       height: 1.2),
                 ),
                 SizedBox(
@@ -72,9 +74,14 @@ class musicTitle extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * .015,
                 ),
-                Myinput(
-                    labelText: "Music name",
-                    textInputAction: TextInputAction.done),
+                Form(
+                  key: controller.titlekey,
+                  child: Myinput(
+                      onChanged: (v) => controller.musicTitle.value = v,
+                      validate: (v) => controller.validateThese(v!),
+                      labelText: "Music name",
+                      textInputAction: TextInputAction.done),
+                ),
                 SizedBox(
                   height: screenHeight * .03,
                 ),

@@ -19,8 +19,6 @@ class signup_google extends GetView<SignUpController> {
   const signup_google({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final fullName =
-        FirebaseAuth.instance.currentUser!.displayName.toString().split(" ");
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     Get.put(SignUpController());
@@ -36,173 +34,189 @@ class signup_google extends GetView<SignUpController> {
         elevation: 0,
       ),
       body: SafeArea(
-        child: Form(
-          key: controller.SignUpKey,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * .05),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: screenHeight * .05,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * .05),
+          child: SingleChildScrollView(
+              child: Form(
+            key: controller.SignUpKey,
+            autovalidateMode: AutovalidateMode.disabled,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: screenHeight * .05,
+                ),
+                Text(
+                  "Personal Details",
+                  style: TextStyle(
+                    color: MyColors.MainYellow,
                   ),
-                  Text(
-                    "Personal Details",
-                    style: TextStyle(
-                      color: MyColors.MainYellow,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                  SizedBox(
-                    height: screenHeight * .01,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                          width: screenWidth * .44,
-                          child: Myinput(
-                            onChanged: (v) => controller.userx.first_name = v,
-                            labelText: "Name",
-                            what: fullName[0],
-                            validate: (v) {
-                              controller.validateThese(v!);
-                            },
-                          )),
-                      SizedBox(
-                        width: screenWidth * 0.02,
-                      ),
-                      SizedBox(
-                          width: screenWidth * .44,
-                          child: Myinput(
-                            onChanged: (v) => controller.userx.middle_name = v,
-                            labelText: "Middle Name",
-                          )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: screenHeight * .02,
-                  ),
-                  Myinput(
-                    labelText: "Last Name",
-                    onChanged: (v) => controller.userx.last_name = v,
-                    what: fullName.length == 2 ? fullName[1] : fullName[2],
-                    validate: (v) {
-                      controller.validateThese(v!);
-                    },
-                  ),
-                  SizedBox(
-                    height: screenHeight * .02,
-                  ),
-                  Myinput(
-                    onChanged: (v) => controller.userx.Date = v,
-                    labelText: "Date of Birth",
-                    AutofillHints: [AutofillHints.birthday],
-                    keyboardType: TextInputType.datetime,
-                  ),
-                  SizedBox(
-                    height: screenHeight * .01,
-                  ),
-                  Text(
-                    "Contact Details",
-                    style: TextStyle(
-                      color: MyColors.MainYellow,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                  SizedBox(
-                    height: screenHeight * .01,
-                  ),
-                  Myinput(
-                    what: FirebaseAuth.instance.currentUser!.email.toString(),
-                    enabled: false,
-                    onChanged: (v) => controller.userx.email = v,
-
-                    validate: (v) {
-                      controller.validateThese(v!);
-                    },
-                    //onChanged: (v) => controller.userx!.email = v,
-                    labelText: "Email",
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  SizedBox(
-                    height: screenHeight * .02,
-                  ),
-                  Myinput(
-                    onChanged: (v) => controller.userx.phone_number = v,
-                    validate: (v) {
-                      controller.validateThese(v!);
-                    },
-                    what: FirebaseAuth.instance.currentUser!.phoneNumber,
-                    labelText: "Phone number",
-                    AutofillHints: [AutofillHints.telephoneNumber],
-                    keyboardType: TextInputType.phone,
-                  ),
-                  SizedBox(
-                    height: screenHeight * .02,
-                  ),
-                  Myinput(
-                    onChanged: (v) => controller.userx.adress = v,
-                    validate: (v) {
-                      controller.validateThese(v!);
-                    },
-                    labelText: "Adress",
-                    AutofillHints: [AutofillHints.postalAddress],
-                  ),
-                  SizedBox(
-                    height: screenHeight * .02,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                          width: screenWidth * .44,
-                          child: Obx(() => AutoCompleteWidget(
-                                what: controller.state.value,
-                                onSelected: (v) => controller.userx.state = v,
-                                labelText: "State",
-                                enabled: true,
-                                validator: (v) {
-                                  controller.validateThese(v!);
-                                },
-                              ))),
-                      SizedBox(
-                        width: screenWidth * 0.02,
-                      ),
-                      SizedBox(
-                          width: screenWidth * .44,
-                          child: Myinput(
-                            onChanged: (v) => controller.userx.zip = v,
-                            validate: (v) {
-                              controller.validateThese(v!);
-                            },
-                            labelText: "ZIP code",
-                            keyboardType: TextInputType.number,
-                          )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: screenHeight * .03,
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                        onPressed: () => controller.addUser(controller.userx),
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                              color: MyColors.mainblack, fontSize: 16),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          elevation: 8,
-                          primary: MyColors.MainYellow,
-                          padding: EdgeInsets.symmetric(
-                              vertical: screenHeight * .026,
-                              horizontal: screenWidth * .37),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(
+                  height: screenHeight * .01,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                        width: screenWidth * .44,
+                        child: Myinput(
+                          onChanged: (v) => controller.first_name.value = v,
+                          labelText: "Name",
+                          what: controller.first_name.value,
+                          validate: (v) => controller.validateThese(v!),
                         )),
-                  )
-                ],
-              ),
+                    SizedBox(
+                      width: screenWidth * 0.02,
+                    ),
+                    SizedBox(
+                        width: screenWidth * .44,
+                        child: Myinput(
+                          what: controller.middle_name.value,
+                          onChanged: (v) => controller.middle_name.value = v,
+                          labelText: "Middle Name",
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: screenHeight * .02,
+                ),
+                Myinput(
+                  what: controller.last_name.value,
+                  labelText: "Last Name",
+                  onChanged: (v) => controller.last_name.value = v,
+                  validate: (v) => controller.validateThese(v!),
+                ),
+                SizedBox(
+                  height: screenHeight * .02,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    DateTime? res = await showDatePicker(
+                      context: context,
+                      initialDate: controller.initDate,
+                      firstDate: DateTime(1930),
+                      lastDate: DateTime(2010),
+                    );
+                    controller.initDate = res!;
+                    var cx = res.toString().split(" ");
+                    print("yo no no yoooo${cx[0]}");
+                    print("yo yo yo yoooo${controller.initDate}");
+                    if (res == null) {
+                      return;
+                    } else {
+                      controller.Date.value = cx[0];
+                    }
+                    controller.update();
+
+                    print("yo yo yo xs${controller.Date}");
+                  },
+                  child: Obx(() => Myinput(
+                        enabled: false,
+                        validate: (v) => controller.validateThese(v!),
+                        what: controller.Date.value,
+                        labelText: "Date of Birth",
+                        AutofillHints: [AutofillHints.birthday],
+                        keyboardType: TextInputType.datetime,
+                      )),
+                ),
+                SizedBox(
+                  height: screenHeight * .01,
+                ),
+                Text(
+                  "Contact Details",
+                  style: TextStyle(
+                    color: MyColors.MainYellow,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(
+                  height: screenHeight * .01,
+                ),
+                Myinput(
+                  what: controller.email.value,
+
+                  enabled: false,
+                  onChanged: (v) => controller.email.value = v,
+
+                  validate: (v) {
+                    controller.validateEmail(v!);
+                  },
+                  //onChanged: (v) => controller.userx!.email = v,
+                  labelText: "Email",
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                SizedBox(
+                  height: screenHeight * .02,
+                ),
+                Myinput(
+                  what: controller.phone_number.value,
+                  onChanged: (v) => controller.phone_number.value = v,
+                  validate: (v) => controller.validatePhone(v!),
+                  labelText: "Phone number",
+                  AutofillHints: [AutofillHints.telephoneNumber],
+                  keyboardType: TextInputType.phone,
+                ),
+                SizedBox(
+                  height: screenHeight * .02,
+                ),
+                Myinput(
+                  what: controller.adress.value,
+                  onChanged: (v) => controller.adress.value = v,
+                  validate: (v) => controller.validateThese(v!),
+                  labelText: "Adress",
+                  AutofillHints: [AutofillHints.postalAddress],
+                ),
+                SizedBox(
+                  height: screenHeight * .02,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                        width: screenWidth * .44,
+                        child: Obx(() => AutoCompleteWidget(
+                              what: controller.state.value,
+                              onSelected: (v) => controller.state.value = v,
+                              labelText: "State",
+                              enabled: true,
+                              validator: (v) => controller.validateThese(v!),
+                            ))),
+                    SizedBox(
+                      width: screenWidth * 0.02,
+                    ),
+                    SizedBox(
+                        width: screenWidth * .44,
+                        child: Myinput(
+                          onChanged: (v) => controller.zip.value = v,
+                          validate: (v) => controller.validateThese(v!),
+                          what: controller.zip.value,
+                          labelText: "ZIP code",
+                          keyboardType: TextInputType.number,
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: screenHeight * .03,
+                ),
+                Center(
+                  child: ElevatedButton(
+                      onPressed: () => controller.addUser(),
+                      child: Text(
+                        'Sign Up',
+                        style:
+                            TextStyle(color: MyColors.mainblack, fontSize: 16),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 8,
+                        primary: MyColors.MainYellow,
+                        padding: EdgeInsets.symmetric(
+                            vertical: screenHeight * .026,
+                            horizontal: screenWidth * .37),
+                      )),
+                )
+              ],
             ),
-          ),
+          )),
         ),
       ),
     );
