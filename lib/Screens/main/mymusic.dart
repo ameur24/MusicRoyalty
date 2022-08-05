@@ -3,19 +3,22 @@ import 'package:get/get.dart';
 import 'package:music_royalty/Utils/colors.dart';
 import 'package:music_royalty/Widgets/Texts/big_text.dart';
 import 'package:music_royalty/Widgets/music_details.dart';
+import 'package:music_royalty/controllers/music_controller.dart';
+import 'package:music_royalty/models/UserMusics.dart';
 
 import '../../Widgets/buttons/button_with_icon.dart';
 import '../../Widgets/menu.dart';
 import 'music_steps/music_steps.dart';
 import 'music_steps/music_title.dart';
 
-class myMusic extends StatelessWidget {
+class myMusic extends GetView<MusicController> {
   const myMusic({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    controller.getmymusic();
     return Scaffold(
       backgroundColor: MyColors.blackbackground1,
       appBar: AppBar(
@@ -75,41 +78,36 @@ class myMusic extends StatelessWidget {
       body: Stack(children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: ListView(children: [
-            SizedBox(
-              height: screenHeight * .03,
-            ),
-            BigText(text: "My Music"),
-            SizedBox(
-              height: screenHeight * .02,
-            ),
-            MusicDetails(
-              screenHeight: screenHeight,
-              screenwidth: screenWidth,
-            ),
-            MusicDetails(
-              onPressed: () =>
-                  Get.to(musicSteps(), transition: Transition.downToUp),
-              screenHeight: screenHeight,
-              screenwidth: screenWidth,
-            ),
-            MusicDetails(
-              screenHeight: screenHeight,
-              screenwidth: screenWidth,
-            ),
-            MusicDetails(
-              screenHeight: screenHeight,
-              screenwidth: screenWidth,
-            ),
-            MusicDetails(
-              screenHeight: screenHeight,
-              screenwidth: screenWidth,
-            ),
-            MusicDetails(
-              screenHeight: screenHeight,
-              screenwidth: screenWidth,
-            ),
-          ]),
+          child: RefreshIndicator(
+            backgroundColor: MyColors.NotCompletedStep,
+            onRefresh: () => controller.getmymusic(),
+            child: ListView(children: [
+              SizedBox(
+                height: screenHeight * .03,
+              ),
+              BigText(text: "My Music"),
+              SizedBox(
+                height: screenHeight * .02,
+              ),
+              GetBuilder(builder: (context) {
+                return controller.mymusicList.isEmpty
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        itemCount: controller.mymusicList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return MusicDetails(
+                            screenHeight: screenHeight,
+                            screenwidth: MediaQuery.of(context).size.width,
+                            musicName: controller.mymusicList[index]["Title"],
+                            lastUpdate: controller.mymusicList[index]
+                                ['created_at'],
+                            currentStep: controller.mymusicList[index]
+                                ['CurrentStep'],
+                          );
+                        });
+              }),
+            ]),
+          ),
         ),
         Positioned(
             bottom: screenHeight * .1,

@@ -3,19 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_royalty/Screens/main/music_steps/step_info.dart';
 import 'package:music_royalty/Widgets/Texts/big_text.dart';
+import 'package:music_royalty/models/music.dart';
 
 import '../../../Utils/colors.dart';
+import '../../../controllers/music_controller.dart';
+import '../mymusic.dart';
 
-class musicSteps extends StatelessWidget {
+class musicSteps extends GetView<MusicController> {
   const musicSteps({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    MusicController controller = Get.find();
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    int current = 1 + controller.mu.currentStep!;
     return Scaffold(
       backgroundColor: MyColors.blackbackground1,
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () => Get.to(() => const myMusic()),
+            icon: Icon(Icons.arrow_back)),
         elevation: 0,
         foregroundColor: Colors.white,
         backgroundColor: MyColors.blackbackground1,
@@ -25,7 +32,7 @@ class musicSteps extends StatelessWidget {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * .05),
               child: SongName(screenHeight)),
-          Steps(screenHeight, screenWidth),
+          Steps(screenHeight, screenWidth, current),
         ],
       ),
     );
@@ -47,7 +54,7 @@ class musicSteps extends StatelessWidget {
           height: screenHeight * 0.005,
         ),
         Text(
-          'Music Name',
+          controller.mu.Title.toString(),
           textAlign: TextAlign.left,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
@@ -73,7 +80,7 @@ class musicSteps extends StatelessWidget {
     );
   }
 
-  Widget Steps(double h, w) {
+  Widget Steps(double h, w, int current) {
     return Container(
       height: h * .69,
       width: w,
@@ -87,54 +94,54 @@ class musicSteps extends StatelessWidget {
               text: "SplitSheet",
               description: "Decide how much money each songwriter will get",
               thisStep: 1,
-              current: 2),
+              current: current),
           Item(
               text: "Copyright",
               description: "Register your song's copyright",
               thisStep: 2,
-              current: 2),
+              current: current),
           Item(
               text: "ISRC Code",
               description: "Get your sound recording's unique code",
               thisStep: 3,
-              current: 1),
+              current: current),
           Item(
               text: "PRO",
               description: "Get set up to collect Performance Royalties",
               thisStep: 4,
-              current: 1),
+              current: current),
           Item(
               text: "Distribution",
               description: "Sign up to Send your music to online stores!",
               thisStep: 5,
-              current: 1),
+              current: current),
           Item(
               text: "Performance Royalties (Digital)",
               description: "Collect Digital Royalties from all over the World",
               thisStep: 6,
-              current: 1),
+              current: current),
           Item(
               text: "Mechanical Royalties",
               description:
                   "Collect Mechanical Royalties from all over the World",
               thisStep: 7,
-              current: 1),
+              current: current),
           Item(
               text: "Print Royalties",
               description: "Collect Royalties when your lyrics are reprinted",
               thisStep: 8,
-              current: 1),
+              current: current),
           Item(
               text: "Sync Licensing",
               description: "Submit your music for exciting paid opportunities!",
               thisStep: 9,
-              current: 1),
+              current: current),
           Item(
               text: "Social media and Website (optional)",
               description:
                   "Set up social media accounts and website to get a bigger fanbase",
               thisStep: 10,
-              current: 1),
+              current: current),
         ],
       ),
     );

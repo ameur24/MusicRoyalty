@@ -2,19 +2,35 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:music_royalty/Screens/main/music_steps/music_steps.dart';
 import 'package:music_royalty/Screens/main/music_steps/music_title.dart';
 import 'package:music_royalty/controllers/sign_up_controller.dart';
+import 'package:music_royalty/models/UserMusics.dart';
+import 'package:music_royalty/models/music.dart';
 
 class MusicController extends GetxController {
   final uid = FirebaseAuth.instance.currentUser!.uid;
   var selectedSite = 0.obs;
+  late Music mu;
+  bool isNew = true;
+  var loading = false.obs;
   set SelctSite(value) => selectedSite.value = value;
   get obj => this.selectedSite.value;
-    CollectionReference MusicCollection = FirebaseFirestore.instance.collection('Music');
-
   //music details
+  var mymusicList = [];
   var musicTitle = "".obs;
-   var titlekey = GlobalKey<FormState>();
+  final fabheight = 0.0.obs;
+  final url = "".obs;
+  var titlekey = GlobalKey<FormState>();
+//updater
+  updateUrlName(String link) {
+    url(link);
+  }
+
+  updateFabHeight(double height) {
+    fabheight(height);
+  }
+
   //validators
   String? validateThese(String c1) {
     if (c1.isEmpty || c1 == null) {
@@ -24,16 +40,71 @@ class MusicController extends GetxController {
   }
 
   Future<void> newMusic() async {
+    loading.value = true;
+    update();
     bool isvalidate = titlekey.currentState!.validate();
     print(isvalidate);
     if (isvalidate) {
-     var MusicNum = SignUpController().users.doc(uid).get();
+      Music music = Music(
+          Title: musicTitle.value,
+          currentStep: 0,
+          created_at: Timestamp.now(),
+          updated_at: Timestamp.now());
+      print("music $music");
+      List m = [];
+      m.add(music.toFirestore());
+      UserMusics userMusics = UserMusics(userId: uid, MusicList: m);
+      print("List $userMusics");
+      print("music $music");
 
-      MusicCollection.doc(uid).set({
-        "userId" : uid,
-        'Musics.' : 
-      })
+      final MusicCollection = FirebaseFirestore.instance
+          .collection('Music')
+          .withConverter(
+              fromFirestore: UserMusics.fromFirestore,
+              toFirestore: (UserMusics userMusic, options) =>
+                  userMusics.toFirestore())
+          .doc(FirebaseAuth.instance.currentUser!.uid);
+      mu = music;
+      /*  if (isNew == true) {
+        await MusicCollection.set(userMusics);
+      } else { */
+      FirebaseFirestore.instance
+          .collection('Music')
+          .doc(uid)
+          .update({"MusicList": FieldValue.arrayUnion(m)});
 
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update({"num_music": FieldValue.increment(1)}).then(
+        (res) => Get.to(() => musicSteps(),
+            transition: Transition.rightToLeftWithFade, arguments: music),
+        onError: (e) => print("Error completing: $e"),
+      );
+      loading.value = false;
     }
+    loading.value = false;
+
+    update();
+  }
+
+  Future<void> getmymusic() async {
+    final MusicCollection = FirebaseFirestore.instance
+        .collection('Music')
+        .withConverter(
+            fromFirestore: UserMusics.fromFirestore,
+            toFirestore: (UserMusics userMusic, options) =>
+                userMusic.toFirestore())
+        .doc(FirebaseAuth.instance.currentUser!.uid);
+
+    final docSnap = await MusicCollection.get();
+    final result = docSnap.data();
+    if (result != null) {
+      mymusicList.addAll(result.MusicList!);
+      print("The list : $mymusicList");
+    } else {
+      print("error");
+    }
+    update();
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:music_royalty/Screens/main/music_steps/music_steps.dart';
+import 'package:music_royalty/Screens/main/music_steps/step_view.dart';
 import 'package:music_royalty/Utils/constants.dart';
 
 import '../../../Utils/colors.dart';
@@ -18,6 +20,9 @@ class StepInfo extends GetView<MusicController> {
     return Scaffold(
         backgroundColor: MyColors.blackbackground2,
         appBar: AppBar(
+          leading: IconButton(
+              onPressed: () => Get.to(() => const musicSteps()),
+              icon: Icon(Icons.arrow_back)),
           elevation: 0,
           foregroundColor: Colors.white,
           backgroundColor: MyColors.blackbackground2,
@@ -159,7 +164,12 @@ class StepInfo extends GetView<MusicController> {
                 ),
                 SizedBox(height: screenHeight * .35),
                 ButtonWithIcon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => stepView(), arguments: {
+                      "StepTitle": Get.arguments["StepTitle"],
+                      "id": Get.arguments["id"]
+                    });
+                  },
                   iconCol: MyColors.mainGrey,
                   text: "Get My ${Get.arguments["StepTitle"]}",
                   MainColor: MyColors.MainYellow,

@@ -90,36 +90,42 @@ class signup_google extends GetView<SignUpController> {
                 SizedBox(
                   height: screenHeight * .02,
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    DateTime? res = await showDatePicker(
-                      context: context,
-                      initialDate: controller.initDate,
-                      firstDate: DateTime(1930),
-                      lastDate: DateTime(2010),
-                    );
-                    controller.initDate = res!;
-                    var cx = res.toString().split(" ");
-                    print("yo no no yoooo${cx[0]}");
-                    print("yo yo yo yoooo${controller.initDate}");
-                    if (res == null) {
-                      return;
-                    } else {
-                      controller.Date.value = cx[0];
-                    }
-                    controller.update();
-
-                    print("yo yo yo xs${controller.Date}");
-                  },
-                  child: Obx(() => Myinput(
-                        enabled: false,
-                        validate: (v) => controller.validateThese(v!),
-                        what: controller.Date.value,
-                        labelText: "Date of Birth",
-                        AutofillHints: [AutofillHints.birthday],
-                        keyboardType: TextInputType.datetime,
-                      )),
+                Myinput(
+                  what: controller.Date.value,
+                  labelText: "Date time",
+                  onChanged: (v) => controller.Date.value = v,
+                  validate: (v) => controller.validateThese(v!),
                 ),
+                // GestureDetector(
+                //   onTap: () async {
+                //     DateTime? res = await showDatePicker(
+                //       context: context,
+                //       initialDate: controller.initDate,
+                //       firstDate: DateTime(1930),
+                //       lastDate: DateTime(2010),
+                //     );
+                //     controller.initDate = res!;
+                //     var cx = res.toString().split(" ");
+                //     print("yo no no yoooo${cx[0]}");
+                //     print("yo yo yo yoooo${controller.initDate}");
+                //     if (res == null) {
+                //       return;
+                //     } else {
+                //       controller.Date.value = cx[0];
+                //     }
+                //     controller.update();
+
+                //     print("yo yo yo xs${controller.Date}");
+                //   },
+                //   child: Obx(() => Myinput(
+                //         enabled: false,
+                //         validate: (v) => controller.validateThese(v!),
+                //         what: controller.Date.value,
+                //         labelText: "Date of Birth",
+                //         AutofillHints: [AutofillHints.birthday],
+                //         keyboardType: TextInputType.datetime,
+                //       )),
+                // ),
                 SizedBox(
                   height: screenHeight * .01,
                 ),

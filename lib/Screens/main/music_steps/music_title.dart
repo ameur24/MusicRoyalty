@@ -86,23 +86,27 @@ class musicTitle extends StatelessWidget {
                   height: screenHeight * .03,
                 ),
                 Center(
-                  child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Next',
-                        style: TextStyle(
-                          color: MyColors.mainblack,
-                          fontSize: 16,
-                          fontFamily: 'Exo-Bold',
-                        ),
-                      ),
+                  child: Obx(() => ElevatedButton(
+                      onPressed: () => controller.newMusic(),
+                      child: controller.loading == false
+                          ? Text(
+                              'Next',
+                              style: TextStyle(
+                                color: MyColors.mainblack,
+                                fontSize: 16,
+                                fontFamily: 'Exo-Bold',
+                              ),
+                            )
+                          : const CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
                       style: ElevatedButton.styleFrom(
                         elevation: 8,
                         primary: MyColors.MainYellow,
                         padding: EdgeInsets.symmetric(
                             vertical: screenHeight * .026,
                             horizontal: screenWidth * .37),
-                      )),
+                      ))),
                 )
               ],
             ),

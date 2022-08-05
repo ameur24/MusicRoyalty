@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:music_royalty/Services/date_time_converter.dart';
 import 'package:music_royalty/Utils/colors.dart';
 
 class MusicDetails extends StatelessWidget {
   final double screenHeight, screenwidth;
   final Function? onPressed;
+  final String musicName, currentStep, lastUpdate;
+
   final Function(dynamic)? menuItemSelected;
   final int? val;
   const MusicDetails({
@@ -14,10 +17,15 @@ class MusicDetails extends StatelessWidget {
     this.onPressed,
     this.menuItemSelected,
     this.val,
+    required this.musicName,
+    required this.currentStep,
+    required this.lastUpdate,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    DateTime Lastupdate = DateTime.parse(lastUpdate);
+    String Timeago = convertToAgo(Lastupdate);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: InkWell(
@@ -51,7 +59,7 @@ class MusicDetails extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          'My heart will go off',
+                          musicName,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               color: Color.fromRGBO(226, 226, 33, 1),
@@ -100,8 +108,8 @@ class MusicDetails extends StatelessWidget {
                       ),
                       padding:
                           EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                      child: const Text(
-                        '3/15 Steps completed',
+                      child: Text(
+                        '$currentStep/15 Steps completed',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Color.fromRGBO(251, 251, 251, 1),
@@ -115,7 +123,7 @@ class MusicDetails extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'last update 1 days ago',
+                      'last update $Timeago',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: Color.fromRGBO(185, 185, 185, 1),
