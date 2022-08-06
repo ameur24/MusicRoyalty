@@ -7,6 +7,7 @@ import 'package:music_royalty/Screens/main/music_steps/music_title.dart';
 import 'package:music_royalty/controllers/sign_up_controller.dart';
 import 'package:music_royalty/models/UserMusics.dart';
 import 'package:music_royalty/models/music.dart';
+import 'package:music_royalty/models/websitesRegistrationfields.dart';
 
 class MusicController extends GetxController {
   final uid = FirebaseAuth.instance.currentUser!.uid;
@@ -22,6 +23,11 @@ class MusicController extends GetxController {
   final fabheight = 0.0.obs;
   final url = "".obs;
   var titlekey = GlobalKey<FormState>();
+  var websitefields = [].obs;
+  updatewebsitefields(var list) {
+    websitefields.add(list);
+  }
+
 //updater
   updateUrlName(String link) {
     url(link);

@@ -26,7 +26,11 @@ class WebsitesFieldsConstants {
         zipfield: "postalcode"),
     WebsitesRegistrationFields(
         stepid: "3",
-        url: {'home': 'https://usisrc.org/', 'registre': '', 'form': ''},
+        url: {
+          'home': 'https://usisrc.org/',
+          'registre': 'https://usisrc.org/applications/question/1',
+          'form': ''
+        },
         sousstepid: "",
         fnamefield: "",
         lnamefield: "",
@@ -40,11 +44,12 @@ class WebsitesFieldsConstants {
         zipfield: "postalcode"),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
+          'home':
+              'https://applications.bmi.com/security/Login.aspx?loggedout=Y',
           'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
+              'https://applications.bmi.com/security/verifyusertype.aspx?action=N',
           'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+              'https://www.bmi.com/licensing/contact?_gl=1*ul0cip*_ga*NjkxMjQ3OTIzLjE2NTQ2NDQxOTk.*_ga_MS9JDLD7MT*MTY1OTczNzgwMS43LjEuMTY1OTczODA3MC4w'
         },
         stepid: "4",
         sousstepid: "1",
@@ -60,11 +65,9 @@ class WebsitesFieldsConstants {
         zipfield: "postalcode"),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://www.ascap.com/member-access#login',
+          'registre': 'https://ome.ascap.com/',
+          'form': ''
         },
         stepid: "4",
         sousstepid: "2",
@@ -79,15 +82,9 @@ class WebsitesFieldsConstants {
         phonenumberfield: "publisher_phoneNumber",
         zipfield: "publisher_zip"),
     WebsitesRegistrationFields(
-        url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
-        },
-        stepid: "5",
-        sousstepid: "1",
+        url: {'home': 'https://www.sesac.com/', 'registre': '', 'form': ''},
+        stepid: "4",
+        sousstepid: "3",
         fnamefield: "",
         lnamefield: "",
         fullname: "",
@@ -100,14 +97,12 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://distrokid.com/',
+          'registre': 'https://distrokid.com/',
+          'form': 'https://distrokid.com/plan/'
         },
         stepid: "5",
-        sousstepid: "2",
+        sousstepid: "1",
         fnamefield: "ctl00_MainContent_txtFirstName",
         lnamefield: "ctl00_MainContent_txtLastName",
         fullname: "",
@@ -120,14 +115,13 @@ class WebsitesFieldsConstants {
         zipfield: "ctl00_MainContent_txtZip"),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home':
+              'https://auth.cdbaby.com/account/login?returnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fclient_id%3DAC68A4B0-552C-4576-8356-32D5D2625100%26redirect_uri%3Dhttps%253A%252F%252Fmembers.cdbaby.com%252Fsignin-oidc%26response_mode%3Dform_post%26response_type%3Dcode%2520id_token%26scope%3Dopenid%2520profile%2520email%2520cdbAPI%2520cdbAuthApi%2520cdbMembers%26state%3DOpenIdConnect.AuthenticationProperties%253Dt0vjCf6dgow4otednqX2mAYMp95fC4oaUHrtHSe_vF1cgowHab3PVlA9AaMMmnvsBhQHXZQ_m7ArKHHMdKENJv9P2CQF1MGwQlXDdAu9ebAB5YbzyHWv5q-E6daVucXAB_2ERVpcXPFWVWP-lviZjj15z0v3Z66Z9-MNpnW_AfL75oYFThCQfJXEQH_HNeIyFsIP6REqX3goZxzghBEfde0ZKlRqvf3cJ9wI1NzzMMy0SnDTYO2ktXLST8p9qMNA%26nonce%3D637953379376439264.NGIwMDQ2ODEtZjMyNi00MTJmLWIwOWEtMmYzNzdjNzU0NzA4ODcxMDRiNGMtNGNkNy00NzIzLWFmMWUtNzA1N2NkZDU1NTNi%26x-client-SKU%3DID_NET451%26x-client-ver%3D5.2.1.0',
+          'registre': 'https://members.cdbaby.com/sign-up',
+          'form': 'https://members.cdbaby.com/SingleSong/BasicAlbumInfo.aspx'
         },
         stepid: "5",
-        sousstepid: "3",
+        sousstepid: "2",
         fnamefield: "",
         lnamefield: "",
         fullname: "",
@@ -140,14 +134,12 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://www.routenote.com/rn/login',
+          'registre': 'https://www.routenote.com/rn/signup_page/design',
+          'form': 'https://www.routenote.com/rn/create_album'
         },
         stepid: "5",
-        sousstepid: "4",
+        sousstepid: "3",
         fnamefield: "person_name",
         lnamefield: "",
         fullname: "",
@@ -160,14 +152,13 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home':
+              'https://web.tunecore.com/login?check=1&_ga=2.134243761.1943203254.1659741549-505015124.1659390732',
+          'registre': 'https://web.tunecore.com/signup',
+          'form': 'https://web.tunecore.com/singles/new'
         },
         stepid: "5",
-        sousstepid: "5",
+        sousstepid: "4",
         fnamefield: "",
         lnamefield: "",
         fullname: "",
@@ -180,14 +171,14 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
+          'home':
+              'https://dashboard.onerpm.com/login?_ga=2.29048376.501363854.1659741948-497452860.1659390773&_gac=1.126021375.1659741948.CjwKCAjw46CVBhB1EiwAgy6M4mC1vY0NLL2zbRm09Jjr95tqdcQQZfZbe4DGiU-RTeZdwOigmTjSDxoCdAEQAvD_BwE&_gl=1*1b2z9b5*_ga*NDk3NDUyODYwLjE2NTkzOTA3NzM.*_ga_VNEZY70FBD*MTY1OTc0MTk0OC4zLjAuMTY1OTc0MTk0OC42MA..',
+          'registre': 'https://dashboard.onerpm.com/registration',
           'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+              'https://dashboard.onerpm.com/distribution-tools/my-catalog/upload-music'
         },
         stepid: "5",
-        sousstepid: "6",
+        sousstepid: "5",
         fnamefield: "signup_form_name_field",
         lnamefield: "signup_form_lastname_field",
         fullname: "",
@@ -200,14 +191,12 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://artist.amuse.io/#/login',
+          'registre': 'https://artist.amuse.io/#/',
+          'form': 'https://artist.amuse.io/#/releases/1/'
         },
         stepid: "5",
-        sousstepid: "7",
+        sousstepid: "6",
         fnamefield: "",
         lnamefield: "",
         fullname: "",
@@ -220,14 +209,13 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
+          'home': 'https://dittomusic.com/en/login/',
+          'registre': 'https://dittomusic.com/en/signup/',
           'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+              'https://dashboard.dittomusic.com/releases/2009899/music/builder/1#'
         },
         stepid: "5",
-        sousstepid: "8",
+        sousstepid: "7",
         fnamefield: "label-firstname-bc44632f-c4f5-461d-8b10-c048df407fa0",
         lnamefield: "lastname-bc44632f-c4f5-461d-8b10-c048df407fa0",
         fullname: "",
@@ -240,14 +228,13 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
+          'home': 'https://www.recordunion.com/login',
+          'registre': 'https://www.recordunion.com/signup',
           'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+              'https://app.recordunion.com/SubmitContent/EditReleaseInformation'
         },
         stepid: "5",
-        sousstepid: "9",
+        sousstepid: "8",
         fnamefield: "",
         lnamefield: "",
         fullname: "signup-first-last-name",
@@ -260,14 +247,12 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://auth.kobaltmusic.com/',
+          'registre': '',
+          'form': 'https://apply.awal.com/submit-form/'
         },
         stepid: "5",
-        sousstepid: "10",
+        sousstepid: "9",
         fnamefield: "mat-input-2",
         lnamefield: "mat-input-3",
         fullname: "",
@@ -280,14 +265,12 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://unitedmasters.com/login',
+          'registre': 'https://unitedmasters.com/join',
+          'form': ''
         },
-        stepid: "6",
-        sousstepid: "",
+        stepid: "5",
+        sousstepid: "10",
         fnamefield: "",
         lnamefield: "",
         fullname: "",
@@ -300,14 +283,12 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://levelmusic.com/?login=login',
+          'registre': 'https://levelmusic.com/?login=register',
+          'form': ''
         },
-        stepid: "7",
-        sousstepid: "1",
+        stepid: "5",
+        sousstepid: "11",
         fnamefield: "firstName",
         lnamefield: "lastName",
         fullname: "",
@@ -320,14 +301,12 @@ class WebsitesFieldsConstants {
         zipfield: "postalCode"),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://sxdirect.soundexchange.com/login/',
+          'registre': 'https://sxdirect.soundexchange.com/join/',
+          'form': ''
         },
-        stepid: "7",
-        sousstepid: "2",
+        stepid: "6",
+        sousstepid: "",
         fnamefield: "contact_name",
         lnamefield: "",
         fullname: "",
@@ -340,14 +319,12 @@ class WebsitesFieldsConstants {
         zipfield: "company_zip"),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://portal.themlc.com/login',
+          'registre': 'https://portal.themlc.com/sign-up',
+          'form': 'https://portal.themlc.com/contact-us'
         },
         stepid: "7",
-        sousstepid: "3",
+        sousstepid: "1",
         fnamefield: "",
         lnamefield: "",
         fullname: "",
@@ -360,14 +337,12 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://www.musicreports.com/newlogin/',
+          'registre': 'https://www.musicreports.com/signup.php?rt=c6',
+          'form': ''
         },
-        stepid: "9",
-        sousstepid: "1",
+        stepid: "7",
+        sousstepid: "2",
         fnamefield: "hosting_user_subscriber_attributes_first_name",
         lnamefield: "hosting_user_subscriber_attributes_last_name",
         fullname: "",
@@ -380,14 +355,12 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://portal.harryfox.com/auth/login/?return=%2F',
+          'registre': 'https://portal.harryfox.com/auth/register',
+          'form': ''
         },
-        stepid: "9",
-        sousstepid: "2",
+        stepid: "7",
+        sousstepid: "3",
         fnamefield: "",
         lnamefield: "",
         fullname: "fullname",
@@ -400,14 +373,12 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://www.musixmatch.com/sign-in',
+          'registre': 'https://www.musixmatch.com/sign-up',
+          'form': ''
         },
-        stepid: "9",
-        sousstepid: "4",
+        stepid: "8",
+        sousstepid: "",
         fnamefield: "FirstName",
         lnamefield: "LastName",
         fullname: "",
@@ -420,14 +391,12 @@ class WebsitesFieldsConstants {
         zipfield: ""),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': 'https://www.taxi.com/login',
+          'registre': 'https://www.taxi.com/join',
+          'form': ''
         },
         stepid: "9",
-        sousstepid: "5",
+        sousstepid: "1",
         fnamefield: "c26",
         lnamefield: "c27",
         fullname: "",
@@ -440,11 +409,81 @@ class WebsitesFieldsConstants {
         zipfield: "txtPostalCode"),
     WebsitesRegistrationFields(
         url: {
-          'home': 'https://eservice.eco.loc.gov/eService_enu?SWECmd=Start',
-          'registre':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=VBC+User+Registration+Initial+Form+View&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=VBC+User+Registration+Initial+Form+Applet&SWERowId0=VRId-0',
-          'form':
-              'https://eservice.eco.loc.gov/siebel/app/eservice/enu?SWECmd=GotoView&SWEView=LC+General+Instructions+Detail+View+(eService)&SWERF=1&SWEHo=&SWEBU=1&SWEApplet0=LC+General+Instructions+Title+Detail+Applet+(eService)&SWERowId0=1-5BBXKVH'
+          'home': '',
+          'registre': '',
+          'form': 'https://artlist.io/Home/Application/'
+        },
+        stepid: "9",
+        sousstepid: "2",
+        fnamefield: "user_login",
+        lnamefield: "",
+        fullname: "",
+        middlenamefield: "",
+        emailfield: "user_email",
+        adressfield: "",
+        statefield: "",
+        datefield: "",
+        phonenumberfield: "",
+        zipfield: ""),
+    WebsitesRegistrationFields(
+        url: {
+          'home': 'https://app.soundstripe.com/sign_in',
+          'registre': 'https://app.soundstripe.com/sign_in',
+          'form': ''
+        },
+        stepid: "9",
+        sousstepid: "3",
+        fnamefield: "user_login",
+        lnamefield: "",
+        fullname: "",
+        middlenamefield: "",
+        emailfield: "user_email",
+        adressfield: "",
+        statefield: "",
+        datefield: "",
+        phonenumberfield: "",
+        zipfield: ""),
+    WebsitesRegistrationFields(
+        url: {
+          'home': 'https://www.audionetwork.com/login',
+          'registre': 'https://www.audionetwork.com/registration',
+          'form': ''
+        },
+        stepid: "9",
+        sousstepid: "4",
+        fnamefield: "user_login",
+        lnamefield: "",
+        fullname: "",
+        middlenamefield: "",
+        emailfield: "user_email",
+        adressfield: "",
+        statefield: "",
+        datefield: "",
+        phonenumberfield: "",
+        zipfield: ""),
+    WebsitesRegistrationFields(
+        url: {
+          'home': 'https://www.broadjam.com/index.php',
+          'registre': 'https://www.broadjam.com/signup/broadjam/signup.php',
+          'form': ''
+        },
+        stepid: "9",
+        sousstepid: "5",
+        fnamefield: "user_login",
+        lnamefield: "",
+        fullname: "",
+        middlenamefield: "",
+        emailfield: "user_email",
+        adressfield: "",
+        statefield: "",
+        datefield: "",
+        phonenumberfield: "",
+        zipfield: ""),
+    WebsitesRegistrationFields(
+        url: {
+          'home': 'https://www.musicxray.com/user_session/new',
+          'registre': 'https://www.musicxray.com/signup',
+          'form': ''
         },
         stepid: "9",
         sousstepid: "6",
