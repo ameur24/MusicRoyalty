@@ -38,7 +38,7 @@ class _stepViewState extends State<stepView> {
 
   @override
   void initState() {
-    returnlist(Get.arguments["id"]);
+    returnlist(Get.arguments["id"], Get.arguments["ssid"]);
     mucontroller.updateUrlName(fieldslist[0].url['home'].toString());
     mucontroller.updateFabHeight(_initFabHeight);
     if (Platform.isAndroid) {
@@ -46,9 +46,11 @@ class _stepViewState extends State<stepView> {
     }
   }
 
-  List<WebsitesRegistrationFields> returnlist(int number) {
+  List<WebsitesRegistrationFields> returnlist(int number, String sousstep) {
     var website = WebsitesFieldsConstants.autofilllist
-        .where((element) => element.stepid.contains(number.toString()))
+        .where((element) =>
+            element.stepid.contains(number.toString()) &&
+            element.sousstepid.contains(sousstep))
         .toList();
 
     if (website != null) {
@@ -58,36 +60,6 @@ class _stepViewState extends State<stepView> {
     }
 
     return fieldslist;
-  }
-
-  void autofill(int number) {
-    switch (number) {
-      case 1:
-        break;
-      case 2:
-        controller.runJavascript(
-            "document.getElementsByName('s_1_1_16_0').value='ddddd';");
-        break;
-      case 3:
-        break;
-      case 4:
-        controller.runJavascript(
-            "document.getElementsByName('${WebsitesFieldsConstants.autofilllist[0].emailfield}').value='ddddd';");
-
-        break;
-      case 5:
-        break;
-      case 6:
-        break;
-      case 7:
-        break;
-      case 8:
-        break;
-      case 9:
-        break;
-      case 10:
-        break;
-    }
   }
 
   @override
@@ -204,8 +176,36 @@ class _stepViewState extends State<stepView> {
                           Get.arguments['id'],
                       child: FloatingActionButton(
                         onPressed: (() {
-                          controller.evaluateJavascript(
-                              '''document.getElementById('s_4_1_14_0_Ctrl').click();''');
+                          print(fieldslist[0].emailfield);
+
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].emailfield}').value='ddddd@sslg.com';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].fnamefield}').value='ddddd';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].lnamefield}').value='ddddd';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].middlenamefield}').value='ddddd';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].zipfield}').value=5000;");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].phonenumberfield}').value='555555555';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].adressfield}').value='ddddssssssssssssssd';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].publisheremailfield}').value='ddddd@sslg.com';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].publisherfnamefield}').value='ddddd';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].publisherlnamefield}').value='ddddd';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].publishermiddlenamefield}').value='ddddd';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].publisherzipfield}').value=5000;");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].publisherphonenumberfield}').value='555555555';");
+                          controller.runJavascript(
+                              "document.getElementById('${fieldslist[0].publisheradressfield}').value='ddddssssssssssssssd';");
                         }),
                         backgroundColor: MyColors.MainYellow,
                         child: Center(

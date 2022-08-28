@@ -165,9 +165,17 @@ class StepInfo extends GetView<MusicController> {
                 SizedBox(height: screenHeight * .35),
                 ButtonWithIcon(
                   onPressed: () {
+                    String sousstep = "";
+                    if (controller.selectedSite.value == 0) {
+                      sousstep = "";
+                    } else {
+                      sousstep = controller.selectedSite.value.toString();
+                    }
+                    print(controller.selectedSite.value);
                     Get.to(() => stepView(), arguments: {
                       "StepTitle": Get.arguments["StepTitle"],
-                      "id": Get.arguments["id"]
+                      "id": Get.arguments["id"],
+                      "ssid": sousstep,
                     });
                   },
                   iconCol: MyColors.mainGrey,
@@ -189,19 +197,19 @@ class StepInfo extends GetView<MusicController> {
                 constants.websites[2],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 2),
+              value: 1),
           DropdownMenuItem(
               child: Text(
                 constants.websites[3],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 3),
+              value: 2),
           DropdownMenuItem(
               child: Text(
                 constants.websites[4],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 4)
+              value: 3)
         ].toList();
         break;
       case 5:
@@ -211,123 +219,129 @@ class StepInfo extends GetView<MusicController> {
                 constants.websites[5],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 5),
+              value: 1),
           DropdownMenuItem(
               child: Text(
                 constants.websites[6],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 6),
+              value: 2),
           DropdownMenuItem(
               child: Text(
                 constants.websites[7],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 7),
+              value: 3),
           DropdownMenuItem(
               child: Text(
                 constants.websites[8],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 8),
+              value: 4),
           DropdownMenuItem(
               child: Text(
                 constants.websites[9],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 9),
+              value: 5),
           DropdownMenuItem(
               child: Text(
                 constants.websites[10],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 10),
+              value: 6),
           DropdownMenuItem(
               child: Text(
                 constants.websites[11],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 11),
+              value: 7),
           DropdownMenuItem(
               child: Text(
                 constants.websites[12],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 12),
+              value: 8),
           DropdownMenuItem(
               child: Text(
                 constants.websites[13],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 13),
+              value: 9),
           DropdownMenuItem(
               child: Text(
                 constants.websites[14],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 14),
+              value: 10),
+          DropdownMenuItem(
+              child: Text(
+                constants.websites[15],
+                style: TextStyle(color: Colors.white70),
+              ),
+              value: 11),
         ].toList();
         break;
       case 7:
         WhatOptions = [
           DropdownMenuItem(
               child: Text(
-                constants.websites[16],
-                style: TextStyle(color: Colors.white70),
-              ),
-              value: 16),
-          DropdownMenuItem(
-              child: Text(
                 constants.websites[17],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 17),
+              value: 1),
           DropdownMenuItem(
               child: Text(
                 constants.websites[18],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 18),
+              value: 2),
+          DropdownMenuItem(
+              child: Text(
+                constants.websites[19],
+                style: TextStyle(color: Colors.white70),
+              ),
+              value: 3),
         ].toList();
         break;
       case 9:
         WhatOptions = [
           DropdownMenuItem(
               child: Text(
-                constants.websites[20],
-                style: TextStyle(color: Colors.white70),
-              ),
-              value: 20),
-          DropdownMenuItem(
-              child: Text(
                 constants.websites[21],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 21),
+              value: 1),
           DropdownMenuItem(
               child: Text(
                 constants.websites[22],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 22),
+              value: 2),
           DropdownMenuItem(
               child: Text(
                 constants.websites[23],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 23),
+              value: 3),
           DropdownMenuItem(
               child: Text(
                 constants.websites[24],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 24),
+              value: 4),
           DropdownMenuItem(
               child: Text(
                 constants.websites[25],
                 style: TextStyle(color: Colors.white70),
               ),
-              value: 25),
+              value: 5),
+          DropdownMenuItem(
+              child: Text(
+                constants.websites[26],
+                style: TextStyle(color: Colors.white70),
+              ),
+              value: 6),
         ].toList();
         break;
     }

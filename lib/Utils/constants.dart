@@ -22,6 +22,7 @@ class constants {
     "routenote.com",
     "tunecore.com",
     "onerpm.com",
+    "amuse.io",
     "dittomusic.com",
     "recordunion.com",
     "awal.com",
