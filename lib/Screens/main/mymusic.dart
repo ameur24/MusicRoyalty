@@ -13,7 +13,7 @@ import 'music_steps/music_title.dart';
 
 class myMusic extends GetView<MusicController> {
   const myMusic({Key? key}) : super(key: key);
-
+//erreur get.put()
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;

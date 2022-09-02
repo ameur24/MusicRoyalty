@@ -225,6 +225,7 @@ class _ImageState extends State<landingPage> {
             .get()
             .then((docSnapshot) => {
                   if (docSnapshot.exists)
+                    // empty main tetbadel ken user ando  music twali ndhahrolo mymusic()
                     {Get.off(EmptyMain()), print("azsss $e")}
                   else
                     {Get.to(signup_google())}
