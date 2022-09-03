@@ -6,7 +6,8 @@ import 'package:music_royalty/Utils/colors.dart';
 class MusicDetails extends StatelessWidget {
   final double screenHeight, screenwidth;
   final Function? onPressed;
-  final String musicName, currentStep, lastUpdate;
+  final int currentStep;
+  final String musicName, lastUpdate;
 
   final Function(dynamic)? menuItemSelected;
   final int? val;
@@ -24,8 +25,8 @@ class MusicDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime Lastupdate = DateTime.parse(lastUpdate);
-    String Timeago = convertToAgo(Lastupdate);
+    // DateTime Lastupdate = DateTime.parse(lastUpdate);
+    //String Timeago = convertToAgo(Lastupdate);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: InkWell(
@@ -123,7 +124,7 @@ class MusicDetails extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'last update $Timeago',
+                      'last update xx', //$Timeago',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: Color.fromRGBO(185, 185, 185, 1),

@@ -16,7 +16,7 @@ class musicSteps extends GetView<MusicController> {
     MusicController controller = Get.find();
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    int current = 1 + controller.mu.currentStep!;
+    //int current = 1 + controller.mu.currentStep!;
     return Scaffold(
       backgroundColor: MyColors.blackbackground1,
       appBar: AppBar(
@@ -32,7 +32,7 @@ class musicSteps extends GetView<MusicController> {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * .05),
               child: SongName(screenHeight)),
-          Steps(screenHeight, screenWidth, current),
+          Steps(screenHeight, screenWidth, Get.arguments("currentStep")),
         ],
       ),
     );
@@ -54,7 +54,7 @@ class musicSteps extends GetView<MusicController> {
           height: screenHeight * 0.005,
         ),
         Text(
-          controller.mu.Title.toString(),
+          Get.arguments("Title"),
           textAlign: TextAlign.left,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:music_royalty/Screens/Authentication/sign_up.dart';
 import 'package:music_royalty/Screens/Authentication/sign_up_google.dart';
 import 'package:music_royalty/Screens/main/empty_main.dart';
+import 'package:music_royalty/Screens/main/mymusic.dart';
 import 'package:music_royalty/Utils/colors.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -223,10 +224,23 @@ class _ImageState extends State<landingPage> {
             .collection("users")
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .get()
-            .then((docSnapshot) => {
+            .then((docSnapshot) async => {
                   if (docSnapshot.exists)
                     // empty main tetbadel ken user ando  music twali ndhahrolo mymusic()
-                    {Get.off(EmptyMain()), print("azsss $e")}
+                    {
+                      await FirebaseFirestore.instance
+                          .collection("Music")
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .get()
+                          .then((docSnapshot) => {
+                                if (docSnapshot.exists)
+                                  {
+                                    Get.off(myMusic()),
+                                  }
+                                else
+                                  {Get.off(EmptyMain()), print("azsss $e")}
+                              }),
+                    }
                   else
                     {Get.to(signup_google())}
                 });

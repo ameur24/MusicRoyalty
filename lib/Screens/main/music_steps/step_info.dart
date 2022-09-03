@@ -13,7 +13,6 @@ class StepInfo extends GetView<MusicController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(MusicController());
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     print(Get.arguments["StepTitle"]);

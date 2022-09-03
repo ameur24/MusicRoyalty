@@ -18,7 +18,8 @@ class MusicController extends GetxController {
   set SelctSite(value) => selectedSite.value = value;
   get obj => this.selectedSite.value;
   //music details
-  var mymusicList = [];
+  List<Music> mymusicList = [];
+  var loadingMusicLIst = true.obs;
   var musicTitle = "".obs;
   final fabheight = 0.0.obs;
   final url = "".obs;
@@ -47,6 +48,7 @@ class MusicController extends GetxController {
 
   Future<void> newMusic() async {
     loading.value = true;
+    String now = Timestamp.now().toString();
     update();
     bool isvalidate = titlekey.currentState!.validate();
     print(isvalidate);
@@ -54,22 +56,25 @@ class MusicController extends GetxController {
       Music music = Music(
           Title: musicTitle.value,
           currentStep: 0,
-          created_at: Timestamp.now(),
-          updated_at: Timestamp.now());
-      print("music $music");
-      List m = [];
-      m.add(music.toFirestore());
-      UserMusics userMusics = UserMusics(userId: uid, MusicList: m);
-      print("List $userMusics");
+          created_at: now,
+          updated_at: now);
       print("music $music");
 
-      final MusicCollection = FirebaseFirestore.instance
+       await FirebaseFirestore.instance
+                          .collection("Music")
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .get()
+                          .then((docSnapshot) => {
+                                if (docSnapshot.exists)
+                                  {
+                          FirebaseFirestore.instance
           .collection('Music')
           .withConverter(
               fromFirestore: UserMusics.fromFirestore,
               toFirestore: (UserMusics userMusic, options) =>
-                  userMusics.toFirestore())
+                  music.toFirestore())
           .doc(FirebaseAuth.instance.currentUser!.uid);
+                                  }
       mu = music;
       /*  if (isNew == true) {
         await MusicCollection.set(userMusics);
@@ -79,12 +84,18 @@ class MusicController extends GetxController {
           .doc(uid)
           .update({"MusicList": FieldValue.arrayUnion(m)});
 
+      UserMusics userMusics = UserMusics(userId: uid, MusicList: m);
+      print("List $userMusics");
+      print("music $music");
+
+      
       await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
           .update({"num_music": FieldValue.increment(1)}).then(
         (res) => Get.to(() => musicSteps(),
-            transition: Transition.rightToLeftWithFade, arguments: music),
+            transition: Transition.rightToLeftWithFade,
+            arguments: {"title": mu.Title, "currentStep": mu.currentStep}),
         onError: (e) => print("Error completing: $e"),
       );
       loading.value = false;
@@ -95,6 +106,7 @@ class MusicController extends GetxController {
   }
 
   Future<void> getmymusic() async {
+    loadingMusicLIst.value = true;
     final MusicCollection = FirebaseFirestore.instance
         .collection('Music')
         .withConverter(
@@ -111,6 +123,6 @@ class MusicController extends GetxController {
     } else {
       print("error");
     }
-    update();
+    loadingMusicLIst.value = false;
   }
 }

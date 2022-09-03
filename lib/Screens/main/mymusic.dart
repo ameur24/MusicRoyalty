@@ -75,41 +75,39 @@ class myMusic extends GetView<MusicController> {
           )
         ],
       ),
-      body: Stack(children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: RefreshIndicator(
-            backgroundColor: MyColors.NotCompletedStep,
-            onRefresh: () => controller.getmymusic(),
-            child: ListView(children: [
-              SizedBox(
-                height: screenHeight * .03,
-              ),
-              BigText(text: "My Music"),
-              SizedBox(
-                height: screenHeight * .02,
-              ),
-              GetBuilder(builder: (context) {
-                return controller.mymusicList.isEmpty
-                    ? Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                        itemCount: controller.mymusicList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return MusicDetails(
-                            screenHeight: screenHeight,
-                            screenwidth: MediaQuery.of(context).size.width,
-                            musicName: controller.mymusicList[index]["Title"],
-                            lastUpdate: controller.mymusicList[index]
-                                ['created_at'],
-                            currentStep: controller.mymusicList[index]
-                                ['CurrentStep'],
-                          );
-                        });
-              }),
-            ]),
-          ),
+      body: Column(children: [
+        SizedBox(
+          height: screenHeight * .03,
         ),
-        Positioned(
+        BigText(text: "My Music"),
+        SizedBox(
+          height: screenHeight * .02,
+        ),
+        Expanded(
+          child: RefreshIndicator(
+              backgroundColor: MyColors.NotCompletedStep,
+              onRefresh: () => controller.getmymusic(),
+              child: Obx(() => controller.loadingMusicLIst.value
+                  ? Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: controller.mymusicList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return MusicDetails(
+                          screenHeight: screenHeight,
+                          screenwidth: MediaQuery.of(context).size.width,
+                          musicName: controller.mymusicList[index].Title!,
+                          lastUpdate: controller.mymusicList[index].created_at
+                              .toString(),
+                          currentStep:
+                              controller.mymusicList[index].currentStep!,
+                          onPressed: () =>
+                              Get.to(musicSteps(), arguments: {"index": index}),
+                        );
+                      }))),
+        )
+      ]),
+
+      /*   Positioned(
             bottom: screenHeight * .1,
             right: screenWidth * .1,
             child: FloatingActionButton(
@@ -119,8 +117,7 @@ class myMusic extends GetView<MusicController> {
                 Icons.question_mark,
                 color: MyColors.mainGrey,
               ),
-            ))
-      ]),
+            )) */
     );
   }
 }

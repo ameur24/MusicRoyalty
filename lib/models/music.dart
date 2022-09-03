@@ -4,8 +4,8 @@ class Music {
   int? currentStep;
   String? Title, ISRC, ISWC, UPC;
   List<String>? Songwriters;
-  Timestamp? created_at;
-  Timestamp? updated_at = Timestamp.now();
+  String? created_at;
+  String? updated_at;
 
   String? userId;
   Music(
