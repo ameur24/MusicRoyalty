@@ -60,25 +60,27 @@ class MusicController extends GetxController {
           updated_at: now);
       print("music $music");
 
-       await FirebaseFirestore.instance
-                          .collection("Music")
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .get()
-                          .then((docSnapshot) => {
-                                if (docSnapshot.exists)
-                                  {
-                          FirebaseFirestore.instance
-          .collection('Music')
-          .withConverter(
-              fromFirestore: UserMusics.fromFirestore,
-              toFirestore: (UserMusics userMusic, options) =>
-                  music.toFirestore())
-          .doc(FirebaseAuth.instance.currentUser!.uid);
-                                  }
+      await FirebaseFirestore.instance
+          .collection("Music")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get()
+          .then((docSnapshot) => {
+                if (docSnapshot.exists)
+                  {
+                    FirebaseFirestore.instance
+                        .collection('Music')
+                        .withConverter(
+                            fromFirestore: UserMusics.fromFirestore,
+                            toFirestore: (UserMusics userMusic, options) =>
+                                music.toFirestore())
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                  }
+              });
       mu = music;
       /*  if (isNew == true) {
         await MusicCollection.set(userMusics);
       } else { */
+      List<Music> m = [];
       FirebaseFirestore.instance
           .collection('Music')
           .doc(uid)
@@ -88,7 +90,6 @@ class MusicController extends GetxController {
       print("List $userMusics");
       print("music $music");
 
-      
       await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
