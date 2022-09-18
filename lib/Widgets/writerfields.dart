@@ -62,7 +62,7 @@ Widget writerWidget(
                       controller: writer[index].companies[i].namecontroller,
                       onChanged: (v) =>
                           writer[index].companies[i].namecontroller.text = v,
-                      // validate: (v) => controller.validateThese(v!),
+                      validate: (v) => controller.validateThese(v!),
                     );
                   },
                   itemCount: writer[index].companies.length,
@@ -107,6 +107,7 @@ Widget writerWidget(
                     onChanged: (v) =>
                         writer[index].musicOwnercontroller.text = v,
                     labelText: "Music Ownership: ",
+                    validate: (v) => controller.validateThese(v!),
                   )),
             ],
           ),

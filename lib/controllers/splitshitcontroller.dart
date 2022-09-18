@@ -15,7 +15,7 @@ class SplitshitController extends GetxController {
   RxList<textcontroller> textControllers = <textcontroller>[].obs;
 
   RxList<writer> writers = <writer>[].obs;
-
+  var splitsheetKey = GlobalKey<FormState>();
   String? validateThese(String c1) {
     if (c1.isEmpty || c1 == null) {
       return "This field can't be empty";

@@ -188,232 +188,241 @@ class splitsheet extends GetView<SplitshitController> {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Form(
+              key: controller.splitsheetKey,
               child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: screenHeight * .04,
-              ),
-              Text(
-                "Studio & Artist/Band Details",
-                style: TextStyle(color: MyColors.MainYellow, fontSize: 20),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(
-                height: screenHeight * .02,
-              ),
-              Myinput(
-                ontap: () async {
-                  DateTime? pickdate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1920),
-                      lastDate: DateTime.now());
-                  if (pickdate != null) {
-                    controller.date.value.text =
-                        DateFormat("yyyy-MM-dd").format(pickdate);
-                  }
-                },
-                icon: Icon(
-                  Icons.calendar_today_rounded,
-                  color: MyColors.BordersGrey,
-                ),
-                controller: controller.date.value,
-                labelText: "music composed date",
-                validate: (v) => controller.validateThese(v!),
-              ),
-              SizedBox(
-                height: screenHeight * .02,
-              ),
-              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                      width: screenWidth * .44,
-                      child: Myinput(
-                        controller: controller.bandartist.value,
-                        onChanged: (v) => controller.bandartist.value.text = v,
-                        labelText: "Recording Band/Artist",
-                        // what: controller.first_name.value,
-                        validate: (v) => controller.validateThese(v!),
-                      )),
-                  SizedBox(
-                    width: screenWidth * 0.02,
+                    height: screenHeight * .04,
+                  ),
+                  Text(
+                    "Studio & Artist/Band Details",
+                    style: TextStyle(color: MyColors.MainYellow, fontSize: 20),
+                    textAlign: TextAlign.left,
                   ),
                   SizedBox(
-                      width: screenWidth * .44,
-                      child: Myinput(
-                          controller: controller.label.value,
-                          // what: controller.middle_name.value,
-                          onChanged: (v) => controller.label.value.text = v,
-                          labelText: "Label (if any)",
-                          validate: (v) => controller.validateThese(v!))),
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * .02,
-              ),
-              Myinput(
-                controller: controller.studioname.value,
-                labelText: "Studio Name:",
-                onChanged: (v) => controller.studioname.value.text = v,
-                validate: (v) => controller.validateThese(v!),
-              ),
-              SizedBox(
-                height: screenHeight * .02,
-              ),
-              Myinput(
-                controller: controller.studioadress.value,
-                labelText: "Studio Address:",
-                onChanged: (v) => controller.studioadress.value.text = v,
-                // validate: (v) => controller.validateThese(v!),
-              ),
-              SizedBox(
-                height: screenHeight * .02,
-              ),
-              Myinput(
-                controller: controller.studiophonenumber.value,
-                labelText: "Studio Phone number:",
-                keyboardType: TextInputType.phone,
-                onChanged: (v) => controller.studiophonenumber.value.text = v,
-                validate: (v) => controller.validatePhone(v!),
-              ),
-              SizedBox(
-                height: screenHeight * .02,
-              ),
-              Myinput(
-                controller: controller.artistbandsampled.value,
-                labelText: "Album & Artist Sampled:(optional)",
-
-                onChanged: (v) => controller.artistbandsampled.value.text = v,
-                // validate: (v) => controller.validateThese(v!),
-              ),
-              SizedBox(
-                height: screenHeight * .02,
-              ),
-              Divider(
-                color: MyColors.BordersGrey, //color of divider
-                height: 5, //height spacing of divider
-                thickness: 3, //thickness of divier line
-                indent: 25, //spacing at the start of divider
-                endIndent: 25, //spacing at the end of divider
-              ),
-              SizedBox(
-                height: screenHeight * .03,
-              ),
-              Text(
-                "Writers Details",
-                style: TextStyle(color: MyColors.MainYellow, fontSize: 20),
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(
-                height: screenHeight * .02,
-              ),
-              SizedBox(
-                child: Obx(() => ListView.builder(
-                      physics: ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Writer ${index + 1} details",
-                              style: TextStyle(
-                                color: MyColors.MainYellow,
-                                fontSize: 18,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            SizedBox(
-                              height: screenHeight * .01,
-                            ),
-                            writerWidget(
-                                context, index, controller.textControllers),
-                            SizedBox(
-                              height: screenHeight * .01,
-                            ),
-                            Divider(
-                              color: MyColors.BordersGrey, //color of divider
-                              height: 5, //height spacing of divider
-                              thickness: 3, //thickness of divier line
-                              indent: 25, //spacing at the start of divider
-                              endIndent: 25, //spacing at the end of divider
-                            ),
-                            SizedBox(
-                              height: screenHeight * .01,
-                            ),
-                          ],
-                        );
-                      },
-                      itemCount: controller.textControllers.length,
-                    )),
-              ),
-              SizedBox(
-                height: screenHeight * .02,
-              ),
-              Center(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextButton(
-                  onPressed: () {
-                    //writers.forEach((app) => _textControllers[app.] = new TextEditingController());
-                    List<company> c = <company>[
-                      company(namecontroller: new TextEditingController())
-                    ];
-
-                    controller.textControllers.add(textcontroller(
-                        namecontroller: new TextEditingController(),
-                        addresscontroller: new TextEditingController(),
-                        phonenumbercontroller: new TextEditingController(),
-                        companies: c.obs,
-                        musicOwnercontroller: new TextEditingController(),
-                        lyricsownercontroller: new TextEditingController(),
-                        securitycodecontroller: new TextEditingController(),
-                        birthdatecontroller: new TextEditingController()));
-                  },
-                  child: Text(
-                    "Add one more writer",
-                    style: TextStyle(fontSize: 16, color: MyColors.BordersGrey),
+                    height: screenHeight * .02,
                   ),
-                ),
-              )),
-              SizedBox(
-                height: screenHeight * .03,
-              ),
-              Center(
-                child: ElevatedButton(
-                    onPressed: () async {
-                      // for (int i = 0; i < controller.writers.length; i++) {
-                      //   log(controller.writers[i].name);
-                      //   print(controller.writers[i].name);
-                      //   log(controller.writers[i].address);
-                      //   print(controller.writers[i].lyricsowner);
-                      //   print("asba");
-                      //   print(controller.name.value);
-                      //   print(controller.lyricsowner.value);
-                      // }
-
-                      await writeOnPdf();
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Screenview()));
-                    }, //controller.addUser(),
-                    child: Text(
-                      'Generate',
-                      style: TextStyle(color: MyColors.mainblack, fontSize: 16),
+                  Myinput(
+                    ontap: () async {
+                      DateTime? pickdate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1920),
+                          lastDate: DateTime.now());
+                      if (pickdate != null) {
+                        controller.date.value.text =
+                            DateFormat("yyyy-MM-dd").format(pickdate);
+                      }
+                    },
+                    icon: Icon(
+                      Icons.calendar_today_rounded,
+                      color: MyColors.BordersGrey,
                     ),
-                    style: ElevatedButton.styleFrom(
-                      elevation: 8,
-                      primary: MyColors.MainYellow,
-                      padding: EdgeInsets.symmetric(
-                          vertical: screenHeight * .026,
-                          horizontal: screenWidth * .37),
-                    )),
-              ),
-            ],
-          )),
+                    controller: controller.date.value,
+                    labelText: "music composed date",
+                    validate: (v) => controller.validateThese(v!),
+                  ),
+                  SizedBox(
+                    height: screenHeight * .02,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                          width: screenWidth * .44,
+                          child: Myinput(
+                            controller: controller.bandartist.value,
+                            onChanged: (v) =>
+                                controller.bandartist.value.text = v,
+                            labelText: "Recording Band/Artist",
+                            // what: controller.first_name.value,
+                            validate: (v) => controller.validateThese(v!),
+                          )),
+                      SizedBox(
+                        width: screenWidth * 0.02,
+                      ),
+                      SizedBox(
+                          width: screenWidth * .44,
+                          child: Myinput(
+                              controller: controller.label.value,
+                              // what: controller.middle_name.value,
+                              onChanged: (v) => controller.label.value.text = v,
+                              labelText: "Label (if any)",
+                              validate: (v) => controller.validateThese(v!))),
+                    ],
+                  ),
+                  SizedBox(
+                    height: screenHeight * .02,
+                  ),
+                  Myinput(
+                    controller: controller.studioname.value,
+                    labelText: "Studio Name:",
+                    onChanged: (v) => controller.studioname.value.text = v,
+                    validate: (v) => controller.validateThese(v!),
+                  ),
+                  SizedBox(
+                    height: screenHeight * .02,
+                  ),
+                  Myinput(
+                    controller: controller.studioadress.value,
+                    labelText: "Studio Address:",
+                    onChanged: (v) => controller.studioadress.value.text = v,
+                    // validate: (v) => controller.validateThese(v!),
+                  ),
+                  SizedBox(
+                    height: screenHeight * .02,
+                  ),
+                  Myinput(
+                    controller: controller.studiophonenumber.value,
+                    labelText: "Studio Phone number:",
+                    keyboardType: TextInputType.phone,
+                    onChanged: (v) =>
+                        controller.studiophonenumber.value.text = v,
+                    validate: (v) => controller.validatePhone(v!),
+                  ),
+                  SizedBox(
+                    height: screenHeight * .02,
+                  ),
+                  Myinput(
+                    controller: controller.artistbandsampled.value,
+                    labelText: "Album & Artist Sampled:(optional)",
+                    onChanged: (v) =>
+                        controller.artistbandsampled.value.text = v,
+                    validate: (v) => controller.validateThese(v!),
+                  ),
+                  SizedBox(
+                    height: screenHeight * .02,
+                  ),
+                  Divider(
+                    color: MyColors.BordersGrey, //color of divider
+                    height: 5, //height spacing of divider
+                    thickness: 3, //thickness of divier line
+                    indent: 25, //spacing at the start of divider
+                    endIndent: 25, //spacing at the end of divider
+                  ),
+                  SizedBox(
+                    height: screenHeight * .03,
+                  ),
+                  Text(
+                    "Writers Details",
+                    style: TextStyle(color: MyColors.MainYellow, fontSize: 20),
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(
+                    height: screenHeight * .02,
+                  ),
+                  SizedBox(
+                    child: Obx(() => ListView.builder(
+                          physics: ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Writer ${index + 1} details",
+                                  style: TextStyle(
+                                    color: MyColors.MainYellow,
+                                    fontSize: 18,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                SizedBox(
+                                  height: screenHeight * .01,
+                                ),
+                                writerWidget(
+                                    context, index, controller.textControllers),
+                                SizedBox(
+                                  height: screenHeight * .01,
+                                ),
+                                Divider(
+                                  color:
+                                      MyColors.BordersGrey, //color of divider
+                                  height: 5, //height spacing of divider
+                                  thickness: 3, //thickness of divier line
+                                  indent: 25, //spacing at the start of divider
+                                  endIndent: 25, //spacing at the end of divider
+                                ),
+                                SizedBox(
+                                  height: screenHeight * .01,
+                                ),
+                              ],
+                            );
+                          },
+                          itemCount: controller.textControllers.length,
+                        )),
+                  ),
+                  SizedBox(
+                    height: screenHeight * .02,
+                  ),
+                  Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                      onPressed: () {
+                        //writers.forEach((app) => _textControllers[app.] = new TextEditingController());
+                        List<company> c = <company>[
+                          company(namecontroller: new TextEditingController())
+                        ];
+
+                        controller.textControllers.add(textcontroller(
+                            namecontroller: new TextEditingController(),
+                            addresscontroller: new TextEditingController(),
+                            phonenumbercontroller: new TextEditingController(),
+                            companies: c.obs,
+                            musicOwnercontroller: new TextEditingController(),
+                            lyricsownercontroller: new TextEditingController(),
+                            securitycodecontroller: new TextEditingController(),
+                            birthdatecontroller: new TextEditingController()));
+                      },
+                      child: Text(
+                        "Add one more writer",
+                        style: TextStyle(
+                            fontSize: 16, color: MyColors.BordersGrey),
+                      ),
+                    ),
+                  )),
+                  SizedBox(
+                    height: screenHeight * .03,
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          // for (int i = 0; i < controller.writers.length; i++) {
+                          //   log(controller.writers[i].name);
+                          //   print(controller.writers[i].name);
+                          //   log(controller.writers[i].address);
+                          //   print(controller.writers[i].lyricsowner);
+                          //   print("asba");
+                          //   print(controller.name.value);
+                          //   print(controller.lyricsowner.value);
+                          // }
+                          bool isvalidate =
+                              controller.splitsheetKey.currentState!.validate();
+                          if (isvalidate) {
+                            await writeOnPdf();
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Screenview()));
+                          }
+                        }, //controller.addUser(),
+                        child: Text(
+                          'Generate',
+                          style: TextStyle(
+                              color: MyColors.mainblack, fontSize: 16),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          elevation: 8,
+                          primary: MyColors.MainYellow,
+                          padding: EdgeInsets.symmetric(
+                              vertical: screenHeight * .026,
+                              horizontal: screenWidth * .37),
+                        )),
+                  ),
+                ],
+              )),
         ),
       ),
     );
