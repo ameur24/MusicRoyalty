@@ -5,7 +5,7 @@ import '../../Utils/colors.dart';
 class Myinput extends StatelessWidget {
   final String labelText;
   final String hint;
-
+  final Function()? ontap;
   final bool enabled;
   final Icon? icon;
   final int lines;
@@ -31,6 +31,7 @@ class Myinput extends StatelessWidget {
       this.autoFocus = false,
       this.obscureText = false,
       this.lines = 1,
+      this.ontap,
       Key? key,
       this.enabled = true,
       this.icon,
@@ -43,6 +44,7 @@ class Myinput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: ontap,
       enabled: enabled,
       style: TextStyle(color: Colors.white),
       cursorColor: MyColors.MainYellow,
@@ -58,6 +60,7 @@ class Myinput extends StatelessWidget {
       textInputAction: textInputAction,
       obscureText: obscureText,
       decoration: InputDecoration(
+        icon: icon,
         labelStyle: TextStyle(color: Colors.white70),
         filled: true,
         fillColor: Color(0xff343434),

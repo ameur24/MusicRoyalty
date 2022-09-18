@@ -5,6 +5,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:music_royalty/Screens/Authentication/sign_up_google.dart';
 import 'package:music_royalty/Screens/main/empty_main.dart';
+import 'package:music_royalty/Screens/main/music_steps/splitsheet.dart';
 import 'package:music_royalty/Screens/main/music_steps/step_view.dart';
 import 'Screens/main/music_steps/music_steps.dart';
 import 'Screens/main/mymusic.dart';
@@ -25,8 +26,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(MusicController());
-
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Music Royalty',
@@ -34,6 +33,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.yellow,
       ),
       getPages: [
+        GetPage(name: "/splitsheet", page: () => const splitsheet()),
         GetPage(name: "/landing", page: () => landingPage()),
         GetPage(name: "/signup", page: () => const signup_google()),
         GetPage(name: "/emptymain", page: () => EmptyMain()),
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/musicSteps", page: () => const musicSteps()),
         GetPage(name: "/stepView", page: () => const stepView())
       ],
-      initialRoute: "/landing",
+      initialRoute: "/splitsheet",
     );
   }
 }
