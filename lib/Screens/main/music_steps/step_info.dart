@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_royalty/Screens/main/music_steps/music_steps.dart';
+import 'package:music_royalty/Screens/main/music_steps/splitsheet.dart';
 import 'package:music_royalty/Screens/main/music_steps/step_view.dart';
 import 'package:music_royalty/Utils/constants.dart';
 
@@ -171,11 +172,19 @@ class StepInfo extends GetView<MusicController> {
                       sousstep = controller.selectedSite.value.toString();
                     }
                     print(controller.selectedSite.value);
-                    Get.to(() => stepView(), arguments: {
-                      "StepTitle": Get.arguments["StepTitle"],
-                      "id": Get.arguments["id"],
-                      "ssid": sousstep,
-                    });
+                    if (Get.arguments["id"] == 1) {
+                      Get.to(() => splitsheet(), arguments: {
+                        "StepTitle": Get.arguments["StepTitle"],
+                        "id": Get.arguments["id"],
+                        "ssid": sousstep,
+                      });
+                    } else {
+                      Get.to(() => stepView(), arguments: {
+                        "StepTitle": Get.arguments["StepTitle"],
+                        "id": Get.arguments["id"],
+                        "ssid": sousstep,
+                      });
+                    }
                   },
                   iconCol: MyColors.mainGrey,
                   text: "Get My ${Get.arguments["StepTitle"]}",
