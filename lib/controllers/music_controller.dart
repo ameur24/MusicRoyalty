@@ -10,7 +10,6 @@ import 'package:music_royalty/models/music.dart';
 import 'package:music_royalty/models/websitesRegistrationfields.dart';
 
 class MusicController extends GetxController {
-  final uid = FirebaseAuth.instance.currentUser!.uid;
   var selectedSite = 0.obs;
   late Music mu;
   bool isNew = true;
@@ -83,16 +82,17 @@ class MusicController extends GetxController {
       List<Music> m = [];
       FirebaseFirestore.instance
           .collection('Music')
-          .doc(uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({"MusicList": FieldValue.arrayUnion(m)});
 
-      UserMusics userMusics = UserMusics(userId: uid, MusicList: m);
+      UserMusics userMusics = UserMusics(
+          userId: FirebaseAuth.instance.currentUser!.uid, MusicList: m);
       print("List $userMusics");
       print("music $music");
 
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({"num_music": FieldValue.increment(1)}).then(
         (res) => Get.to(() => musicSteps(),
             transition: Transition.rightToLeftWithFade,

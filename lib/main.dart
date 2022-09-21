@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MusicController controller = Get.put(MusicController());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Music Royalty',
