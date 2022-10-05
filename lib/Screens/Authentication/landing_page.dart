@@ -77,9 +77,7 @@ class _ImageState extends State<landingPage> {
                     height: 1),
               ),
             ),
-            SizedBox(
-              height: screenHeight * .22,
-            ),
+            Spacer(),
             ElevatedButton(
                 onPressed: () => signInWithGoogle(),
                 style: ElevatedButton.styleFrom(

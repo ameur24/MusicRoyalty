@@ -135,10 +135,10 @@ class signup extends GetView<SignUpController> {
                       ),
                       style: ElevatedButton.styleFrom(
                         elevation: 8,
-                        primary: MyColors.MainYellow,
+                        backgroundColor: MyColors.MainYellow,
                         padding: EdgeInsets.symmetric(
                             vertical: screenHeight * .026,
-                            horizontal: screenWidth * .37),
+                            horizontal: screenWidth * .355),
                       )),
                 )
               ],
