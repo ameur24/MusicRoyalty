@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/musicSteps", page: () => const musicSteps()),
         GetPage(name: "/stepView", page: () => const stepView())
       ],
-      initialRoute: "/landing",
+      initialRoute: "/emptymain",
     );
   }
 }
