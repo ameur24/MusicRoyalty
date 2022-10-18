@@ -58,17 +58,15 @@ class EmptyMain extends StatelessWidget {
                         fontSize: 22)),
               ],
             ),
-            SizedBox(
-              height: screenHeight * .4,
-            ),
+            Spacer(),
             Text(
-              'Let’s create your first masterpiece',
+              "Let’s create your first masterpiece",
               textAlign: TextAlign.left,
               style: TextStyle(
                   decoration: TextDecoration.none,
                   color: MyColors.MainYellow,
                   fontFamily: 'Exo-Black',
-                  fontSize: 50,
+                  fontSize: 46,
                   height: 1.2),
             ),
             SizedBox(
@@ -81,14 +79,19 @@ class EmptyMain extends StatelessWidget {
                     barrierColor: Colors.black38,
                     backgroundColor: Colors.transparent,
                     builder: (BuildContext context) {
-                      return musicTitle();
+                      return musicTitle(
+                        isEmptyMain: true,
+                      );
                     },
                     context: context);
               },
               iconCol: MyColors.mainGrey,
               text: "Get Started",
               MainColor: MyColors.MainYellow,
-            )
+            ),
+            SizedBox(
+              height: screenHeight * .04,
+            ),
           ],
         ),
       )

@@ -1,9 +1,14 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:music_royalty/Screens/main/music_steps/step_info.dart';
 import 'package:music_royalty/Widgets/buttons/navigationwidget.dart';
+import 'package:music_royalty/controllers/user_controller.dart';
 import 'package:music_royalty/models/websitesRegistrationfields.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -11,15 +16,19 @@ import 'package:music_royalty/controllers/music_controller.dart';
 import 'dart:async';
 import '../../../Utils/colors.dart';
 import '../../../Utils/websitesfields.dart';
+import '../../../models/music.dart';
 
 class stepView extends StatefulWidget {
-  const stepView({Key? key}) : super(key: key);
+  final Music m;
+  const stepView({Key? key, required this.m}) : super(key: key);
 
   @override
   State<stepView> createState() => _stepViewState();
 }
 
 class _stepViewState extends State<stepView> {
+  UserController userController = Get.find<UserController>();
+
   late WebViewController controller;
 
   bool show = false;
@@ -35,15 +44,18 @@ class _stepViewState extends State<stepView> {
   final List<WebsitesRegistrationFields> fieldslist = [];
 
   MusicController mucontroller = Get.find<MusicController>();
-
+  late User user;
   @override
   void initState() {
-    returnlist(Get.arguments["id"], Get.arguments["ssid"]);
-    mucontroller.updateUrlName(fieldslist[0].url['home'].toString());
-    mucontroller.updateFabHeight(_initFabHeight);
-    if (Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
-    }
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      returnlist(Get.arguments["id"], Get.arguments["ssid"]);
+      mucontroller.updateUrlName(fieldslist[0].url['home'].toString());
+      mucontroller.updateFabHeight(_initFabHeight);
+      if (Platform.isAndroid) {
+        WebView.platform = SurfaceAndroidWebView();
+      }
+      await userController.getUserDeatails();
+    });
   }
 
   List<WebsitesRegistrationFields> returnlist(int number, String sousstep) {
@@ -69,7 +81,7 @@ class _stepViewState extends State<stepView> {
         backgroundColor: MyColors.blackbackground1,
         appBar: AppBar(
           leading: IconButton(
-              onPressed: () => Get.to(StepInfo(), arguments: {
+              onPressed: () => Get.to(StepInfo(widget.m), arguments: {
                     "StepTitle": Get.arguments["StepTitle"],
                     "id": Get.arguments["id"]
                   }),
@@ -173,39 +185,40 @@ class _stepViewState extends State<stepView> {
                     height: 70,
                     child: Visibility(
                       visible: Get.arguments['id'].clamp(4, 10) ==
-                          Get.arguments['id'],
+                              Get.arguments['id'] &&
+                          !userController.loading.value,
                       child: FloatingActionButton(
                         onPressed: (() {
                           print(fieldslist[0].emailfield);
 // nbadlo el values bi mte3 firebase
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].emailfield}').value='ddddd@sslg.com';");
+                              "document.getElementById('${fieldslist[0].emailfield}').value='${userController.userModel.email}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].fnamefield}').value='ddddd';");
+                              "document.getElementById('${fieldslist[0].fnamefield}').value='${userController.userModel.first_name}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].lnamefield}').value='ddddd';");
+                              "document.getElementById('${fieldslist[0].lnamefield}').value='${userController.userModel.last_name}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].middlenamefield}').value='ddddd';");
+                              "document.getElementById('${fieldslist[0].middlenamefield}').value='${userController.userModel.middle_name}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].zipfield}').value=5000;");
+                              "document.getElementById('${fieldslist[0].zipfield}').value='${userController.userModel.zip}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].phonenumberfield}').value='555555555';");
+                              "document.getElementById('${fieldslist[0].phonenumberfield}').value='${userController.userModel.phone_number.toString()}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].adressfield}').value='ddddssssssssssssssd';");
+                              "document.getElementById('${fieldslist[0].adressfield}').value='${userController.userModel.adress}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].publisheremailfield}').value='ddddd@sslg.com';");
+                              "document.getElementById('${fieldslist[0].publisheremailfield}').value='${userController.userModel.email}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].publisherfnamefield}').value='ddddd';");
+                              "document.getElementById('${fieldslist[0].publisherfnamefield}').value='${userController.userModel.first_name}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].publisherlnamefield}').value='ddddd';");
+                              "document.getElementById('${fieldslist[0].publisherlnamefield}').value='${userController.userModel.last_name}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].publishermiddlenamefield}').value='ddddd';");
+                              "document.getElementById('${fieldslist[0].publishermiddlenamefield}').value='${userController.userModel.middle_name}';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].publisherzipfield}').value=5000;");
+                              "document.getElementById('${fieldslist[0].publisherzipfield}').value=${userController.userModel.email};");
                           controller.runJavascript(
                               "document.getElementById('${fieldslist[0].publisherphonenumberfield}').value='555555555';");
                           controller.runJavascript(
-                              "document.getElementById('${fieldslist[0].publisheradressfield}').value='ddddssssssssssssssd';");
+                              "document.getElementById('${fieldslist[0].publisheradressfield}').value='${userController.userModel.adress}';");
                         }),
                         backgroundColor: MyColors.MainYellow,
                         child: Center(

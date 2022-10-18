@@ -7,7 +7,8 @@ import '../../../Widgets/Texts/big_text.dart';
 import '../../../Widgets/froms/input_field.dart';
 
 class musicTitle extends StatelessWidget {
-  musicTitle({Key? key}) : super(key: key);
+  final bool isEmptyMain;
+  musicTitle({Key? key, required this.isEmptyMain}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -87,7 +88,9 @@ class musicTitle extends StatelessWidget {
                 ),
                 Center(
                   child: Obx(() => ElevatedButton(
-                      onPressed: () => controller.newMusic(),
+                      onPressed: () => isEmptyMain
+                          ? controller.brandnewMusic()
+                          : controller.newMusic(),
                       child: controller.loading == false
                           ? Text(
                               'Next',
@@ -102,7 +105,7 @@ class musicTitle extends StatelessWidget {
                             ),
                       style: ElevatedButton.styleFrom(
                         elevation: 8,
-                        primary: MyColors.MainYellow,
+                        backgroundColor: MyColors.MainYellow,
                         padding: EdgeInsets.symmetric(
                             vertical: screenHeight * .026,
                             horizontal: screenWidth * .37),

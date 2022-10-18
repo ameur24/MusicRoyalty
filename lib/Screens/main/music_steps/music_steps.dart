@@ -10,7 +10,8 @@ import '../../../controllers/music_controller.dart';
 import '../mymusic.dart';
 
 class musicSteps extends GetView<MusicController> {
-  const musicSteps({Key? key}) : super(key: key);
+  final Music thisMusic;
+  musicSteps(this.thisMusic, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     MusicController controller = Get.find();
@@ -32,7 +33,7 @@ class musicSteps extends GetView<MusicController> {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * .05),
               child: SongName(screenHeight)),
-          Steps(screenHeight, screenWidth, Get.arguments("currentStep")),
+          Steps(screenHeight, screenWidth, thisMusic.currentStep! + 1),
         ],
       ),
     );
@@ -54,7 +55,7 @@ class musicSteps extends GetView<MusicController> {
           height: screenHeight * 0.005,
         ),
         Text(
-          Get.arguments("Title"),
+          thisMusic.Title!,
           textAlign: TextAlign.left,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
@@ -81,10 +82,7 @@ class musicSteps extends GetView<MusicController> {
   }
 
   Widget Steps(double h, w, int current) {
-    return Container(
-      height: h * .69,
-      width: w,
-      color: MyColors.blackbackground2,
+    return Expanded(
       child: ListView(
         children: <Widget>[
           SizedBox(
@@ -152,7 +150,7 @@ class musicSteps extends GetView<MusicController> {
       description,
       required final int current,
       required final int thisStep,
-      final Function? onTap,
+      final Function? onTafp,
       final bool isSelected = false}) {
     return Material(
       color: Colors.transparent,
@@ -219,7 +217,7 @@ class musicSteps extends GetView<MusicController> {
               ),
             ],
           ),
-          onTap: () => Get.to(StepInfo(),
+          onTap: () => Get.to(StepInfo(thisMusic),
               arguments: {"StepTitle": text, "id": thisStep})),
     );
   }

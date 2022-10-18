@@ -48,7 +48,6 @@ class Myinput extends StatelessWidget {
       enabled: enabled,
       style: TextStyle(color: Colors.white),
       cursorColor: MyColors.MainYellow,
-      initialValue: what,
       autofillHints: AutofillHints,
       keyboardType: keyboardType,
       autofocus: autoFocus,

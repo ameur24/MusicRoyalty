@@ -67,7 +67,9 @@ class myMusic extends GetView<MusicController> {
                     barrierColor: Colors.black38,
                     backgroundColor: Colors.transparent,
                     builder: (BuildContext context) {
-                      return musicTitle();
+                      return musicTitle(
+                        isEmptyMain: false,
+                      );
                     },
                     context: context);
               },
@@ -101,7 +103,7 @@ class myMusic extends GetView<MusicController> {
                           currentStep:
                               controller.mymusicList[index].currentStep!,
                           onPressed: () =>
-                              Get.to(musicSteps(), arguments: {"index": index}),
+                              Get.to(musicSteps(controller.mymusicList[index])),
                         );
                       }))),
         )

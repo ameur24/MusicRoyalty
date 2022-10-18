@@ -14,6 +14,8 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:music_royalty/Widgets/froms/input_field.dart';
 
+import '../splash.dart';
+
 class landingPage extends StatefulWidget {
   landingPage({Key? key}) : super(key: key);
 
@@ -26,6 +28,7 @@ class _ImageState extends State<landingPage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    Splash();
     return Stack(children: [
       AnimatedContainer(
         width: screenWidth,

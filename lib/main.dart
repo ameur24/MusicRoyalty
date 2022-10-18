@@ -7,6 +7,8 @@ import 'package:music_royalty/Screens/Authentication/sign_up_google.dart';
 import 'package:music_royalty/Screens/main/empty_main.dart';
 import 'package:music_royalty/Screens/main/music_steps/splitsheet.dart';
 import 'package:music_royalty/Screens/main/music_steps/step_view.dart';
+import 'package:music_royalty/Screens/splash.dart';
+import 'package:music_royalty/controllers/user_controller.dart';
 import 'Screens/main/music_steps/music_steps.dart';
 import 'Screens/main/mymusic.dart';
 import 'controllers/music_controller.dart';
@@ -18,6 +20,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MyApp());
 }
 
@@ -26,7 +29,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(UserController());
     MusicController controller = Get.put(MusicController());
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Music Royalty',
@@ -39,10 +44,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/signup", page: () => const signup_google()),
         GetPage(name: "/emptymain", page: () => EmptyMain()),
         GetPage(name: "/mymusic", page: () => const myMusic()),
-        GetPage(name: "/musicSteps", page: () => const musicSteps()),
-        GetPage(name: "/stepView", page: () => const stepView())
       ],
-      initialRoute: "/emptymain",
+      initialRoute: "/landing",
     );
   }
 }

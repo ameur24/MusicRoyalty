@@ -45,6 +45,50 @@ class MusicController extends GetxController {
     return null;
   }
 
+  Future<void> brandnewMusic() async {
+    loading.value = true;
+    String now = DateTime.now().toString();
+    update();
+    bool isvalidate = titlekey.currentState!.validate();
+    print(isvalidate);
+    if (isvalidate) {
+      Music music = Music(
+          Title: musicTitle.value,
+          currentStep: 0,
+          created_at: now,
+          updated_at: now);
+      print("music $music");
+
+      /*  if (isNew == true) {
+        await MusicCollection.set(userMusics);
+      } else { */
+      List<Music> m = [];
+      m.add(music);
+
+      UserMusics userMusics = UserMusics(
+          userId: FirebaseAuth.instance.currentUser!.uid, MusicList: m);
+
+      FirebaseFirestore.instance
+          .collection('Music')
+          .withConverter(
+              fromFirestore: UserMusics.fromFirestore,
+              toFirestore: (UserMusics userMusic, options) =>
+                  userMusic.toFirestore())
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set(userMusics);
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(await FirebaseAuth.instance.currentUser!.uid)
+          .update({"num_music": FieldValue.increment(1)}).then(
+        (res) => Get.to(() => musicSteps(music),
+            transition: Transition.rightToLeftWithFade, arguments: {music}),
+        onError: (e) => print("Error completing: $e"),
+      );
+    }
+    loading.value = false;
+  }
+
   Future<void> newMusic() async {
     loading.value = true;
     String now = Timestamp.now().toString();
@@ -94,7 +138,7 @@ class MusicController extends GetxController {
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({"num_music": FieldValue.increment(1)}).then(
-        (res) => Get.to(() => musicSteps(),
+        (res) => Get.to(() => musicSteps(music),
             transition: Transition.rightToLeftWithFade,
             arguments: {"title": mu.Title, "currentStep": mu.currentStep}),
         onError: (e) => print("Error completing: $e"),
@@ -107,8 +151,9 @@ class MusicController extends GetxController {
   }
 
   Future<void> getmymusic() async {
+    mymusicList = [];
     loadingMusicLIst.value = true;
-    final MusicCollection = FirebaseFirestore.instance
+    final MusicCollection = await FirebaseFirestore.instance
         .collection('Music')
         .withConverter(
             fromFirestore: UserMusics.fromFirestore,
@@ -119,8 +164,10 @@ class MusicController extends GetxController {
     final docSnap = await MusicCollection.get();
     final result = docSnap.data();
     if (result != null) {
-      mymusicList.addAll(result.MusicList!);
-      print("The list : $mymusicList");
+      print("The list : $result");
+      result.MusicList!.forEach((element) {
+        mymusicList.add(element);
+      });
     } else {
       print("error");
     }

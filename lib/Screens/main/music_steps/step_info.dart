@@ -8,9 +8,11 @@ import 'package:music_royalty/Utils/constants.dart';
 import '../../../Utils/colors.dart';
 import '../../../Widgets/buttons/button_with_icon.dart';
 import '../../../controllers/music_controller.dart';
+import '../../../models/music.dart';
 
 class StepInfo extends GetView<MusicController> {
-  const StepInfo({Key? key}) : super(key: key);
+  final Music m;
+  const StepInfo(this.m, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class StepInfo extends GetView<MusicController> {
         backgroundColor: MyColors.blackbackground2,
         appBar: AppBar(
           leading: IconButton(
-              onPressed: () => Get.to(() => const musicSteps()),
+              onPressed: () => Get.to(() => musicSteps(m)),
               icon: Icon(Icons.arrow_back)),
           elevation: 0,
           foregroundColor: Colors.white,
@@ -162,7 +164,7 @@ class StepInfo extends GetView<MusicController> {
                     ],
                   ),
                 ),
-                SizedBox(height: screenHeight * .35),
+                Spacer(),
                 ButtonWithIcon(
                   onPressed: () {
                     String sousstep = "";
@@ -179,11 +181,15 @@ class StepInfo extends GetView<MusicController> {
                         "ssid": sousstep,
                       });
                     } else {
-                      Get.to(() => stepView(), arguments: {
-                        "StepTitle": Get.arguments["StepTitle"],
-                        "id": Get.arguments["id"],
-                        "ssid": sousstep,
-                      });
+                      Get.off(
+                          () => stepView(
+                                m: m,
+                              ),
+                          arguments: {
+                            "StepTitle": Get.arguments["StepTitle"],
+                            "id": Get.arguments["id"],
+                            "ssid": sousstep,
+                          });
                     }
                   },
                   iconCol: MyColors.mainGrey,
