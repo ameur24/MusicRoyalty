@@ -20,7 +20,7 @@ class UserController extends GetxController {
         email: res["email"],
         adress: res["adress"],
         state: res["state"],
-        phone_number: res["phone_number"],
+        phone_number: res["num"],
         zip: res["zip"],
         Date: res["birth_date"],
         userId: res["userId"],
