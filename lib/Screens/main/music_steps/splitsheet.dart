@@ -232,8 +232,12 @@ class splitsheet extends GetView<SplitshitController> {
                           width: screenWidth * .44,
                           child: Myinput(
                             controller: controller.bandartist.value,
-                            onChanged: (v) =>
-                                controller.bandartist.value.text = v,
+                            onChanged: (v) {
+                              final val = TextSelection.collapsed(
+                                  offset:
+                                      controller.bandartist.value.text.length);
+                              controller.bandartist.value.selection = val;
+                            },
                             labelText: "Recording Band/Artist",
                             // what: controller.first_name.value,
                             validate: (v) => controller.validateThese(v!),
@@ -246,7 +250,11 @@ class splitsheet extends GetView<SplitshitController> {
                           child: Myinput(
                               controller: controller.label.value,
                               // what: controller.middle_name.value,
-                              onChanged: (v) => controller.label.value.text = v,
+                              onChanged: (v) {
+                                final val = TextSelection.collapsed(
+                                    offset: controller.label.value.text.length);
+                                controller.label.value.selection = val;
+                              },
                               labelText: "Label (if any)",
                               validate: (v) => controller.validateThese(v!))),
                     ],
@@ -257,7 +265,11 @@ class splitsheet extends GetView<SplitshitController> {
                   Myinput(
                     controller: controller.studioname.value,
                     labelText: "Studio Name:",
-                    onChanged: (v) => controller.studioname.value.text = v,
+                    onChanged: (v) {
+                      final val = TextSelection.collapsed(
+                          offset: controller.studioname.value.text.length);
+                      controller.studioname.value.selection = val;
+                    },
                     validate: (v) => controller.validateThese(v!),
                   ),
                   SizedBox(
@@ -266,8 +278,12 @@ class splitsheet extends GetView<SplitshitController> {
                   Myinput(
                     controller: controller.studioadress.value,
                     labelText: "Studio Address:",
-                    onChanged: (v) => controller.studioadress.value.text = v,
-                    // validate: (v) => controller.validateThese(v!),
+                    onChanged: (v) {
+                      final val = TextSelection.collapsed(
+                          offset: controller.studioadress.value.text.length);
+                      controller.studioadress.value.selection = val;
+                    },
+                    validate: (v) => controller.validateThese(v!),
                   ),
                   SizedBox(
                     height: screenHeight * .02,
@@ -276,8 +292,12 @@ class splitsheet extends GetView<SplitshitController> {
                     controller: controller.studiophonenumber.value,
                     labelText: "Studio Phone number:",
                     keyboardType: TextInputType.phone,
-                    onChanged: (v) =>
-                        controller.studiophonenumber.value.text = v,
+                    onChanged: (v) {
+                      final val = TextSelection.collapsed(
+                          offset:
+                              controller.studiophonenumber.value.text.length);
+                      controller.studiophonenumber.value.selection = val;
+                    },
                     validate: (v) => controller.validatePhone(v!),
                   ),
                   SizedBox(
@@ -286,8 +306,12 @@ class splitsheet extends GetView<SplitshitController> {
                   Myinput(
                     controller: controller.artistbandsampled.value,
                     labelText: "Album & Artist Sampled:(optional)",
-                    onChanged: (v) =>
-                        controller.artistbandsampled.value.text = v,
+                    onChanged: (v) {
+                      final val = TextSelection.collapsed(
+                          offset:
+                              controller.artistbandsampled.value.text.length);
+                      controller.artistbandsampled.value.selection = val;
+                    },
                     validate: (v) => controller.validateThese(v!),
                   ),
                   SizedBox(
@@ -297,19 +321,11 @@ class splitsheet extends GetView<SplitshitController> {
                     color: MyColors.BordersGrey, //color of divider
                     height: 5, //height spacing of divider
                     thickness: 3, //thickness of divier line
-                    indent: 25, //spacing at the start of divider
-                    endIndent: 25, //spacing at the end of divider
+                    indent: 10, //spacing at the start of divider
+                    endIndent: 10, //spacing at the end of divider
                   ),
                   SizedBox(
                     height: screenHeight * .03,
-                  ),
-                  Text(
-                    "Writers Details",
-                    style: TextStyle(color: MyColors.MainYellow, fontSize: 20),
-                    textAlign: TextAlign.left,
-                  ),
-                  SizedBox(
-                    height: screenHeight * .02,
                   ),
                   SizedBox(
                     child: Obx(() => ListView.builder(
@@ -319,32 +335,30 @@ class splitsheet extends GetView<SplitshitController> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                SizedBox(
+                                  height: screenHeight * .02,
+                                ),
                                 Text(
-                                  "Writer ${index + 1} details",
+                                  "#${index + 1} Writer :",
                                   style: TextStyle(
-                                    color: MyColors.MainYellow,
-                                    fontSize: 18,
-                                  ),
+                                      color: MyColors.MainYellow, fontSize: 20),
                                   textAlign: TextAlign.left,
                                 ),
                                 SizedBox(
-                                  height: screenHeight * .01,
+                                  height: screenHeight * .02,
                                 ),
                                 writerWidget(
                                     context, index, controller.textControllers),
                                 SizedBox(
-                                  height: screenHeight * .01,
+                                  height: screenHeight * .02,
                                 ),
                                 Divider(
                                   color:
                                       MyColors.BordersGrey, //color of divider
                                   height: 5, //height spacing of divider
                                   thickness: 3, //thickness of divier line
-                                  indent: 25, //spacing at the start of divider
-                                  endIndent: 25, //spacing at the end of divider
-                                ),
-                                SizedBox(
-                                  height: screenHeight * .01,
+                                  indent: 10, //spacing at the start of divider
+                                  endIndent: 10, //spacing at the end of divider
                                 ),
                               ],
                             );
@@ -352,34 +366,28 @@ class splitsheet extends GetView<SplitshitController> {
                           itemCount: controller.textControllers.length,
                         )),
                   ),
-                  SizedBox(
-                    height: screenHeight * .02,
-                  ),
                   Center(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextButton(
-                      onPressed: () {
-                        //writers.forEach((app) => _textControllers[app.] = new TextEditingController());
-                        List<company> c = <company>[
-                          company(namecontroller: new TextEditingController())
-                        ];
+                      child: TextButton(
+                    onPressed: () {
+                      //writers.forEach((app) => _textControllers[app.] = new TextEditingController());
+                      List<company> c = <company>[
+                        company(namecontroller: new TextEditingController())
+                      ];
 
-                        controller.textControllers.add(textcontroller(
-                            namecontroller: new TextEditingController(),
-                            addresscontroller: new TextEditingController(),
-                            phonenumbercontroller: new TextEditingController(),
-                            companies: c.obs,
-                            musicOwnercontroller: new TextEditingController(),
-                            lyricsownercontroller: new TextEditingController(),
-                            securitycodecontroller: new TextEditingController(),
-                            birthdatecontroller: new TextEditingController()));
-                      },
-                      child: Text(
-                        "Add one more writer",
-                        style: TextStyle(
-                            fontSize: 16, color: MyColors.BordersGrey),
-                      ),
+                      controller.textControllers.add(textcontroller(
+                          namecontroller: new TextEditingController(),
+                          addresscontroller: new TextEditingController(),
+                          phonenumbercontroller: new TextEditingController(),
+                          companies: c.obs,
+                          musicOwnercontroller: new TextEditingController(),
+                          lyricsownercontroller: new TextEditingController(),
+                          securitycodecontroller: new TextEditingController(),
+                          birthdatecontroller: new TextEditingController()));
+                    },
+                    child: Text(
+                      "Add one more writer",
+                      style:
+                          TextStyle(fontSize: 16, color: MyColors.BordersGrey),
                     ),
                   )),
                   SizedBox(
