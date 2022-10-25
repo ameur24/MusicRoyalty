@@ -59,7 +59,7 @@ class Myinput extends StatelessWidget {
       textInputAction: textInputAction,
       obscureText: obscureText,
       decoration: InputDecoration(
-        icon: icon,
+        prefixIcon: icon,
         labelStyle: TextStyle(color: Colors.white70),
         filled: true,
         fillColor: Color(0xff343434),

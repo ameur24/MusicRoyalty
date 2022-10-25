@@ -38,131 +38,159 @@ class splitsheet extends GetView<SplitshitController> {
     }
 
     writeOnPdf() async {
+      final customFont = pw.Font.ttf(
+          await rootBundle.load('assets/fonts/OpenSans/OpenSans-Regular.ttf'));
       pdf.addPage(pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         margin: pw.EdgeInsets.all(32),
-        build: (pw.Context context) {
-          return <pw.Widget>[
-            pw.Column(children: [
-              pw.Center(
-                child: pw.Header(
-                    level: 1,
-                    child: pw.Text(
-                      "Song Publishing Split Sheet",
-                    )),
-              ),
-              pw.Header(
-                  level: 2,
-                  child: pw.Text(
-                    "Song Title:  ",
-                  )),
-              pw.Header(
-                  level: 2,
-                  child: pw.Text(
-                    "Date:  ${controller.date.value.text}",
-                  )),
-              pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                  children: [
-                    pw.Header(
-                        level: 2,
-                        child: pw.Text(
-                          "Recording Band/Artist:  ${controller.bandartist.value.text}",
-                        )),
-                    pw.Header(
-                        level: 2,
-                        child: pw.Text(
-                          "Label (if any):  ${controller.label.value.text}",
-                        )),
-                  ]),
-              pw.Header(
-                  level: 2,
-                  child: pw.Text(
-                    "Studio Name:  ${controller.studioname.value.text}",
-                  )),
-              pw.Header(
-                  level: 2,
-                  child: pw.Text(
-                    "Studio Address:  ${controller.studioadress.value.text}",
-                  )),
-              pw.Header(
-                  level: 2,
-                  child: pw.Text(
-                    "Studio Phone Number: ${controller.studiophonenumber.value.text}",
-                  )),
-              pw.Header(
-                  level: 2,
-                  child: pw.Text(
-                    "Samples: YES NO (Circle One) || Album & Artist Sampled:",
-                  )),
-              pw.ListView.builder(
-                  itemBuilder: (context, index) {
-                    return pw.Column(children: [
-                      pw.Header(
-                          level: 2,
-                          child: pw.Text(
-                            "WRITER #${index + 1}:",
-                          )),
-                      pw.Header(
-                          level: 2,
-                          child: pw.Text(
-                            "Address: ${controller.textControllers[index].addresscontroller.text}:",
-                          )),
-                      pw.Header(
-                          level: 2,
-                          child: pw.Text(
-                            "Phone:  ${controller.textControllers[index].phonenumbercontroller.text}",
-                          )),
-                      pw.Header(
-                          level: 2,
-                          child: pw.Text(
-                            "Publishing Company (list any 3rd party publishing companies & their information, if it applies): ",
-                          )),
-                      pw.ListView.builder(
-                          itemBuilder: (context, i) {
-                            return pw.Header(
-                                level: 2,
-                                child: pw.Text(
-                                  "Publishing Company ${i + 1}:  ${controller.textControllers[index].companies[i].namecontroller.text}",
-                                ));
-                          },
-                          itemCount: controller
-                              .textControllers[index].companies.length),
-                      pw.Header(
-                          level: 2,
-                          child: pw.Text(
-                            "Affiliation: ASCAPBMISESAC (Circle one)",
-                          )),
-                      pw.Header(
-                          level: 2,
-                          child: pw.Text(
-                            " Lyrics Ownership: ${controller.textControllers[index].lyricsownercontroller.text}",
-                          )),
-                      pw.Header(
-                          level: 2,
-                          child: pw.Text(
-                            " Music Ownership: ${controller.textControllers[index].musicOwnercontroller.text} ",
-                          )),
-                      pw.Header(
-                          level: 2,
-                          child: pw.Text(
-                            " Writer/Composer Signature: ",
-                          )),
-                      pw.Header(
-                          level: 2,
-                          child: pw.Text(
-                            " CAE/Social Security : ${controller.textControllers[index].securitycodecontroller.text}",
-                          )),
-                      pw.Header(
-                          level: 2,
-                          child: pw.Text(
-                            " Birthdate :  ${controller.textControllers[index].birthdatecontroller.text}",
-                          )),
-                    ]);
-                  },
-                  itemCount: controller.textControllers.length)
-            ]),
-          ];
+        build: (pw.Context context) => <pw.Widget>[
+          pw.Container(
+            padding: pw.EdgeInsets.only(bottom: 3 * PdfPageFormat.mm),
+            decoration: pw.BoxDecoration(
+              border: pw.Border(
+                  bottom: pw.BorderSide(width: 2, color: PdfColors.black)),
+            ),
+            child: pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.center,
+              children: [
+                pw.Text(
+                  'Song Publishing SplitSheet',
+                  style: pw.TextStyle(
+                      fontSize: 20, color: PdfColors.black, font: customFont),
+                ),
+              ],
+            ),
+          ),
+          pw.SizedBox(height: 0.8 * PdfPageFormat.cm),
+          pw.Text("Song Title:  ",
+              style: pw.TextStyle(
+                  fontSize: 14,
+                  color: PdfColors.black,
+                  fontWeight: pw.FontWeight.bold)),
+          pw.SizedBox(height: 0.1 * PdfPageFormat.cm),
+          pw.Text("Date:  ${controller.date.value.text}",
+              style: pw.TextStyle(
+                  fontSize: 14,
+                  color: PdfColors.black,
+                  fontWeight: pw.FontWeight.bold)),
+          pw.SizedBox(height: 0.1 * PdfPageFormat.cm),
+          pw.Row(mainAxisAlignment: pw.MainAxisAlignment.start, children: [
+            pw.Text("Recording Band/Artist:",
+                style: pw.TextStyle(
+                    fontSize: 14,
+                    color: PdfColors.black,
+                    fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(width: 0.2 * PdfPageFormat.cm),
+            pw.Text("${controller.bandartist.value.text}",
+                style: pw.TextStyle(
+                  fontSize: 14,
+                  color: PdfColors.black,
+                )),
+            pw.SizedBox(width: 4 * PdfPageFormat.cm),
+            pw.Text("Label (if any):  ${controller.label.value.text}",
+                style: pw.TextStyle(
+                    fontSize: 14,
+                    color: PdfColors.black,
+                    fontWeight: pw.FontWeight.bold)),
+          ]),
+          pw.Header(
+              level: 2,
+              child: pw.Text(
+                "Studio Name:  ${controller.studioname.value.text}",
+              )),
+          pw.Header(
+              level: 2,
+              child: pw.Text(
+                "Studio Address:  ${controller.studioadress.value.text}",
+              )),
+          pw.Header(
+              level: 2,
+              child: pw.Text(
+                "Studio Phone Number: ${controller.studiophonenumber.value.text}",
+              )),
+          pw.Header(
+              level: 2,
+              child: pw.Text(
+                "Samples: YES NO (Circle One) || Album & Artist Sampled:",
+              )),
+          pw.ListView.builder(
+              itemBuilder: (context, index) {
+                return pw.Column(children: [
+                  pw.Header(
+                      level: 2,
+                      child: pw.Text(
+                        "WRITER #${index + 1}:",
+                      )),
+                  pw.Header(
+                      level: 2,
+                      child: pw.Text(
+                        "Address: ${controller.textControllers[index].addresscontroller.text}:",
+                      )),
+                  pw.Header(
+                      level: 2,
+                      child: pw.Text(
+                        "Phone:  ${controller.textControllers[index].phonenumbercontroller.text}",
+                      )),
+                  pw.Header(
+                      level: 2,
+                      child: pw.Text(
+                        "Publishing Company (list any 3rd party publishing companies & their information, if it applies): ",
+                      )),
+                  pw.ListView.builder(
+                      itemBuilder: (context, i) {
+                        return pw.Header(
+                            level: 2,
+                            child: pw.Text(
+                              "Publishing Company ${i + 1}:  ${controller.textControllers[index].companies[i].namecontroller.text}",
+                            ));
+                      },
+                      itemCount:
+                          controller.textControllers[index].companies.length),
+                  pw.Header(
+                      level: 2,
+                      child: pw.Text(
+                        "Affiliation: ASCAPBMISESAC (Circle one)",
+                      )),
+                  pw.Header(
+                      level: 2,
+                      child: pw.Text(
+                        " Lyrics Ownership: ${controller.textControllers[index].lyricsownercontroller.text}",
+                      )),
+                  pw.Header(
+                      level: 2,
+                      child: pw.Text(
+                        " Music Ownership: ${controller.textControllers[index].musicOwnercontroller.text} ",
+                      )),
+                  pw.Header(
+                      level: 2,
+                      child: pw.Text(
+                        " Writer/Composer Signature: ",
+                      )),
+                  pw.Header(
+                      level: 2,
+                      child: pw.Text(
+                        " CAE/Social Security : ${controller.textControllers[index].securitycodecontroller.text}",
+                      )),
+                  pw.Header(
+                      level: 2,
+                      child: pw.Text(
+                        " Birthdate :  ${controller.textControllers[index].birthdatecontroller.text}",
+                      )),
+                ]);
+              },
+              itemCount: controller.textControllers.length)
+        ],
+        footer: (context) {
+          final text = 'Page ${context.pageNumber} of ${context.pagesCount}';
+
+          return pw.Container(
+            alignment: pw.Alignment.centerRight,
+            margin: pw.EdgeInsets.only(top: 1 * PdfPageFormat.cm),
+            child: pw.Text(
+              text,
+              style: pw.TextStyle(color: PdfColors.black),
+            ),
+          );
         },
       ));
       final output = await getTemporaryDirectory();
@@ -227,36 +255,40 @@ class splitsheet extends GetView<SplitshitController> {
                     height: screenHeight * .02,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SizedBox(
-                          width: screenWidth * .44,
-                          child: Myinput(
-                            controller: controller.bandartist.value,
-                            onChanged: (v) {
-                              final val = TextSelection.collapsed(
-                                  offset:
-                                      controller.bandartist.value.text.length);
-                              controller.bandartist.value.selection = val;
-                            },
-                            labelText: "Recording Band/Artist",
-                            // what: controller.first_name.value,
-                            validate: (v) => controller.validateThese(v!),
-                          )),
+                      Expanded(
+                        child: SizedBox(
+                            child: Myinput(
+                          controller: controller.bandartist.value,
+                          onChanged: (v) {
+                            final val = TextSelection.collapsed(
+                                offset:
+                                    controller.bandartist.value.text.length);
+                            controller.bandartist.value.selection = val;
+                          },
+                          labelText: "Recording Band/Artist",
+                          // what: controller.first_name.value,
+                          validate: (v) => controller.validateThese(v!),
+                        )),
+                      ),
                       SizedBox(
                         width: screenWidth * 0.02,
                       ),
-                      SizedBox(
-                          width: screenWidth * .44,
-                          child: Myinput(
-                              controller: controller.label.value,
-                              // what: controller.middle_name.value,
-                              onChanged: (v) {
-                                final val = TextSelection.collapsed(
-                                    offset: controller.label.value.text.length);
-                                controller.label.value.selection = val;
-                              },
-                              labelText: "Label (if any)",
-                              validate: (v) => controller.validateThese(v!))),
+                      Expanded(
+                        child: SizedBox(
+                            child: Myinput(
+                                controller: controller.label.value,
+                                // what: controller.middle_name.value,
+                                onChanged: (v) {
+                                  final val = TextSelection.collapsed(
+                                      offset:
+                                          controller.label.value.text.length);
+                                  controller.label.value.selection = val;
+                                },
+                                labelText: "Label (if any)",
+                                validate: (v) => controller.validateThese(v!))),
+                      ),
                     ],
                   ),
                   SizedBox(

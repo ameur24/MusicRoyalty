@@ -49,7 +49,7 @@ class musicSteps extends GetView<MusicController> {
         Text(
           "Music name",
           style: TextStyle(
-              fontFamily: "Exo-Medium", color: Colors.white, fontSize: 12),
+              fontFamily: "Exo-Medium", color: Colors.white, fontSize: 13),
         ),
         SizedBox(
           height: screenHeight * 0.005,
@@ -191,8 +191,9 @@ class musicSteps extends GetView<MusicController> {
               Text(
                 "Step $thisStep",
                 style: TextStyle(
-                    fontFamily: current >= thisStep ? 'Exo-Bold' : 'Exo',
-                    fontSize: 12,
+                    fontFamily:
+                        current >= thisStep ? 'Exo-Medium' : 'Exo-Medium',
+                    fontSize: 13,
                     color: current == thisStep
                         ? MyColors.MainYellow
                         : current > thisStep
@@ -205,7 +206,9 @@ class musicSteps extends GetView<MusicController> {
               Text(
                 text,
                 style: const TextStyle(
-                    fontFamily: 'Exo-Bold', fontSize: 14, color: Colors.white),
+                    fontFamily: 'Exo-Medium ',
+                    fontSize: 16,
+                    color: Colors.white),
               ),
               SizedBox(
                 height: 15,
@@ -213,7 +216,7 @@ class musicSteps extends GetView<MusicController> {
               Text(
                 description,
                 style: TextStyle(
-                    fontFamily: 'Exo', fontSize: 12, color: Colors.white),
+                    fontFamily: 'Exo-Bold', fontSize: 15, color: Colors.white),
               ),
             ],
           ),

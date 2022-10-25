@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:music_royalty/Services/date_time_converter.dart';
 import 'package:music_royalty/Utils/colors.dart';
 
@@ -25,6 +26,9 @@ class MusicDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var lastdate =
+        DateFormat("dd/MM/yyyy on hh:mm").format(DateTime.parse(lastUpdate));
+
     // DateTime Lastupdate = DateTime.parse(lastUpdate);
     //String Timeago = convertToAgo(Lastupdate);
     return Padding(
@@ -65,38 +69,40 @@ class MusicDetails extends StatelessWidget {
                           style: TextStyle(
                               color: Color.fromRGBO(226, 226, 33, 1),
                               fontFamily: 'Exo-SemiBold',
-                              fontSize: 18,
+                              fontSize: 20,
                               letterSpacing:
                                   0 /*percentages not used in flutter. defaulting to zero*/,
                               fontWeight: FontWeight.normal,
                               height: 1),
                         ),
-                        DropdownButton<dynamic>(
-                          dropdownColor: MyColors.mainGrey,
-                          iconDisabledColor: Colors.white,
-                          items: const [
-                            DropdownMenuItem(
-                                value: 1,
-                                // onTap: menuItemSelected as void Function()?,
-                                child: Text(
-                                  "Details",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                            DropdownMenuItem(
-                                value: 2,
-                                //  onTap: menuItemSelected as void Function()?,
-                                child: Text(
-                                  "Remove",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          ],
-                          icon: IconButton(
-                            onPressed: () => {},
-                            icon: Icon(Icons.more_vert),
-                            color: Colors.white,
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton<dynamic>(
+                            dropdownColor: MyColors.mainGrey,
+                            iconDisabledColor: Colors.white,
+                            items: const [
+                              DropdownMenuItem(
+                                  value: 1,
+                                  // onTap: menuItemSelected as void Function()?,
+                                  child: Text(
+                                    "Details",
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                              DropdownMenuItem(
+                                  value: 2,
+                                  //  onTap: menuItemSelected as void Function()?,
+                                  child: Text(
+                                    "Remove",
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                            ],
+                            icon: IconButton(
+                              onPressed: () => {},
+                              icon: Icon(Icons.more_vert),
+                              color: Colors.white,
+                            ),
+                            onChanged: (value) => menuItemSelected!(value)
+                                as void Function(dynamic)?,
                           ),
-                          onChanged: (value) => menuItemSelected!(value) as void
-                              Function(dynamic)?,
                         ),
                       ],
                     ),
@@ -114,8 +120,8 @@ class MusicDetails extends StatelessWidget {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Color.fromRGBO(251, 251, 251, 1),
-                            fontFamily: 'Exo',
-                            fontSize: 14,
+                            fontFamily: 'Roboto',
+                            fontSize: 15,
                             letterSpacing:
                                 0 /*percentages not used in flutter. defaulting to zero*/,
                             fontWeight: FontWeight.normal,
@@ -124,12 +130,12 @@ class MusicDetails extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'last update xx', //$Timeago',
+                      'Last updated in ${lastdate}', //$Timeago',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: Color.fromRGBO(185, 185, 185, 1),
-                          fontFamily: 'Exo',
-                          fontSize: 12,
+                          fontFamily: 'Roboto',
+                          fontSize: 16,
                           letterSpacing:
                               0 /*percentages not used in flutter. defaulting to zero*/,
                           fontWeight: FontWeight.normal,

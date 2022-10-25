@@ -59,24 +59,24 @@ Widget writerWidget(
           ),
           Container(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Text(
-                    "List any 3rd Party publishing companies",
-                    style: TextStyle(color: MyColors.MainYellow, fontSize: 18),
-                    textAlign: TextAlign.left,
-                  ),
+                Text(
+                  "List of 3rd party publishing companies :",
+                  style: TextStyle(color: MyColors.MainYellow, fontSize: 16),
+                  textAlign: TextAlign.left,
                 ),
                 Obx(() => Container(
-                      padding: const EdgeInsets.fromLTRB(2, 10, 20, 1),
+                      padding: const EdgeInsets.fromLTRB(1, 10, 0, 2),
                       child: ListView.builder(
                         physics: ClampingScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (context, i) {
                           return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 8),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(
                                   "#${i + 1}",
@@ -89,27 +89,30 @@ Widget writerWidget(
                                   width: screenWidth * 0.01,
                                 ),
                                 Expanded(
-                                  child: Myinput(
-                                    // what: controller.last_name.value,
-                                    labelText: "Publishing company Name",
-                                    controller: writer[index]
-                                        .companies[i]
-                                        .namecontroller,
-                                    onChanged: (v) {
-                                      final val = TextSelection.collapsed(
-                                          offset: writer[index]
-                                              .companies[i]
-                                              .namecontroller
-                                              .value
-                                              .text
-                                              .length);
-                                      writer[index]
+                                  flex: 2,
+                                  child: SizedBox(
+                                    child: Myinput(
+                                      // what: controller.last_name.value,
+                                      labelText: "Publishing company Name",
+                                      controller: writer[index]
                                           .companies[i]
-                                          .namecontroller
-                                          .selection = val;
-                                    },
-                                    validate: (v) =>
-                                        controller.validateThese(v!),
+                                          .namecontroller,
+                                      onChanged: (v) {
+                                        final val = TextSelection.collapsed(
+                                            offset: writer[index]
+                                                .companies[i]
+                                                .namecontroller
+                                                .value
+                                                .text
+                                                .length);
+                                        writer[index]
+                                            .companies[i]
+                                            .namecontroller
+                                            .selection = val;
+                                      },
+                                      validate: (v) =>
+                                          controller.validateThese(v!),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -139,42 +142,47 @@ Widget writerWidget(
             height: screenHeight * .01,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                  width: screenWidth * .45,
-                  child: Myinput(
-                    controller: writer[index].lyricsownercontroller,
-                    onChanged: (v) {
-                      final val = TextSelection.collapsed(
-                          offset: writer[index]
-                              .lyricsownercontroller
-                              .value
-                              .text
-                              .length);
-                      writer[index].lyricsownercontroller.selection = val;
-                    },
-                    labelText: "  Lyrics Ownership:",
-                    validate: (v) => controller.validateThese(v!),
-                  )),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                    child: Myinput(
+                  controller: writer[index].lyricsownercontroller,
+                  onChanged: (v) {
+                    final val = TextSelection.collapsed(
+                        offset: writer[index]
+                            .lyricsownercontroller
+                            .value
+                            .text
+                            .length);
+                    writer[index].lyricsownercontroller.selection = val;
+                  },
+                  labelText: "  Lyrics Ownership:",
+                  validate: (v) => controller.validateThese(v!),
+                )),
+              ),
               SizedBox(
                 width: screenWidth * 0.02,
               ),
-              SizedBox(
-                  width: screenWidth * .45,
-                  child: Myinput(
-                    controller: writer[index].musicOwnercontroller,
-                    onChanged: (v) {
-                      final val = TextSelection.collapsed(
-                          offset: writer[index]
-                              .musicOwnercontroller
-                              .value
-                              .text
-                              .length);
-                      writer[index].musicOwnercontroller.selection = val;
-                    },
-                    labelText: "Music Ownership: ",
-                    validate: (v) => controller.validateThese(v!),
-                  )),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                    child: Myinput(
+                  controller: writer[index].musicOwnercontroller,
+                  onChanged: (v) {
+                    final val = TextSelection.collapsed(
+                        offset: writer[index]
+                            .musicOwnercontroller
+                            .value
+                            .text
+                            .length);
+                    writer[index].musicOwnercontroller.selection = val;
+                  },
+                  labelText: "Music Ownership: ",
+                  validate: (v) => controller.validateThese(v!),
+                )),
+              ),
             ],
           ),
           SizedBox(

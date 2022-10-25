@@ -30,7 +30,8 @@ class StepInfo extends GetView<MusicController> {
           backgroundColor: MyColors.blackbackground2,
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: screenWidth * .05),
+          padding: EdgeInsets.fromLTRB(
+              screenWidth * .05, 0, screenWidth * .05, screenWidth * .02),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
