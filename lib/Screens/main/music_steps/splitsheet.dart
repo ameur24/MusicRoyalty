@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:music_royalty/Screens/main/music_steps/pdfpreviewscree.dart';
 
 import 'package:music_royalty/Utils/colors.dart';
 import 'package:music_royalty/Widgets/Texts/big_text.dart';
@@ -38,6 +37,8 @@ class splitsheet extends GetView<SplitshitController> {
     }
 
     writeOnPdf() async {
+      final cuss = pw.Font.ttf(
+          await rootBundle.load('assets/fonts/Exo/Exo-VariableFont_wght.ttf'));
       final customFont = pw.Font.ttf(
           await rootBundle.load('assets/fonts/OpenSans/OpenSans-Regular.ttf'));
       pdf.addPage(pw.MultiPage(
@@ -48,7 +49,7 @@ class splitsheet extends GetView<SplitshitController> {
             padding: pw.EdgeInsets.only(bottom: 3 * PdfPageFormat.mm),
             decoration: pw.BoxDecoration(
               border: pw.Border(
-                  bottom: pw.BorderSide(width: 2, color: PdfColors.black)),
+                  bottom: pw.BorderSide(width: 1, color: PdfColors.black)),
             ),
             child: pw.Row(
               mainAxisAlignment: pw.MainAxisAlignment.center,
@@ -56,126 +57,457 @@ class splitsheet extends GetView<SplitshitController> {
                 pw.Text(
                   'Song Publishing SplitSheet',
                   style: pw.TextStyle(
-                      fontSize: 20, color: PdfColors.black, font: customFont),
+                      fontSize: 18,
+                      color: PdfColors.black,
+                      fontWeight: pw.FontWeight.bold,
+                      font: customFont),
                 ),
               ],
             ),
           ),
-          pw.SizedBox(height: 0.8 * PdfPageFormat.cm),
-          pw.Text("Song Title:  ",
-              style: pw.TextStyle(
-                  fontSize: 14,
-                  color: PdfColors.black,
-                  fontWeight: pw.FontWeight.bold)),
-          pw.SizedBox(height: 0.1 * PdfPageFormat.cm),
-          pw.Text("Date:  ${controller.date.value.text}",
-              style: pw.TextStyle(
-                  fontSize: 14,
-                  color: PdfColors.black,
-                  fontWeight: pw.FontWeight.bold)),
-          pw.SizedBox(height: 0.1 * PdfPageFormat.cm),
-          pw.Row(mainAxisAlignment: pw.MainAxisAlignment.start, children: [
-            pw.Text("Recording Band/Artist:",
+          pw.SizedBox(height: 1.5 * PdfPageFormat.cm),
+          pw.Row(children: [
+            pw.Text("Song Title:",
                 style: pw.TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
                     color: PdfColors.black,
                     fontWeight: pw.FontWeight.bold)),
-            pw.SizedBox(width: 0.2 * PdfPageFormat.cm),
+            pw.SizedBox(
+              width: PdfPageFormat.cm * 3,
+            ),
+            pw.Text(controller.date.value.text.toString(),
+                style: pw.TextStyle(
+                  fontSize: 13,
+                  color: PdfColors.black,
+                  font: customFont,
+                ))
+          ]),
+          pw.Divider(
+              height: 0.5,
+              color: PdfColors.black,
+              endIndent: 0,
+              thickness: 0.5,
+              indent: 80),
+          pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+          pw.Row(children: [
+            pw.Text("Date:",
+                style: pw.TextStyle(
+                    fontSize: 12,
+                    color: PdfColors.black,
+                    fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(
+              width: PdfPageFormat.cm * 4,
+            ),
+            pw.Text(controller.date.value.text.toString(),
+                style: pw.TextStyle(
+                  fontSize: 13,
+                  font: customFont,
+                  color: PdfColors.black,
+                ))
+          ]),
+          pw.Divider(
+              height: 0.5,
+              color: PdfColors.black,
+              endIndent: 0,
+              thickness: 0.5,
+              indent: 80),
+          pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+          pw.Row(children: [
+            pw.Text("Recording Band/Artist:",
+                overflow: pw.TextOverflow.clip,
+                style: pw.TextStyle(
+                    fontSize: 12,
+                    color: PdfColors.black,
+                    fontWeight: pw.FontWeight.normal)),
+            pw.SizedBox(width: 1 * PdfPageFormat.cm),
             pw.Text("${controller.bandartist.value.text}",
+                style: pw.TextStyle(
+                  fontSize: 13,
+                  font: customFont,
+                  color: PdfColors.black,
+                )),
+            /*       pw.SizedBox(width: 2.5 * PdfPageFormat.cm),
+            pw.Text("Label (if any):  ",
                 style: pw.TextStyle(
                   fontSize: 14,
                   color: PdfColors.black,
                 )),
-            pw.SizedBox(width: 4 * PdfPageFormat.cm),
-            pw.Text("Label (if any):  ${controller.label.value.text}",
+            pw.SizedBox(width: 1 * PdfPageFormat.cm),
+            pw.Text("${controller.label.value.text}",
                 style: pw.TextStyle(
-                    fontSize: 14,
-                    color: PdfColors.black,
-                    fontWeight: pw.FontWeight.bold)),
+                  fontSize: 12,
+                  color: PdfColors.black,
+                )) */
           ]),
-          pw.Header(
-              level: 2,
-              child: pw.Text(
-                "Studio Name:  ${controller.studioname.value.text}",
-              )),
-          pw.Header(
-              level: 2,
-              child: pw.Text(
-                "Studio Address:  ${controller.studioadress.value.text}",
-              )),
-          pw.Header(
-              level: 2,
-              child: pw.Text(
-                "Studio Phone Number: ${controller.studiophonenumber.value.text}",
-              )),
-          pw.Header(
-              level: 2,
-              child: pw.Text(
-                "Samples: YES NO (Circle One) || Album & Artist Sampled:",
-              )),
+          pw.Divider(
+              height: 0.5,
+              color: PdfColors.black,
+              endIndent: 0,
+              thickness: 0.5,
+              indent: 130),
+          pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+          controller.label.value.text != ""
+              ? pw.Row(children: [
+                  pw.Text("Label (optional):  ",
+                      style: pw.TextStyle(
+                        fontSize: 12,
+                        color: PdfColors.black,
+                      )),
+                  pw.SizedBox(width: 2 * PdfPageFormat.cm),
+                  pw.Text("${controller.label.value.text}",
+                      style: pw.TextStyle(
+                        fontSize: 13,
+                        font: customFont,
+                        color: PdfColors.black,
+                      ))
+                ])
+              : pw.SizedBox.shrink(),
+          controller.label.value.text != ""
+              ? pw.Divider(
+                  height: 0.5,
+                  color: PdfColors.black,
+                  endIndent: 0,
+                  thickness: 0.5,
+                  indent: 100)
+              : pw.SizedBox.shrink(),
+          controller.label.value.text != ""
+              ? pw.SizedBox(height: 0.3 * PdfPageFormat.cm)
+              : pw.SizedBox.shrink(),
+          pw.Row(children: [
+            pw.Text("Studio Name:",
+                style: pw.TextStyle(
+                  fontSize: 12,
+                  color: PdfColors.black,
+                )),
+            pw.SizedBox(width: 2 * PdfPageFormat.cm),
+            pw.Text("${controller.studioname.value.text}",
+                style: pw.TextStyle(
+                  fontSize: 13,
+                  font: customFont,
+                  color: PdfColors.black,
+                ))
+          ]),
+          pw.Divider(
+              height: 0.5,
+              color: PdfColors.black,
+              endIndent: 0,
+              thickness: 0.5,
+              indent: 100),
+          pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+          pw.Row(children: [
+            pw.Text("Studio Address:",
+                style: pw.TextStyle(
+                  fontSize: 12,
+                  color: PdfColors.black,
+                )),
+            pw.SizedBox(width: 2 * PdfPageFormat.cm),
+            pw.Text("${controller.studioadress.value.text}",
+                style: pw.TextStyle(
+                  fontSize: 13,
+                  font: customFont,
+                  color: PdfColors.black,
+                ))
+          ]),
+          pw.Divider(
+              height: 0.5,
+              color: PdfColors.black,
+              endIndent: 0,
+              thickness: 0.5,
+              indent: 100),
+          pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+          pw.Row(children: [
+            pw.Text("Studio Phone Number:",
+                style: pw.TextStyle(
+                  fontSize: 12,
+                  color: PdfColors.black,
+                )),
+            pw.SizedBox(width: 1 * PdfPageFormat.cm),
+            pw.Text("${controller.studiophonenumber.value.text}",
+                style: pw.TextStyle(
+                    fontSize: 13, color: PdfColors.black, font: customFont))
+          ]),
+          pw.Divider(
+              height: 0.5,
+              color: PdfColors.black,
+              endIndent: 0,
+              thickness: 0.5,
+              indent: 120),
+          pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+          pw.Row(children: [
+            pw.Text("Samples :",
+                style: pw.TextStyle(
+                  fontSize: 12,
+                  color: PdfColors.black,
+                )),
+            pw.SizedBox(width: 3.4 * PdfPageFormat.cm),
+            pw.Text("${controller.isOk.value}",
+                style: pw.TextStyle(
+                  fontSize: 13,
+                  font: customFont,
+                  color: PdfColors.black,
+                ))
+          ]),
+          pw.Divider(
+              height: 0.5,
+              color: PdfColors.black,
+              endIndent: 0,
+              thickness: 0.5,
+              indent: 80),
+          pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+          controller.artistbandsampled.value.text != ""
+              ? pw.Row(children: [
+                  pw.Text("Album & Artist Sampled:",
+                      style: pw.TextStyle(
+                        fontSize: 12,
+                        color: PdfColors.black,
+                      )),
+                  pw.SizedBox(width: 1 * PdfPageFormat.cm),
+                  pw.Text("${controller.artistbandsampled.value.text}",
+                      style: pw.TextStyle(
+                        fontSize: 13,
+                        font: customFont,
+                        color: PdfColors.black,
+                      ))
+                ])
+              : pw.SizedBox.shrink(),
+          controller.artistbandsampled.value.text != ""
+              ? pw.Divider(
+                  height: 0.5,
+                  color: PdfColors.black,
+                  endIndent: 0,
+                  thickness: 0.5,
+                  indent: 140)
+              : pw.SizedBox.shrink(),
+          pw.SizedBox(height: 2 * PdfPageFormat.cm),
           pw.ListView.builder(
               itemBuilder: (context, index) {
                 return pw.Column(children: [
-                  pw.Header(
-                      level: 2,
-                      child: pw.Text(
-                        "WRITER #${index + 1}:",
-                      )),
-                  pw.Header(
-                      level: 2,
-                      child: pw.Text(
-                        "Address: ${controller.textControllers[index].addresscontroller.text}:",
-                      )),
-                  pw.Header(
-                      level: 2,
-                      child: pw.Text(
-                        "Phone:  ${controller.textControllers[index].phonenumbercontroller.text}",
-                      )),
-                  pw.Header(
-                      level: 2,
-                      child: pw.Text(
-                        "Publishing Company (list any 3rd party publishing companies & their information, if it applies): ",
-                      )),
+                  pw.Row(children: [
+                    pw.Text("Writer #${index + 1}:",
+                        style: pw.TextStyle(
+                            fontSize: 12,
+                            color: PdfColors.black,
+                            fontWeight: pw.FontWeight.bold)),
+                    pw.SizedBox(width: 3 * PdfPageFormat.cm),
+                    pw.Text(
+                        "${controller.textControllers[index].namecontroller.text}",
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          font: customFont,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 80),
+                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                  pw.Row(children: [
+                    pw.Text("Address:",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        )),
+                    pw.SizedBox(width: 3 * PdfPageFormat.cm),
+                    pw.Text(
+                        "${controller.textControllers[index].addresscontroller.text}",
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          font: customFont,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 80),
+                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                  pw.Row(children: [
+                    pw.Text("Phone: ",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        )),
+                    pw.SizedBox(width: 3.2 * PdfPageFormat.cm),
+                    pw.Text(
+                        "${controller.textControllers[index].phonenumbercontroller.text}",
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          font: customFont,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 80),
+                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
                   pw.ListView.builder(
                       itemBuilder: (context, i) {
-                        return pw.Header(
-                            level: 2,
-                            child: pw.Text(
-                              "Publishing Company ${i + 1}:  ${controller.textControllers[index].companies[i].namecontroller.text}",
-                            ));
+                        return pw.Column(children: [
+                          pw.Row(children: [
+                            pw.Text("Publishing Company #${i + 1}",
+                                style: pw.TextStyle(
+                                  fontSize: 12,
+                                  color: PdfColors.black,
+                                )),
+                            pw.SizedBox(width: 1 * PdfPageFormat.cm),
+                            pw.Text(
+                                "${controller.textControllers[index].companies[i].namecontroller.text}",
+                                style: pw.TextStyle(
+                                  fontSize: 13,
+                                  font: customFont,
+                                  color: PdfColors.black,
+                                ))
+                          ]),
+                          pw.Divider(
+                              height: 0.5,
+                              color: PdfColors.black,
+                              endIndent: 0,
+                              thickness: 0.5,
+                              indent: 130),
+                          pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                        ]);
                       },
                       itemCount:
                           controller.textControllers[index].companies.length),
-                  pw.Header(
-                      level: 2,
-                      child: pw.Text(
-                        "Affiliation: ASCAPBMISESAC (Circle one)",
-                      )),
-                  pw.Header(
-                      level: 2,
-                      child: pw.Text(
-                        " Lyrics Ownership: ${controller.textControllers[index].lyricsownercontroller.text}",
-                      )),
-                  pw.Header(
-                      level: 2,
-                      child: pw.Text(
-                        " Music Ownership: ${controller.textControllers[index].musicOwnercontroller.text} ",
-                      )),
-                  pw.Header(
-                      level: 2,
-                      child: pw.Text(
-                        " Writer/Composer Signature: ",
-                      )),
-                  pw.Header(
-                      level: 2,
-                      child: pw.Text(
-                        " CAE/Social Security : ${controller.textControllers[index].securitycodecontroller.text}",
-                      )),
-                  pw.Header(
-                      level: 2,
-                      child: pw.Text(
-                        " Birthdate :  ${controller.textControllers[index].birthdatecontroller.text}",
-                      )),
+                  pw.Row(children: [
+                    pw.Text("Affiliation (ASCAP/BMI/SESAC):",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        )),
+                    pw.SizedBox(width: 1 * PdfPageFormat.cm),
+                    pw.Text(
+                        "${controller.textControllers[index].affiliation.text}",
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          font: customFont,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 80),
+                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                  pw.Row(children: [
+                    pw.Text("Lyrics Ownership:",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        )),
+                    pw.SizedBox(width: 2 * PdfPageFormat.cm),
+                    pw.Text(
+                        "${controller.textControllers[index].lyricsownercontroller.text}",
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          font: customFont,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 120),
+                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                  pw.Row(children: [
+                    pw.Text("Music Ownership:",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        )),
+                    pw.SizedBox(width: 2 * PdfPageFormat.cm),
+                    pw.Text(
+                        "${controller.textControllers[index].musicOwnercontroller.text}",
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          font: customFont,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 120),
+                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                  pw.Row(children: [
+                    pw.Text("CAE/Social Security :",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        )),
+                    pw.SizedBox(width: 1 * PdfPageFormat.cm),
+                    pw.Text(
+                        "${controller.textControllers[index].securitycodecontroller.text}",
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          font: customFont,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 150),
+                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                  pw.Row(children: [
+                    pw.Text("Birthdate :",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        )),
+                    pw.SizedBox(width: 3 * PdfPageFormat.cm),
+                    pw.Text(
+                        "${controller.textControllers[index].birthdatecontroller.text}",
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          font: customFont,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 80),
+                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                  pw.Row(children: [
+                    pw.Text("Writer/Composer Signature:",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        )),
+                    pw.SizedBox(width: 1 * PdfPageFormat.cm),
+                    pw.Text("",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 150),
+                  pw.SizedBox(height: 0.1 * PdfPageFormat.cm),
+                  pw.SizedBox(height: 2 * PdfPageFormat.cm),
                 ]);
               },
               itemCount: controller.textControllers.length)
@@ -184,6 +516,11 @@ class splitsheet extends GetView<SplitshitController> {
           final text = 'Page ${context.pageNumber} of ${context.pagesCount}';
 
           return pw.Container(
+            padding: pw.EdgeInsets.only(top: 3 * PdfPageFormat.mm),
+            decoration: pw.BoxDecoration(
+              border: pw.Border(
+                  top: pw.BorderSide(width: 1, color: PdfColors.black)),
+            ),
             alignment: pw.Alignment.centerRight,
             margin: pw.EdgeInsets.only(top: 1 * PdfPageFormat.cm),
             child: pw.Text(
@@ -278,16 +615,15 @@ class splitsheet extends GetView<SplitshitController> {
                       Expanded(
                         child: SizedBox(
                             child: Myinput(
-                                controller: controller.label.value,
-                                // what: controller.middle_name.value,
-                                onChanged: (v) {
-                                  final val = TextSelection.collapsed(
-                                      offset:
-                                          controller.label.value.text.length);
-                                  controller.label.value.selection = val;
-                                },
-                                labelText: "Label (if any)",
-                                validate: (v) => controller.validateThese(v!))),
+                          controller: controller.label.value,
+                          // what: controller.middle_name.value,
+                          onChanged: (v) {
+                            final val = TextSelection.collapsed(
+                                offset: controller.label.value.text.length);
+                            controller.label.value.selection = val;
+                          },
+                          labelText: "Label (if any)",
+                        )),
                       ),
                     ],
                   ),
@@ -330,8 +666,69 @@ class splitsheet extends GetView<SplitshitController> {
                               controller.studiophonenumber.value.text.length);
                       controller.studiophonenumber.value.selection = val;
                     },
-                    validate: (v) => controller.validatePhone(v!),
+                    validate: (v) => controller.validateThese(v!),
                   ),
+                  SizedBox(
+                    height: screenHeight * .02,
+                  ),
+                  Obx(() => Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.01),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Samples?",
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Roboto-Regular",
+                                    color: Colors.white70)),
+                            SizedBox(
+                              height: screenHeight * 0.07,
+                              child: ToggleButtons(
+                                borderRadius: BorderRadius.circular(12),
+                                isSelected: controller.isSelected4,
+                                selectedColor: Colors.black,
+                                color: Colors.white,
+                                fillColor: MyColors.MainYellow,
+                                children: const [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12),
+                                    child: Center(
+                                      child: Text('  Yes ',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: "Roboto-Regular")),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 5),
+                                    child: Center(
+                                      child: Text('   No   ',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: "Roboto-Regular")),
+                                    ),
+                                  ),
+                                ],
+                                onPressed: (int index) {
+                                  controller.isSelected4[index] = true;
+                                  if (index == 0) {
+                                    controller.isOk.value = "Yes";
+                                    print(controller.isOk.value);
+                                    controller.isSelected4[1] = false;
+                                  } else {
+                                    controller.isOk.value = "No";
+                                    print(controller.isOk.value);
+                                    controller.isSelected4[0] = false;
+                                  }
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
                   SizedBox(
                     height: screenHeight * .02,
                   ),
@@ -344,17 +741,6 @@ class splitsheet extends GetView<SplitshitController> {
                               controller.artistbandsampled.value.text.length);
                       controller.artistbandsampled.value.selection = val;
                     },
-                    validate: (v) => controller.validateThese(v!),
-                  ),
-                  SizedBox(
-                    height: screenHeight * .02,
-                  ),
-                  Divider(
-                    color: MyColors.BordersGrey, //color of divider
-                    height: 5, //height spacing of divider
-                    thickness: 3, //thickness of divier line
-                    indent: 10, //spacing at the start of divider
-                    endIndent: 10, //spacing at the end of divider
                   ),
                   SizedBox(
                     height: screenHeight * .03,
@@ -414,7 +800,8 @@ class splitsheet extends GetView<SplitshitController> {
                           musicOwnercontroller: new TextEditingController(),
                           lyricsownercontroller: new TextEditingController(),
                           securitycodecontroller: new TextEditingController(),
-                          birthdatecontroller: new TextEditingController()));
+                          birthdatecontroller: new TextEditingController(),
+                          affiliation: new TextEditingController()));
                     },
                     child: Text(
                       "Add one more writer",

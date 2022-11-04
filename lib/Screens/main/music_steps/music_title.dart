@@ -88,9 +88,7 @@ class musicTitle extends StatelessWidget {
                 ),
                 Center(
                   child: Obx(() => ElevatedButton(
-                      onPressed: () => isEmptyMain
-                          ? controller.brandnewMusic()
-                          : controller.newMusic(),
+                      onPressed: () async => await controller.addMusic(),
                       child: controller.loading == false
                           ? Text(
                               'Next',

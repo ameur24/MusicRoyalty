@@ -4,6 +4,8 @@ import 'package:music_royalty/Utils/colors.dart';
 import 'package:music_royalty/Widgets/Texts/big_text.dart';
 import 'package:music_royalty/Widgets/music_details.dart';
 import 'package:music_royalty/controllers/music_controller.dart';
+
+import 'package:music_royalty/controllers/mymusicController.dart';
 import 'package:music_royalty/models/UserMusics.dart';
 
 import '../../Widgets/buttons/button_with_icon.dart';
@@ -11,14 +13,15 @@ import '../../Widgets/menu.dart';
 import 'music_steps/music_steps.dart';
 import 'music_steps/music_title.dart';
 
-class myMusic extends GetView<MusicController> {
+class myMusic extends GetView<MyMusicController> {
   const myMusic({Key? key}) : super(key: key);
 //erreur get.put()
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    controller.getmymusic();
+    Get.lazyPut(() => MyMusicController());
+
     return Scaffold(
       backgroundColor: MyColors.blackbackground1,
       appBar: AppBar(
@@ -61,8 +64,8 @@ class myMusic extends GetView<MusicController> {
                   ),
                 ),
               ),
-              onPressed: () {
-                showModalBottomSheet(
+              onPressed: () async {
+                await showModalBottomSheet(
                     isScrollControlled: true,
                     barrierColor: Colors.black38,
                     backgroundColor: Colors.transparent,
@@ -72,6 +75,7 @@ class myMusic extends GetView<MusicController> {
                       );
                     },
                     context: context);
+                await controller.getmymusic();
               },
             ),
           )
@@ -98,12 +102,14 @@ class myMusic extends GetView<MusicController> {
                           screenHeight: screenHeight,
                           screenwidth: MediaQuery.of(context).size.width,
                           musicName: controller.mymusicList[index].Title!,
-                          lastUpdate: controller.mymusicList[index].created_at
-                              .toString(),
+                          lastUpdate: controller.mymusicList[index].created_at!,
                           currentStep:
                               controller.mymusicList[index].currentStep!,
-                          onPressed: () =>
-                              Get.to(musicSteps(controller.mymusicList[index])),
+                          onPressed: () {
+                            controller.musiccurrentstep.value =
+                                controller.mymusicList[index].currentStep!;
+                            Get.to(musicSteps(controller.mymusicList[index]));
+                          },
                         );
                       }))),
         )

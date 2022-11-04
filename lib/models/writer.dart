@@ -31,13 +31,14 @@ class textcontroller {
   TextEditingController lyricsownercontroller;
   TextEditingController securitycodecontroller;
   TextEditingController birthdatecontroller;
-
+  TextEditingController affiliation;
   textcontroller(
       {required this.namecontroller,
       required this.addresscontroller,
       required this.phonenumbercontroller,
       required this.companies,
       required this.musicOwnercontroller,
+      required this.affiliation,
       required this.lyricsownercontroller,
       required this.securitycodecontroller,
       required this.birthdatecontroller});

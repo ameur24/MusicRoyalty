@@ -6,10 +6,12 @@ class Music {
   List<String>? Songwriters;
   String? created_at;
   String? updated_at;
+  String? id;
 
   String? userId;
   Music(
-      {this.Title,
+      {this.id,
+      this.Title,
       this.updated_at,
       this.ISRC,
       this.currentStep,
@@ -22,6 +24,7 @@ class Music {
       SnapshotOptions? options) {
     final data = snapshot.data();
     return Music(
+      id: data?['id'],
       Title: data?['Title'],
       currentStep: data?['currentStep'],
       ISRC: data?['ISRC'],
@@ -36,6 +39,7 @@ class Music {
   }
   Map<String, dynamic> toFirestore() {
     return {
+      if (id != null) "id": id,
       if (created_at != null) "created_at": created_at,
       if (updated_at != null) "updated_at": updated_at,
       if (Title != null) "Title": Title,

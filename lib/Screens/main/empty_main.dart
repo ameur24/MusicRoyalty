@@ -9,14 +9,19 @@ import 'package:music_royalty/Widgets/froms/input_field.dart';
 import 'package:music_royalty/Widgets/menu.dart';
 
 import '../../Widgets/buttons/button_with_icon.dart';
+import '../../controllers/user_controller.dart';
 import 'music_steps/music_title.dart';
 
 class EmptyMain extends StatelessWidget {
   EmptyMain({Key? key}) : super(key: key);
+
   final fullName =
       FirebaseAuth.instance.currentUser!.displayName.toString().split(" ");
   @override
   Widget build(BuildContext context) {
+    UserController controller = Get.find<UserController>();
+    Get.put(UserController());
+
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 

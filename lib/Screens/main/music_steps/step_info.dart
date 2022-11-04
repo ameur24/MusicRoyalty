@@ -3,14 +3,16 @@ import 'package:get/get.dart';
 import 'package:music_royalty/Screens/main/music_steps/music_steps.dart';
 import 'package:music_royalty/Screens/main/music_steps/splitsheet.dart';
 import 'package:music_royalty/Screens/main/music_steps/step_view.dart';
+import 'package:music_royalty/Screens/main/music_steps/webview.dart';
 import 'package:music_royalty/Utils/constants.dart';
+import 'package:music_royalty/controllers/stepinfocontroller.dart';
 
 import '../../../Utils/colors.dart';
 import '../../../Widgets/buttons/button_with_icon.dart';
-import '../../../controllers/music_controller.dart';
+
 import '../../../models/music.dart';
 
-class StepInfo extends GetView<MusicController> {
+class StepInfo extends GetView<stepinfocontroller> {
   final Music m;
   const StepInfo(this.m, {Key? key}) : super(key: key);
 
@@ -19,6 +21,9 @@ class StepInfo extends GetView<MusicController> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     print(Get.arguments["StepTitle"]);
+
+    Get.put(stepinfocontroller());
+    controller.setselectedSite(0);
     return Scaffold(
         backgroundColor: MyColors.blackbackground2,
         appBar: AppBar(
@@ -95,6 +100,7 @@ class StepInfo extends GetView<MusicController> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: screenWidth * .2),
                               child: DropdownButtonFormField<dynamic>(
+                                  value: controller.selectedSite.value,
                                   decoration: InputDecoration(
                                       hoverColor: MyColors.MainYellow,
                                       focusColor: MyColors.MainYellow,
@@ -168,29 +174,41 @@ class StepInfo extends GetView<MusicController> {
                 Spacer(),
                 ButtonWithIcon(
                   onPressed: () {
-                    String sousstep = "";
-                    if (controller.selectedSite.value == 0) {
-                      sousstep = "";
-                    } else {
-                      sousstep = controller.selectedSite.value.toString();
-                    }
-                    print(controller.selectedSite.value);
-                    if (Get.arguments["id"] == 1) {
-                      Get.to(() => splitsheet(), arguments: {
-                        "StepTitle": Get.arguments["StepTitle"],
-                        "id": Get.arguments["id"],
-                        "ssid": sousstep,
-                      });
-                    } else {
-                      Get.off(
-                          () => stepView(
+                    if (Get.arguments["id"] == 2 ||
+                        Get.arguments["id"] == 3 ||
+                        Get.arguments["id"] == 6 ||
+                        Get.arguments["id"] == 8) {
+                      Get.to(
+                          () => webviewpage(
                                 m: m,
                               ),
                           arguments: {
                             "StepTitle": Get.arguments["StepTitle"],
                             "id": Get.arguments["id"],
-                            "ssid": sousstep,
+                            "ssid": "",
                           });
+                    }
+                    if (Get.arguments["id"] == 1) {
+                      Get.to(() => splitsheet(), arguments: {
+                        "StepTitle": Get.arguments["StepTitle"],
+                        "id": Get.arguments["id"],
+                        "ssid": "",
+                      });
+                    } else {
+                      if (controller.selectedSite.value == 0) {
+                        Get.snackbar("erreur", "selec a site please");
+                      } else {
+                        var sousstep = controller.selectedSite.value.toString();
+                        Get.to(
+                            () => webviewpage(
+                                  m: m,
+                                ),
+                            arguments: {
+                              "StepTitle": Get.arguments["StepTitle"],
+                              "id": Get.arguments["id"],
+                              "ssid": sousstep,
+                            });
+                      }
                     }
                   },
                   iconCol: MyColors.mainGrey,
@@ -207,6 +225,12 @@ class StepInfo extends GetView<MusicController> {
     switch (Get.arguments["id"]) {
       case 4:
         WhatOptions = [
+          DropdownMenuItem(
+              child: Text(
+                "Select a Site Please",
+                style: TextStyle(color: Colors.white70),
+              ),
+              value: 0),
           DropdownMenuItem(
               child: Text(
                 constants.websites[2],
@@ -229,6 +253,12 @@ class StepInfo extends GetView<MusicController> {
         break;
       case 5:
         WhatOptions = [
+          DropdownMenuItem(
+              child: Text(
+                "Select a Site Please",
+                style: TextStyle(color: Colors.white70),
+              ),
+              value: 0),
           DropdownMenuItem(
               child: Text(
                 constants.websites[5],
@@ -301,6 +331,12 @@ class StepInfo extends GetView<MusicController> {
         WhatOptions = [
           DropdownMenuItem(
               child: Text(
+                "Select a Site Please",
+                style: TextStyle(color: Colors.white70),
+              ),
+              value: 0),
+          DropdownMenuItem(
+              child: Text(
                 constants.websites[17],
                 style: TextStyle(color: Colors.white70),
               ),
@@ -321,6 +357,12 @@ class StepInfo extends GetView<MusicController> {
         break;
       case 9:
         WhatOptions = [
+          DropdownMenuItem(
+              child: Text(
+                "Select a Site Please",
+                style: TextStyle(color: Colors.white70),
+              ),
+              value: 0),
           DropdownMenuItem(
               child: Text(
                 constants.websites[21],

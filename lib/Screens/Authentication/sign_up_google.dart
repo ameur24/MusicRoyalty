@@ -61,9 +61,14 @@ class signup_google extends GetView<SignUpController> {
                     SizedBox(
                         width: screenWidth * .44,
                         child: Myinput(
-                          onChanged: (v) => controller.first_name.value = v,
+                          onChanged: (v) {
+                            final val = TextSelection.collapsed(
+                                offset:
+                                    controller.first_name.value.text.length);
+                            controller.first_name.value.selection = val;
+                          },
                           labelText: "Name",
-                          what: controller.first_name.value,
+                          controller: controller.first_name.value,
                           validate: (v) => controller.validateThese(v!),
                         )),
                     SizedBox(
@@ -72,8 +77,13 @@ class signup_google extends GetView<SignUpController> {
                     SizedBox(
                         width: screenWidth * .44,
                         child: Myinput(
-                          what: controller.middle_name.value,
-                          onChanged: (v) => controller.middle_name.value = v,
+                          controller: controller.middle_name.value,
+                          onChanged: (v) {
+                            final val = TextSelection.collapsed(
+                                offset:
+                                    controller.middle_name.value.text.length);
+                            controller.middle_name.value.selection = val;
+                          },
                           labelText: "Middle Name",
                         )),
                   ],
@@ -82,16 +92,20 @@ class signup_google extends GetView<SignUpController> {
                   height: screenHeight * .02,
                 ),
                 Myinput(
-                  what: controller.last_name.value,
+                  controller: controller.last_name.value,
                   labelText: "Last Name",
-                  onChanged: (v) => controller.last_name.value = v,
+                  onChanged: (v) {
+                    final val = TextSelection.collapsed(
+                        offset: controller.last_name.value.text.length);
+                    controller.last_name.value.selection = val;
+                  },
                   validate: (v) => controller.validateThese(v!),
                 ),
                 SizedBox(
                   height: screenHeight * .02,
                 ),
                 /*    Myinput(
-                  what: controller.Date.value,
+                  controller: controller.Date.value,
                   labelText: "Date time",
                   onChanged: (v) => controller.Date.value = v,
                   validate: (v) => controller.validateThese(v!),
@@ -121,7 +135,7 @@ class signup_google extends GetView<SignUpController> {
                     if (res == null) {
                       return;
                     } else {
-                      controller.Date.value = cx[0];
+                      controller.Date.value.text = cx[0];
                     }
                     controller.update();
 
@@ -130,8 +144,7 @@ class signup_google extends GetView<SignUpController> {
                   child: Obx(() => Myinput(
                         enabled: false,
                         validate: (v) => controller.validateThese(v!),
-                        controller:
-                            TextEditingController(text: controller.Date.value),
+                        controller: controller.Date.value,
                         labelText: "Date of Birth",
                         AutofillHints: [AutofillHints.birthday],
                         keyboardType: TextInputType.datetime,
@@ -151,7 +164,7 @@ class signup_google extends GetView<SignUpController> {
                   height: screenHeight * .01,
                 ),
                 Myinput(
-                  what: controller.email.value,
+                  controller: controller.emails.value,
 
                   enabled: false,
                   onChanged: (v) => controller.email.value = v,
@@ -167,8 +180,12 @@ class signup_google extends GetView<SignUpController> {
                   height: screenHeight * .02,
                 ),
                 Myinput(
-                  what: controller.phone_number.value,
-                  onChanged: (v) => controller.phone_number.value = v,
+                  controller: controller.phone_number.value,
+                  onChanged: (v) {
+                    final val = TextSelection.collapsed(
+                        offset: controller.phone_number.value.text.length);
+                    controller.phone_number.value.selection = val;
+                  },
                   validate: (v) => controller.validatePhone(v!),
                   labelText: "Phone number",
                   AutofillHints: [AutofillHints.telephoneNumber],
@@ -178,8 +195,12 @@ class signup_google extends GetView<SignUpController> {
                   height: screenHeight * .02,
                 ),
                 Myinput(
-                  what: controller.adress.value,
-                  onChanged: (v) => controller.adress.value = v,
+                  controller: controller.adress.value,
+                  onChanged: (v) {
+                    final val = TextSelection.collapsed(
+                        offset: controller.adress.value.text.length);
+                    controller.adress.value.selection = val;
+                  },
                   validate: (v) => controller.validateThese(v!),
                   labelText: "Adress",
                   AutofillHints: [AutofillHints.postalAddress],
@@ -192,8 +213,12 @@ class signup_google extends GetView<SignUpController> {
                     SizedBox(
                         width: screenWidth * .44,
                         child: Obx(() => Myinput(
-                              what: controller.state.value,
-                              onChanged: (v) => controller.state.value = v,
+                              controller: controller.state.value,
+                              onChanged: (v) {
+                                final val = TextSelection.collapsed(
+                                    offset: controller.state.value.text.length);
+                                controller.state.value.selection = val;
+                              },
                               labelText: "State",
                               enabled: true,
                               validate: (v) => controller.validateThese(v!),
@@ -204,9 +229,13 @@ class signup_google extends GetView<SignUpController> {
                     SizedBox(
                         width: screenWidth * .44,
                         child: Myinput(
-                          onChanged: (v) => controller.zip.value = v,
+                          onChanged: (v) {
+                            final val = TextSelection.collapsed(
+                                offset: controller.zip.value.text.length);
+                            controller.zip.value.selection = val;
+                          },
                           validate: (v) => controller.validateThese(v!),
-                          what: controller.zip.value,
+                          controller: controller.zip.value,
                           labelText: "ZIP code",
                           keyboardType: TextInputType.number,
                         )),

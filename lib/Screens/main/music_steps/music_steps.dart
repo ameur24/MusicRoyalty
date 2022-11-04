@@ -1,23 +1,32 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_royalty/Screens/main/music_steps/step_info.dart';
-import 'package:music_royalty/Widgets/Texts/big_text.dart';
+import 'package:music_royalty/Utils/itemslistmodel.dart';
+
+import 'package:music_royalty/Widgets/item.dart';
+import 'package:music_royalty/controllers/musicstepscontroller.dart';
+
 import 'package:music_royalty/models/music.dart';
 
 import '../../../Utils/colors.dart';
-import '../../../controllers/music_controller.dart';
+
 import '../mymusic.dart';
 
-class musicSteps extends GetView<MusicController> {
+class musicSteps extends GetView<Mymusicstepscontroller> {
   final Music thisMusic;
   musicSteps(this.thisMusic, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    MusicController controller = Get.find();
+    print("current stepe ====" + thisMusic.currentStep.toString());
+
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     //int current = 1 + controller.mu.currentStep!;
+    Get.put(Mymusicstepscontroller(music: thisMusic));
+
     return Scaffold(
       backgroundColor: MyColors.blackbackground1,
       appBar: AppBar(
@@ -33,7 +42,159 @@ class musicSteps extends GetView<MusicController> {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * .05),
               child: SongName(screenHeight)),
-          Steps(screenHeight, screenWidth, thisMusic.currentStep! + 1),
+          Expanded(
+              child: ListView.builder(
+                  itemCount: itemmodeldummy.itemmodelslist.length,
+                  itemBuilder: (context, index) {
+                    return Obx(() => item(
+                          text: itemmodeldummy.itemmodelslist[index].text,
+                          description:
+                              itemmodeldummy.itemmodelslist[index].description,
+                          current: controller.musiccurrentstep.value,
+                          thisStep:
+                              itemmodeldummy.itemmodelslist[index].thisStep,
+                          clickme: () {
+                            if (itemmodeldummy.itemmodelslist[index].thisStep <=
+                                controller.musiccurrentstep.value) {
+                              Get.to(StepInfo(thisMusic), arguments: {
+                                "StepTitle":
+                                    itemmodeldummy.itemmodelslist[index].text,
+                                "id": itemmodeldummy
+                                    .itemmodelslist[index].thisStep
+                              })!
+                                  .then((_) {
+                                print("hhh");
+                                if (controller.musiccurrentstep.value ==
+                                    itemmodeldummy
+                                        .itemmodelslist[index].thisStep)
+                                  return showDialog(
+                                      context: context,
+                                      builder: (ctx) {
+                                        double screenHeight =
+                                            MediaQuery.of(context).size.height;
+                                        double screenWidth =
+                                            MediaQuery.of(context).size.width;
+                                        return Dialog(
+                                          backgroundColor: Colors.transparent,
+                                          insetPadding: EdgeInsets.all(10),
+                                          child: Container(
+                                            width: screenWidth * 0.9,
+                                            height: screenHeight * 0.28,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                color: MyColors.mainblack),
+                                            padding: EdgeInsets.fromLTRB(
+                                                20, 50, 20, 20),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                    "Did you finish this Step?",
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: Colors.white),
+                                                    textAlign:
+                                                        TextAlign.center),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    MaterialButton(
+                                                      color: Colors
+                                                          .deepPurple[200],
+                                                      onPressed: () {
+                                                        // do something
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: SizedBox(
+                                                          width: screenWidth *
+                                                              0.12,
+                                                          child: Center(
+                                                              child: Text(
+                                                                  "Not Yet"))),
+                                                    ),
+                                                    MaterialButton(
+                                                      color: Colors
+                                                          .deepPurple[200],
+                                                      onPressed: () async {
+                                                        print("firebase");
+                                                        try {
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'Music')
+                                                              .doc(FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser!
+                                                                  .uid)
+                                                              .collection(
+                                                                  'MusicList')
+                                                              .doc(thisMusic.id)
+                                                              .update({
+                                                            "CurrentStep":
+                                                                controller
+                                                                        .musiccurrentstep
+                                                                        .value +
+                                                                    1,
+                                                          }).then((value) {
+                                                            controller
+                                                                .musiccurrentstep
+                                                                .value = controller
+                                                                    .musiccurrentstep
+                                                                    .value +
+                                                                1;
+                                                            Navigator.pop(
+                                                                context);
+                                                          }).catchError((e) {
+                                                            print(e);
+                                                          });
+                                                        } catch (e) {
+                                                          print(e);
+                                                        }
+                                                      },
+                                                      child: SizedBox(
+                                                          width: screenWidth *
+                                                              0.12,
+                                                          child: Center(
+                                                              child: Text(
+                                                                  "Done"))),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      });
+                              });
+                            } else {
+                              Get.snackbar(
+                                "",
+                                "",
+                                titleText: Text(
+                                  "Step${itemmodeldummy.itemmodelslist[index].thisStep} is Locked",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.deepPurple[400]),
+                                ),
+                                messageText: Text(
+                                  "Please Finish Step ${controller.musiccurrentstep.value} before",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white),
+                                ),
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                            }
+                          },
+                        ));
+                  })),
         ],
       ),
     );
@@ -78,150 +239,6 @@ class musicSteps extends GetView<MusicController> {
           height: screenHeight * .03,
         )
       ],
-    );
-  }
-
-  Widget Steps(double h, w, int current) {
-    return Expanded(
-      child: ListView(
-        children: <Widget>[
-          SizedBox(
-            height: h * .03,
-          ),
-          Item(
-              text: "SplitSheet",
-              description: "Decide how much money each songwriter will get",
-              thisStep: 1,
-              current: current),
-          Item(
-              text: "Copyright",
-              description: "Register your song's copyright",
-              thisStep: 2,
-              current: current),
-          Item(
-              text: "ISRC Code",
-              description: "Get your sound recording's unique code",
-              thisStep: 3,
-              current: current),
-          Item(
-              text: "PRO",
-              description: "Get set up to collect Performance Royalties",
-              thisStep: 4,
-              current: current),
-          Item(
-              text: "Distribution",
-              description: "Sign up to Send your music to online stores!",
-              thisStep: 5,
-              current: current),
-          Item(
-              text: "Performance Royalties (Digital)",
-              description: "Collect Digital Royalties from all over the World",
-              thisStep: 6,
-              current: current),
-          Item(
-              text: "Mechanical Royalties",
-              description:
-                  "Collect Mechanical Royalties from all over the World",
-              thisStep: 7,
-              current: current),
-          Item(
-              text: "Print Royalties",
-              description: "Collect Royalties when your lyrics are reprinted",
-              thisStep: 8,
-              current: current),
-          Item(
-              text: "Sync Licensing",
-              description: "Submit your music for exciting paid opportunities!",
-              thisStep: 9,
-              current: current),
-          Item(
-              text: "Social media and Website (optional)",
-              description:
-                  "Set up social media accounts and website to get a bigger fanbase",
-              thisStep: 10,
-              current: current),
-        ],
-      ),
-    );
-  }
-
-  Widget Item(
-      {required String text,
-      description,
-      required final int current,
-      required final int thisStep,
-      final Function? onTafp,
-      final bool isSelected = false}) {
-    return Material(
-      color: Colors.transparent,
-      child: ListTile(
-          tileColor: Colors.transparent,
-          minVerticalPadding: 20,
-          leading: Stack(
-            children: [
-              CircleAvatar(
-                radius: 28,
-                backgroundColor: current == thisStep
-                    ? MyColors.MainYellow
-                    : current > thisStep
-                        ? MyColors.completedLine
-                        : MyColors.blackbackground1,
-                child: CircleAvatar(
-                  radius: 25,
-                  backgroundColor: current > thisStep
-                      ? MyColors.completedFill
-                      : MyColors.blackbackground1,
-                  child: Icon(
-                    current > thisStep ? Icons.check : Icons.article_outlined,
-                    color: current == thisStep
-                        ? MyColors.MainYellow
-                        : current > thisStep
-                            ? Colors.black
-                            : MyColors.NotCompletedStep,
-                    size: 28,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                "Step $thisStep",
-                style: TextStyle(
-                    fontFamily:
-                        current >= thisStep ? 'Exo-Medium' : 'Exo-Medium',
-                    fontSize: 13,
-                    color: current == thisStep
-                        ? MyColors.MainYellow
-                        : current > thisStep
-                            ? MyColors.completedFill
-                            : MyColors.NotCompletedStepText),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                text,
-                style: const TextStyle(
-                    fontFamily: 'Exo-Medium ',
-                    fontSize: 16,
-                    color: Colors.white),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                description,
-                style: TextStyle(
-                    fontFamily: 'Exo-Bold', fontSize: 15, color: Colors.white),
-              ),
-            ],
-          ),
-          onTap: () => Get.to(StepInfo(thisMusic),
-              arguments: {"StepTitle": text, "id": thisStep})),
     );
   }
 }

@@ -1,14 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:music_royalty/Services/date_time_converter.dart';
 import 'package:music_royalty/Utils/colors.dart';
+import 'package:music_royalty/Utils/itemslistmodel.dart';
 
 class MusicDetails extends StatelessWidget {
   final double screenHeight, screenwidth;
   final Function? onPressed;
   final int currentStep;
-  final String musicName, lastUpdate;
+  final String musicName;
+  final String lastUpdate;
 
   final Function(dynamic)? menuItemSelected;
   final int? val;
@@ -26,11 +29,10 @@ class MusicDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var lastdate =
-        DateFormat("dd/MM/yyyy on hh:mm").format(DateTime.parse(lastUpdate));
-
-    // DateTime Lastupdate = DateTime.parse(lastUpdate);
+    var lastupdate = DateFormat("dd/MM/yyyy on hh:mm")
+        .format(DateTime.parse(lastUpdate.toString()));
     //String Timeago = convertToAgo(Lastupdate);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: InkWell(
@@ -116,7 +118,7 @@ class MusicDetails extends StatelessWidget {
                       padding:
                           EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                       child: Text(
-                        '$currentStep/15 Steps completed',
+                        '$currentStep/${itemmodeldummy.itemmodelslist.length} Steps completed',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Color.fromRGBO(251, 251, 251, 1),
@@ -130,7 +132,7 @@ class MusicDetails extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Last updated in ${lastdate}', //$Timeago',
+                      'Last updated in ${lastupdate.toString()}', //$Timeago',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: Color.fromRGBO(185, 185, 185, 1),

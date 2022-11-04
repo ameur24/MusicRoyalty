@@ -33,8 +33,6 @@ class _stepViewState extends State<stepView> {
 
   bool show = false;
 
-  final double _initFabHeight = 50.0;
-
   double _calcul = 0;
 
   double _panelHeightOpen = 0;
@@ -45,12 +43,13 @@ class _stepViewState extends State<stepView> {
 
   MusicController mucontroller = Get.find<MusicController>();
   late User user;
+
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       returnlist(Get.arguments["id"], Get.arguments["ssid"]);
       mucontroller.updateUrlName(fieldslist[0].url['home'].toString());
-      mucontroller.updateFabHeight(_initFabHeight);
+      mucontroller.updateFabHeight(mucontroller.fabheight.value);
       if (Platform.isAndroid) {
         WebView.platform = SurfaceAndroidWebView();
       }
@@ -77,6 +76,8 @@ class _stepViewState extends State<stepView> {
   @override
   Widget build(BuildContext context) {
     _panelHeightOpen = MediaQuery.of(context).size.height * .20;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: MyColors.blackbackground1,
         appBar: AppBar(
@@ -95,17 +96,18 @@ class _stepViewState extends State<stepView> {
           children: [
             SlidingUpPanel(
               onPanelSlide: (double pos) {
-                _calcul = pos * (_panelHeightOpen - _panelHeightClosed) +
+                final double _initFabHeight = screenHeight * 0.02;
+                _calcul = pos * (screenHeight * 0.2 - screenHeight * 0.07) +
                     _initFabHeight;
                 mucontroller.updateFabHeight(_calcul);
               },
-              parallaxEnabled: true,
+              parallaxEnabled: false,
               parallaxOffset: .5,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(18.0),
                   topRight: Radius.circular(18.0)),
-              maxHeight: _panelHeightOpen,
-              minHeight: _panelHeightClosed,
+              maxHeight: screenHeight * 0.2,
+              minHeight: screenHeight * 0.07,
               collapsed: Container(
                 color: MyColors.mainblack,
                 child: Icon(
@@ -121,52 +123,57 @@ class _stepViewState extends State<stepView> {
                       topLeft: Radius.circular(18.0),
                       topRight: Radius.circular(18.0)),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    NavigationWidget(
-                      iconCol: MyColors.mainblack,
-                      text: "Registre",
-                      stepName: "Step 0",
-                      icon: Icons.app_registration,
-                      onPressed: () {
-                        mucontroller.updateUrlName(
-                            fieldslist[0].url['registre'].toString());
-                        controller
-                            .loadUrl(fieldslist[0].url['registre'].toString());
-                      },
-                      MainColor: MyColors.MainYellow,
-                      fontSize: 18,
-                    ),
-                    NavigationWidget(
-                      iconCol: MyColors.mainblack,
-                      text: "Login",
-                      stepName: "Step 1",
-                      icon: Icons.account_box,
-                      onPressed: () {
-                        mucontroller.updateUrlName(
-                            fieldslist[0].url['home'].toString());
-                        controller
-                            .loadUrl(fieldslist[0].url['home'].toString());
-                      },
-                      MainColor: MyColors.MainYellow,
-                      fontSize: 18,
-                    ),
-                    NavigationWidget(
-                      iconCol: MyColors.mainblack,
-                      text: "Get your ${Get.arguments["StepTitle"]}",
-                      stepName: "Step 2",
-                      icon: Icons.checklist,
-                      onPressed: () {
-                        mucontroller.updateUrlName(
-                            fieldslist[0].url['form'].toString());
-                        controller
-                            .loadUrl(fieldslist[0].url['form'].toString());
-                      },
-                      MainColor: MyColors.MainYellow,
-                      fontSize: 18,
-                    ),
-                  ],
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      NavigationWidget(
+                        widht: screenWidth * 0.06,
+                        hight: screenHeight * 0.01,
+                        iconCol: MyColors.mainblack,
+                        text: "Registre",
+                        icon: Icons.app_registration,
+                        onPressed: () {
+                          mucontroller.updateUrlName(
+                              fieldslist[0].url['registre'].toString());
+                          controller.loadUrl(
+                              fieldslist[0].url['registre'].toString());
+                        },
+                        MainColor: MyColors.MainYellow,
+                        fontSize: screenWidth * 0.04,
+                      ),
+                      NavigationWidget(
+                        widht: screenWidth * 0.06,
+                        hight: screenHeight * 0.01,
+                        iconCol: MyColors.mainblack,
+                        text: "Login",
+                        icon: Icons.account_box,
+                        onPressed: () {
+                          mucontroller.updateUrlName(
+                              fieldslist[0].url['home'].toString());
+                          controller
+                              .loadUrl(fieldslist[0].url['home'].toString());
+                        },
+                        MainColor: MyColors.MainYellow,
+                        fontSize: screenWidth * 0.04,
+                      ),
+                      NavigationWidget(
+                        widht: screenWidth * 0.06,
+                        hight: screenHeight * 0.01,
+                        iconCol: MyColors.mainblack,
+                        text: "Get your ${Get.arguments["StepTitle"]}",
+                        icon: Icons.checklist,
+                        onPressed: () {
+                          mucontroller.updateUrlName(
+                              fieldslist[0].url['form'].toString());
+                          controller
+                              .loadUrl(fieldslist[0].url['form'].toString());
+                        },
+                        MainColor: MyColors.MainYellow,
+                        fontSize: screenWidth * 0.04,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               body: Obx(() => WebView(
@@ -181,8 +188,8 @@ class _stepViewState extends State<stepView> {
                   right: 20.0,
                   bottom: mucontroller.fabheight.value,
                   child: SizedBox(
-                    width: 70,
-                    height: 70,
+                    width: screenWidth * 0.14,
+                    height: screenHeight * 0.14,
                     child: Visibility(
                       visible: Get.arguments['id'].clamp(4, 10) ==
                               Get.arguments['id'] &&
@@ -225,19 +232,9 @@ class _stepViewState extends State<stepView> {
                           child: Container(
                             width: 50,
                             height: 55,
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Fill",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Icon(
-                                  Icons.check_box_rounded,
-                                  size: 30,
-                                ),
-                              ],
+                            child: Icon(
+                              Icons.autorenew,
+                              size: 30,
                             ),
                           ),
                         ),

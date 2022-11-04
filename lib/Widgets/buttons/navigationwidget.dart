@@ -9,12 +9,15 @@ class NavigationWidget extends StatelessWidget {
   final double? fontSize;
   final Function? onPressed;
   final String stepName;
-
+  final double? hight;
+  final double? widht;
   const NavigationWidget(
       {this.text = "",
       this.onPressed,
       this.stepName = "",
       this.icon,
+      this.widht,
+      this.hight,
       this.MainColor = const Color(0xff5669FF),
       required this.iconCol,
       Key? key,
@@ -26,15 +29,8 @@ class NavigationWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          stepName,
-          style: TextStyle(color: Colors.white, fontSize: fontSize),
-        ),
-        SizedBox(
-          height: 10,
-        ),
         CircleAvatar(
-          radius: 30,
+          radius: widht,
           backgroundColor: MainColor,
           child: Center(
               child: IconButton(
@@ -46,11 +42,14 @@ class NavigationWidget extends StatelessWidget {
           )),
         ),
         SizedBox(
-          height: 10,
+          height: hight,
         ),
         Text(
           text,
-          style: TextStyle(color: Colors.white, fontSize: fontSize),
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: fontSize,
+              fontFamily: "Exo-Medium"),
         ),
       ],
     );

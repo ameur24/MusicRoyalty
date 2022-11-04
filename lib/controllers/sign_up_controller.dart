@@ -21,17 +21,18 @@ class SignUpController extends GetxController {
       Czip = TextEditingController(),
       CDate = TextEditingController(); */
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  var middle_name = ''.obs;
-  var last_name = "".obs;
+  var middle_name = TextEditingController().obs;
+  var last_name = TextEditingController().obs;
   var email = "".obs;
-  var adress = "".obs;
-  var state = "".obs;
-  var phone_number = ''.obs;
-  var zip = ''.obs;
-  var Date = "".obs;
+  var emails = TextEditingController().obs;
+  var adress = TextEditingController().obs;
+  var state = TextEditingController().obs;
+  var phone_number = TextEditingController().obs;
+  var zip = TextEditingController().obs;
+  var Date = TextEditingController().obs;
   late DateTime initDate = DateTime(2005, 05, 27);
   var userId = "".obs;
-  var first_name = "".obs;
+  var first_name = TextEditingController().obs;
   @override
   void onInit() {
     super.onInit();
@@ -44,14 +45,16 @@ class SignUpController extends GetxController {
     Cphone_number = TextEditingController(text: phone_number.value);
     Czip = TextEditingController(text: zip.value);
     CDate = TextEditingController(text: Date.value); */
-    if (FirebaseAuth.instance.currentUser != null) {
+    if (FirebaseAuth.instance.currentUser!.displayName != null) {
       final fullName =
           FirebaseAuth.instance.currentUser!.displayName.toString().split(" ");
-      first_name.value = fullName[0];
+      first_name.value.text = fullName[0];
       fullName.length == 2
-          ? last_name.value = fullName[1]
-          : last_name.value = fullName[2];
-      email.value = FirebaseAuth.instance.currentUser!.email.toString();
+          ? last_name.value.text = fullName[1]
+          : last_name.value.text = fullName[2];
+    }
+    if (FirebaseAuth.instance.currentUser!.email != null) {
+      emails.value.text = FirebaseAuth.instance.currentUser!.email.toString();
     }
   }
 
@@ -117,15 +120,15 @@ class SignUpController extends GetxController {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({
             'userId': userId.value,
-            'first_name': first_name.value,
-            'middle_name': middle_name.value,
-            'last_name': last_name.value,
-            'email': email.value,
-            'adress': adress.value,
-            'state': state.value,
-            'num': phone_number.value,
-            'zip': zip.value,
-            "birth_date": Date.value,
+            'first_name': first_name.value.text,
+            'middle_name': middle_name.value.text,
+            'last_name': last_name.value.text,
+            'email': emails.value.text,
+            'adress': adress.value.text,
+            'state': state.value.text,
+            'num': phone_number.value.text,
+            'zip': zip.value.text,
+            "birth_date": Date.value.text,
             "num_music": 0
           })
           .then((value) => Get.to(EmptyMain()))

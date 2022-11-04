@@ -11,7 +11,9 @@ class SplitshitController extends GetxController {
   var samples = new TextEditingController().obs;
   var artistbandsampled = new TextEditingController().obs;
   var date = new TextEditingController().obs;
+  var isOk = "Yes".obs;
   var takeoff = 1.obs;
+  RxList<bool> isSelected4 = <bool>[true, false].obs;
   RxList<textcontroller> textControllers = <textcontroller>[].obs;
 
   RxList<writer> writers = <writer>[].obs;
@@ -37,7 +39,8 @@ class SplitshitController extends GetxController {
         musicOwnercontroller: new TextEditingController(),
         lyricsownercontroller: new TextEditingController(),
         securitycodecontroller: new TextEditingController(),
-        birthdatecontroller: new TextEditingController()));
+        birthdatecontroller: new TextEditingController(),
+        affiliation: new TextEditingController()));
 
     super.onInit();
   }

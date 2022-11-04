@@ -1,6 +1,9 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -13,7 +16,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:music_royalty/Widgets/froms/input_field.dart';
+import 'package:music_royalty/controllers/music_controller.dart';
 
+import '../main/music_steps/checker.dart';
+import '../main/music_steps/verifypage.dart';
 import '../splash.dart';
 
 class landingPage extends StatefulWidget {
@@ -28,7 +34,48 @@ class _ImageState extends State<landingPage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    MusicController muController = Get.find<MusicController>();
+    Get.put(MusicController());
     Splash();
+    Future<UserCredential> signInWithGoogle() async {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+        if (user != null) {
+          var Exists = await FirebaseFirestore.instance
+              .collection("users")
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get()
+              .then((docSnapshot) async {
+            if (docSnapshot.exists) {
+              await muController.checkMusicExist();
+              if (muController.Empty.value == false) {
+                Get.offAll(myMusic());
+              } else {
+                Get.offAll(EmptyMain());
+                print("azsss $e");
+              }
+            } else {
+              Get.to(signup_google());
+            }
+          });
+        }
+      });
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    }
+
     return Stack(children: [
       AnimatedContainer(
         width: screenWidth,
@@ -120,46 +167,343 @@ class _ImageState extends State<landingPage> {
                 )),
             SizedBox(height: screenHeight * .02),
             ElevatedButton(
-                onPressed: () => Get.defaultDialog(
-                    confirmTextColor: MyColors.mainblack,
-                    title: "Welcome Back",
-                    buttonColor: MyColors.MainYellow,
-                    textConfirm: "Login",
-                    backgroundColor: MyColors.mainblack,
-                    titleStyle:
-                        TextStyle(color: MyColors.MainYellow, fontSize: 24),
-                    content: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: screenWidth * .02),
-                      child: Column(
-                        children: [
-                          Myinput(
-                            labelText: "Email",
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                          SizedBox(
-                            height: screenHeight * .02,
-                          ),
-                          Myinput(
-                            labelText: "Password",
-                            keyboardType: TextInputType.visiblePassword,
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                "Forgot Password?",
-                                style:
-                                    TextStyle(color: const Color(0xffE2E221)),
-                              ),
+                onPressed: () => showDialog(
+                      useSafeArea: false,
+                      barrierDismissible: true,
+                      context: context,
+                      builder: (BuildContext context) => FittedBox(
+                        child: Dialog(
+                          insetPadding: EdgeInsets.all(20),
+                          backgroundColor: Colors.transparent,
+                          child: SingleChildScrollView(
+                            physics: ScrollPhysics(),
+                            child: GestureDetector(
+                              onTap: () =>
+                                  FocusManager.instance.primaryFocus?.unfocus(),
+                              child: Obx(() => Container(
+                                  padding: EdgeInsets.all(30),
+                                  height: muController.switched.value == false
+                                      ? screenHeight * 0.64
+                                      : screenHeight * 0.72,
+                                  decoration: BoxDecoration(
+                                      color: MyColors.mainblack,
+                                      borderRadius: BorderRadius.circular(30)),
+                                  width: screenWidth * 0.9,
+                                  child: Obx(
+                                    () => Form(
+                                      key: muController.SignInupKey,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            muController.switched.value == false
+                                                ? "Login"
+                                                : "Sign Up",
+                                            style: TextStyle(
+                                                fontFamily: "OpenSans",
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          SizedBox(
+                                            height: screenHeight * 0.04,
+                                          ),
+                                          Myinput(
+                                            icon: Icon(
+                                              Icons.email,
+                                              color: Colors.deepPurple[500]!,
+                                            ),
+                                            controller: muController
+                                                .signinupemailcontroller.value,
+                                            validate: (v) => v != null &&
+                                                    !EmailValidator.validate(v)
+                                                ? 'Enter a valid email'
+                                                : null,
+                                            onChanged: (value) {
+                                              final val = TextSelection.collapsed(
+                                                  offset: muController
+                                                      .signinupemailcontroller
+                                                      .value
+                                                      .text
+                                                      .length);
+                                              muController
+                                                  .signinupemailcontroller
+                                                  .value
+                                                  .selection = val;
+                                            },
+                                            cursorcolor:
+                                                Colors.deepPurple[500]!,
+                                            labelText: "Email",
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                          ),
+                                          SizedBox(
+                                            height: screenHeight * .02,
+                                          ),
+                                          Myinput(
+                                            controller: muController
+                                                .signinuppasswordcontroller
+                                                .value,
+                                            icon: Icon(
+                                              Icons.lock,
+                                              color: Colors.deepPurple[500]!,
+                                            ),
+                                            Suffixicon: Icons.visibility,
+                                            validate: (v) => muController
+                                                .validatePasswordlen(muController
+                                                    .signinuppasswordcontroller
+                                                    .value
+                                                    .text),
+                                            Suffixiconoff: Icons.visibility_off,
+                                            obscureText:
+                                                muController.passwtogg1.value,
+                                            suffixiconfun: () {
+                                              muController.passwtogg1.value =
+                                                  !muController
+                                                      .passwtogg1.value;
+                                            },
+                                            cursorcolor:
+                                                Colors.deepPurple[500]!,
+                                            labelText: "Password",
+                                            keyboardType:
+                                                TextInputType.visiblePassword,
+                                          ),
+                                          SizedBox(
+                                            height: screenHeight * .01,
+                                          ),
+                                          muController.switched.value == true
+                                              ? Myinput(
+                                                  controller: muController
+                                                      .signinuppasswordconfirmcontroller
+                                                      .value,
+                                                  icon: Icon(
+                                                    Icons.lock,
+                                                    color:
+                                                        Colors.deepPurple[500]!,
+                                                  ),
+                                                  Suffixicon: Icons.visibility,
+                                                  validate: (v) => muController
+                                                      .validatePassword(
+                                                          muController
+                                                              .signinuppasswordcontroller
+                                                              .value
+                                                              .text,
+                                                          muController
+                                                              .signinuppasswordconfirmcontroller
+                                                              .value
+                                                              .text),
+                                                  Suffixiconoff:
+                                                      Icons.visibility_off,
+                                                  obscureText: muController
+                                                      .passwtogg1.value,
+                                                  suffixiconfun: () {
+                                                    muController
+                                                            .passwtogg2.value =
+                                                        !muController
+                                                            .passwtogg2.value;
+                                                  },
+                                                  cursorcolor:
+                                                      Colors.deepPurple[500]!,
+                                                  labelText: "Confirm Password",
+                                                  keyboardType: TextInputType
+                                                      .visiblePassword,
+                                                )
+                                              : SizedBox.shrink(),
+                                          SizedBox(
+                                            height: screenHeight * 0.01,
+                                          ),
+                                          muController.switched.value == false
+                                              ? Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: RichText(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      text: TextSpan(
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: [
+                                                            TextSpan(
+                                                              text:
+                                                                  "Forgot Password?",
+                                                              style: TextStyle(
+                                                                color: MyColors
+                                                                    .BordersGrey,
+                                                              ),
+                                                            ),
+                                                            TextSpan(
+                                                                recognizer:
+                                                                    new TapGestureRecognizer()
+                                                                      ..onTap =
+                                                                          () {} /* Get.to(ForgotPasswordScreen() */,
+                                                                text:
+                                                                    ' Reset Password',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
+                                                          ])))
+                                              : SizedBox.shrink(),
+                                          SizedBox(
+                                            height: screenHeight * 0.02,
+                                          ),
+                                          Container(
+                                            width: double.infinity,
+                                            height: screenWidth * 0.12,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
+                                            child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty
+                                                        .all<Color>(Colors
+                                                            .deepPurple[500]!),
+                                              ),
+                                              onPressed: () async {
+                                                bool isValidate = muController
+                                                    .SignInupKey.currentState!
+                                                    .validate();
+                                                if (isValidate) {
+                                                  if (muController
+                                                          .switched.value ==
+                                                      false) {
+                                                    await FirebaseAuth.instance
+                                                        .signInWithEmailAndPassword(
+                                                            email: muController
+                                                                .signinupemailcontroller
+                                                                .value
+                                                                .text,
+                                                            password: muController
+                                                                .signinuppasswordcontroller
+                                                                .value
+                                                                .text)
+                                                        .then((value) {
+                                                      Get.offAll(Checker());
+                                                    }).onError((error,
+                                                            stackTrace) {
+                                                      Get.snackbar(
+                                                          "Bad Credentials",
+                                                          "Incorrect Password given",
+                                                          snackPosition:
+                                                              SnackPosition
+                                                                  .BOTTOM);
+                                                    });
+                                                  } else {
+                                                    try {
+                                                      await FirebaseAuth
+                                                          .instance
+                                                          .createUserWithEmailAndPassword(
+                                                              email: muController
+                                                                  .signinupemailcontroller
+                                                                  .value
+                                                                  .text,
+                                                              password: muController
+                                                                  .signinuppasswordcontroller
+                                                                  .value
+                                                                  .text);
+                                                      Get.offAll(VerifyPage());
+                                                    } on FirebaseAuthException catch (e) {
+                                                      Get.snackbar(
+                                                          e.code.toString(),
+                                                          e.message.toString(),
+                                                          snackPosition:
+                                                              SnackPosition
+                                                                  .BOTTOM);
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              child: Text(
+                                                muController.switched.value ==
+                                                        false
+                                                    ? "Sign in"
+                                                    : "Sign up",
+                                                style: TextStyle(
+                                                    fontFamily: "Roboto",
+                                                    color: Colors.white,
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: screenHeight * 0.02,
+                                          ),
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: RichText(
+                                                textAlign: TextAlign.center,
+                                                text: TextSpan(
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                    ),
+                                                    children: [
+                                                      TextSpan(
+                                                        text: muController
+                                                                    .switched
+                                                                    .value ==
+                                                                false
+                                                            ? "Don't have an account??"
+                                                            : "Already a user?",
+                                                        style: TextStyle(
+                                                            color: MyColors
+                                                                .BordersGrey),
+                                                      ),
+                                                      TextSpan(
+                                                          recognizer:
+                                                              new TapGestureRecognizer()
+                                                                ..onTap = () {
+                                                                  muController
+                                                                          .switched
+                                                                          .value =
+                                                                      !muController
+                                                                          .switched
+                                                                          .value;
+
+                                                                  muController
+                                                                      .signinupemailcontroller
+                                                                      .value
+                                                                      .text = "";
+                                                                  muController
+                                                                      .signinuppasswordcontroller
+                                                                      .value
+                                                                      .text = "";
+                                                                  muController
+                                                                      .signinuppasswordconfirmcontroller
+                                                                      .value
+                                                                      .text = "";
+                                                                },
+                                                          text: muController
+                                                                      .switched
+                                                                      .value ==
+                                                                  false
+                                                              ? 'Sign up'
+                                                              : 'Sign in',
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "Roboto",
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          )),
+                                                    ])),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ))),
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                    onConfirm: () => print("Login"),
-                    middleText: "Dialog made in 3 lines of code"),
                 style: ElevatedButton.styleFrom(
                   elevation: 8,
                   primary: Colors.white,
@@ -192,62 +536,13 @@ class _ImageState extends State<landingPage> {
                     ),
                   ],
                 )),
-            TextButton(
-                onPressed: () => Get.to(signup()),
-                child: Text(
-                  'Sign up ',
-                  style: TextStyle(color: MyColors.ButtonIcon),
-                ))
+            SizedBox(
+              height: screenHeight * 0.04,
+            )
           ],
         ),
       )
     ]);
-  }
-
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-      if (user != null) {
-        var Exists = await FirebaseFirestore.instance
-            .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .get()
-            .then((docSnapshot) async => {
-                  if (docSnapshot.exists)
-                    // empty main tetbadel ken user ando  music twali ndhahrolo mymusic()
-                    {
-                      await FirebaseFirestore.instance
-                          .collection("Music")
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .get()
-                          .then((docSnapshot) => {
-                                if (docSnapshot.exists)
-                                  {
-                                    Get.off(myMusic()),
-                                  }
-                                else
-                                  {Get.off(EmptyMain()), print("azsss $e")}
-                              }),
-                    }
-                  else
-                    {Get.to(signup_google())}
-                });
-      }
-    });
-    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   Future<UserCredential> signInWithFacebook() async {

@@ -141,6 +141,19 @@ Widget writerWidget(
           SizedBox(
             height: screenHeight * .01,
           ),
+          Myinput(
+            controller: writer[index].affiliation,
+            labelText: "Affiliation:(Bmi/Sesac/Ascap)",
+            onChanged: (v) {
+              final val = TextSelection.collapsed(
+                  offset: writer[index].affiliation.value.text.length);
+              writer[index].affiliation.selection = val;
+            },
+            validate: (v) => controller.validateThese(v!),
+          ),
+          SizedBox(
+            height: screenHeight * .01,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
