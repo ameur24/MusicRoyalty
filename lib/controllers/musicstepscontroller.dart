@@ -8,6 +8,12 @@ class Mymusicstepscontroller extends GetxController {
   var musiccurrentstep = 0.obs;
 
   @override
+  void onReady() {
+    musiccurrentstep.value = music.currentStep!;
+    super.onReady();
+  }
+
+  @override
   void onInit() {
     musiccurrentstep.value = music.currentStep!;
     print(music.currentStep);

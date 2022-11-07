@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:music_royalty/Screens/Authentication/sign_up_google.dart';
+import 'package:music_royalty/Utils/colors.dart';
 
 import '../../../controllers/verifyemailcontroller.dart';
 
@@ -15,14 +16,21 @@ class VerifyPage extends GetView<Verifyemailcontroller> {
         child: controller.isEmailverified.value == true
             ? Get.put(signup_google())
             : Scaffold(
-                appBar: AppBar(title: Text('Verify Email')),
+                backgroundColor: MyColors.mainblack,
+                appBar: AppBar(
+                    backgroundColor: MyColors.blackbackground2,
+                    foregroundColor: Colors.white,
+                    title: Text('Verify Email')),
                 body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'A verification email have been sent to your email please check your spam folder',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontFamily: "Open-Sans",
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -34,15 +42,18 @@ class VerifyPage extends GetView<Verifyemailcontroller> {
                       child: ElevatedButton.icon(
                         onPressed: controller.sendVerificationEmail,
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: MyColors.MainYellow.withOpacity(.8),
                           minimumSize: Size.fromHeight(50),
                         ),
-                        icon: Icon(
-                          Icons.email,
-                          size: 32,
-                        ),
+                        icon: Icon(Icons.email,
+                            size: 26, color: MyColors.blackbackground2),
                         label: Text(
                           'Resend Email',
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: MyColors.blackbackground2,
+                            fontFamily: "Roboto",
+                          ),
                         ),
                       ),
                     ),

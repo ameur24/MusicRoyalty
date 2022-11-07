@@ -199,17 +199,6 @@ class MusicController extends GetxController {
     if (isvalidate) {
       print(isvalidate);
 
-      /*      final MusicCollection = await FirebaseFirestore.instance
-          .collection('Music')
-          .withConverter(
-              fromFirestore: UserMusics.fromFirestore,
-              toFirestore: (UserMusics userMusic, options) =>
-                  userMusic.toFirestore())
-          .doc(FirebaseAuth.instance.currentUser!.uid);
-
-      final docSnap = await MusicCollection.get();
-      final result = docSnap.data(); */
-
       final DocumentReference ref = FirebaseFirestore.instance
           .collection("Music")
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -231,6 +220,7 @@ class MusicController extends GetxController {
         print("errreur " + e);
       });
     }
+    loading.value = false;
   }
 
   Future<void> getmymusic() async {

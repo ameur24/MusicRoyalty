@@ -137,10 +137,10 @@ class webviewpage extends GetView<stepViewController> {
                       controller.dialogcontext = context;
                       return Center(
                           child: SizedBox(
-                              width: 60,
-                              height: 60,
+                              width: 50,
+                              height: 50,
                               child: CircularProgressIndicator(
-                                strokeWidth: 10,
+                                strokeWidth: 5,
                               )));
                     },
                   );
@@ -149,6 +149,28 @@ class webviewpage extends GetView<stepViewController> {
                 onPageFinished: (String url) {
                   if (controller.progress.value == 100) {
                     Navigator.pop(controller.dialogcontext);
+                    if (controller.websitefields[0].autofill == false) {
+                      Get.snackbar(
+                        "",
+                        "",
+                        titleText: Text(
+                          "Auto fill is not available on this website",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                        ),
+                        messageText: Text(
+                          "Please Fill the forms manually",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                        ),
+                        snackPosition: SnackPosition.BOTTOM,
+                        duration: Duration(seconds: 4),
+                      );
+                    }
                   }
                 },
                 gestureNavigationEnabled: true,

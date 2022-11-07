@@ -81,39 +81,44 @@ class myMusic extends GetView<MyMusicController> {
           )
         ],
       ),
-      body: Column(children: [
-        SizedBox(
-          height: screenHeight * .03,
-        ),
-        BigText(text: "My Music"),
-        SizedBox(
-          height: screenHeight * .02,
-        ),
-        Expanded(
-          child: RefreshIndicator(
-              backgroundColor: MyColors.NotCompletedStep,
-              onRefresh: () => controller.getmymusic(),
-              child: Obx(() => controller.loadingMusicLIst.value
-                  ? Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                      itemCount: controller.mymusicList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return MusicDetails(
-                          screenHeight: screenHeight,
-                          screenwidth: MediaQuery.of(context).size.width,
-                          musicName: controller.mymusicList[index].Title!,
-                          lastUpdate: controller.mymusicList[index].created_at!,
-                          currentStep:
-                              controller.mymusicList[index].currentStep!,
-                          onPressed: () {
-                            controller.musiccurrentstep.value =
-                                controller.mymusicList[index].currentStep!;
-                            Get.to(musicSteps(controller.mymusicList[index]));
-                          },
-                        );
-                      }))),
-        )
-      ]),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(children: [
+          SizedBox(
+            height: screenHeight * .03,
+          ),
+          BigText(text: "My Music"),
+          SizedBox(
+            height: screenHeight * .02,
+          ),
+          Expanded(
+            child: RefreshIndicator(
+                backgroundColor: MyColors.NotCompletedStep,
+                onRefresh: () => controller.getmymusic(),
+                child: Obx(() => controller.loadingMusicLIst.value
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        itemCount: controller.mymusicList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return MusicDetails(
+                            screenHeight: screenHeight,
+                            screenwidth: MediaQuery.of(context).size.width,
+                            musicName: controller
+                                .mymusicList[index].Title!.capitalizeFirst!,
+                            lastUpdate:
+                                controller.mymusicList[index].created_at!,
+                            currentStep:
+                                controller.mymusicList[index].currentStep!,
+                            onPressed: () {
+                              controller.musiccurrentstep.value =
+                                  controller.mymusicList[index].currentStep!;
+                              Get.to(musicSteps(controller.mymusicList[index]));
+                            },
+                          );
+                        }))),
+          )
+        ]),
+      ),
 
       /*   Positioned(
             bottom: screenHeight * .1,

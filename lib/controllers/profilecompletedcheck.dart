@@ -14,18 +14,34 @@ class checkcompletedController extends GetxController {
         await FirebaseAuth.instance.currentUser!.emailVerified;
     userisComplete.value = await handleCreatedState("users");
     print(userisComplete.value);
-    musicExists.value = await handleCreatedState("Music");
+
+    final MusicCollection = await FirebaseFirestore.instance
+        .collection('Music')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('MusicList');
+
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await MusicCollection.get();
+
+    // Get data from docs and convert map to List
+
+    if (querySnapshot.docs.isNotEmpty) {
+      musicExists.value = true;
+    }
+    print(musicExists.value);
     isDone.value = true;
     super.onInit();
   }
 }
 
 handleCreatedState(String url) async {
+  print(FirebaseAuth.instance.currentUser!.uid);
   final ref = await FirebaseFirestore.instance
       .collection(url)
       .doc(FirebaseAuth.instance.currentUser!.uid);
   final docSnap = await ref.get();
   final user = docSnap.data();
+  print(user);
   if (user != null) {
     return true;
   } else {
