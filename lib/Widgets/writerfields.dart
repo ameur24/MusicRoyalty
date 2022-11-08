@@ -132,9 +132,21 @@ Widget writerWidget(
                     .companies
                     .add(company(namecontroller: new TextEditingController()));
               },
-              child: Text(
-                "Add one more Third party publishing company",
-                style: TextStyle(fontSize: 16, color: MyColors.BordersGrey),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add,
+                    color: MyColors.MainYellow,
+                  ),
+                  SizedBox(
+                    width: screenWidth * 0.01,
+                  ),
+                  Text(
+                    "Add one more Third party publishing company",
+                    style: TextStyle(fontSize: 16, color: MyColors.BordersGrey),
+                  ),
+                ],
               ),
             ),
           ),

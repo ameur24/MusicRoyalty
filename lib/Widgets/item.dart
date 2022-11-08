@@ -39,7 +39,7 @@ class item extends StatelessWidget {
               child: CircleAvatar(
                 radius: 25,
                 backgroundColor: current > thisStep
-                    ? MyColors.completedFill
+                    ? MyColors.completedFill.withOpacity(.4)
                     : MyColors.blackbackground1,
                 child: Icon(
                   current > thisStep ? Icons.check : Icons.article_outlined,

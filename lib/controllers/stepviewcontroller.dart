@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
-import 'package:music_royalty/Screens/main/music_steps/step_view.dart';
+
 import 'package:music_royalty/controllers/user_controller.dart';
 import 'package:music_royalty/models/websitesRegistrationfields.dart';
 import 'package:webview_flutter/webview_flutter.dart';

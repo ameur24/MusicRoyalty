@@ -6,6 +6,11 @@ import 'package:music_royalty/models/user.dart';
 class UserController extends GetxController {
   late Userx userModel;
   var loading = true.obs;
+  @override
+  void onInit() async {
+    await getUserDeatails();
+    super.onInit();
+  }
 
   Future getUserDeatails() async {
     loading.value = true;

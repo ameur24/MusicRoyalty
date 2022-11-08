@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_royalty/Screens/main/music_steps/music_steps.dart';
 import 'package:music_royalty/Screens/main/music_steps/splitsheet.dart';
-import 'package:music_royalty/Screens/main/music_steps/step_view.dart';
+import 'dart:ui' show ImageFilter;
 import 'package:music_royalty/Screens/main/music_steps/webview.dart';
 import 'package:music_royalty/Utils/constants.dart';
 import 'package:music_royalty/controllers/stepinfocontroller.dart';
@@ -10,6 +12,7 @@ import 'package:music_royalty/controllers/stepinfocontroller.dart';
 import '../../../Utils/colors.dart';
 import '../../../Widgets/buttons/button_with_icon.dart';
 
+import '../../../controllers/musicstepscontroller.dart';
 import '../../../models/music.dart';
 
 class StepInfo extends GetView<stepinfocontroller> {
@@ -23,12 +26,103 @@ class StepInfo extends GetView<stepinfocontroller> {
     print(Get.arguments["StepTitle"]);
 
     Get.put(stepinfocontroller());
+    Mymusicstepscontroller mcontroller = Get.find<Mymusicstepscontroller>();
+    Get.put(Mymusicstepscontroller(music: m));
     controller.setselectedSite(0);
     return Scaffold(
         backgroundColor: MyColors.blackbackground2,
         appBar: AppBar(
           leading: IconButton(
-              onPressed: () => Get.to(() => musicSteps(m)),
+              onPressed: () async {
+                print(Get.arguments['id']);
+                if (Get.arguments['id'] != m.currentStep) {
+                  Get.to(() => musicSteps(m));
+                } else {
+                  Get.to(() => musicSteps(m));
+
+                  showDialog(
+                      context: context,
+                      builder: (ctx) {
+                        double screenHeight =
+                            MediaQuery.of(context).size.height;
+                        double screenWidth = MediaQuery.of(context).size.width;
+                        return BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: Dialog(
+                            backgroundColor: Colors.transparent,
+                            insetPadding: EdgeInsets.all(10),
+                            child: Container(
+                              width: screenWidth * 0.8,
+                              height: 180,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: MyColors.mainblack),
+                              padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text("Did you finish this Step?",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white),
+                                      textAlign: TextAlign.center),
+                                  SizedBox(height: screenHeight * 0.03),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      MaterialButton(
+                                        color: MyColors.MainYellow,
+                                        onPressed: () {
+                                          // do something
+                                          Navigator.pop(context);
+                                        },
+                                        child: SizedBox(
+                                            child:
+                                                Center(child: Text("Not Yet"))),
+                                      ),
+                                      MaterialButton(
+                                        color: MyColors.MainYellow,
+                                        onPressed: () {
+                                          print("firebase");
+                                          Navigator.pop(context);
+                                          try {
+                                            FirebaseFirestore.instance
+                                                .collection('Music')
+                                                .doc(FirebaseAuth
+                                                    .instance.currentUser!.uid)
+                                                .collection('MusicList')
+                                                .doc(m.id)
+                                                .update({
+                                              "CurrentStep": mcontroller
+                                                      .musiccurrentstep.value +
+                                                  1,
+                                            }).then((value) {
+                                              mcontroller.musiccurrentstep
+                                                  .value = mcontroller
+                                                      .musiccurrentstep.value +
+                                                  1;
+                                              m.currentStep =
+                                                  m.currentStep! + 1;
+                                            }).catchError((e) {
+                                              print(e);
+                                            });
+                                          } catch (e) {
+                                            print(e);
+                                          }
+                                        },
+                                        child: SizedBox(
+                                            child: Center(child: Text("Done"))),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                }
+              },
               icon: Icon(Icons.arrow_back)),
           elevation: 0,
           foregroundColor: Colors.white,
@@ -81,124 +175,107 @@ class StepInfo extends GetView<stepinfocontroller> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             )
-                          : Text(
-                              "What you need to do",
-                              style: TextStyle(
-                                  fontFamily: "Exo-Bold",
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
+                          : Get.arguments['id'] == 1
+                              ? SizedBox.shrink()
+                              : Text(
+                                  "What you need to do",
+                                  style: TextStyle(
+                                      fontFamily: "Exo-Bold",
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
                       SizedBox(
                         height: screenHeight * .01,
                       ),
-                      Get.arguments['id'] == 4 ||
-                              Get.arguments['id'] == 5 ||
-                              Get.arguments['id'] == 7 ||
-                              Get.arguments['id'] == 9
-                          ? Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: screenWidth * .2),
-                              child: DropdownButtonFormField<dynamic>(
-                                  value: controller.selectedSite.value,
-                                  decoration: InputDecoration(
-                                      hoverColor: MyColors.MainYellow,
-                                      focusColor: MyColors.MainYellow,
-                                      focusedBorder: UnderlineInputBorder(
+                      Get.arguments['id'] == 1
+                          ? SizedBox.shrink()
+                          : Get.arguments['id'] == 4 ||
+                                  Get.arguments['id'] == 5 ||
+                                  Get.arguments['id'] == 7 ||
+                                  Get.arguments['id'] == 9
+                              ? Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * .2),
+                                  child: DropdownButtonFormField<dynamic>(
+                                      value: controller.selectedSite.value,
+                                      decoration: InputDecoration(
+                                          focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                             color: MyColors.MainYellow,
                                             width: 2.0),
                                       )),
-                                  dropdownColor: MyColors.blackbackground2,
-                                  items: options(),
-                                  focusColor: MyColors.MainYellow,
-                                  onChanged: (val) =>
-                                      controller.selectedSite.value = val),
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
+                                      dropdownColor: MyColors.blackbackground2,
+                                      items: options(),
+                                      onChanged: (val) =>
+                                          controller.selectedSite.value = val),
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "1.  Create an account in ",
+                                          style: TextStyle(
+                                              fontFamily: "Exo-Medium",
+                                              fontSize: 15,
+                                              color: Colors.white),
+                                        ),
+                                        Text(
+                                          Get.arguments['id'] == 2
+                                              ? constants.websites[0]
+                                              : Get.arguments['id'] == 3
+                                                  ? constants.websites[1]
+                                                  : Get.arguments['id'] == 6
+                                                      ? constants.websites[15]
+                                                      : Get.arguments['id'] == 8
+                                                          ? constants
+                                                              .websites[19]
+                                                          : "x",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontFamily: "Exo-Medium",
+                                              fontSize: 15,
+                                              color: MyColors.MainYellow),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: screenHeight * .006,
+                                    ),
                                     Text(
-                                      "1.  Create an account in ",
+                                      "2.  Click on the button bellow",
                                       style: TextStyle(
                                           fontFamily: "Exo-Medium",
                                           fontSize: 15,
                                           color: Colors.white),
                                     ),
+                                    SizedBox(
+                                      height: screenHeight * .006,
+                                    ),
                                     Text(
-                                      Get.arguments['id'] == 2
-                                          ? constants.websites[0]
-                                          : Get.arguments['id'] == 3
-                                              ? constants.websites[1]
-                                              : Get.arguments['id'] == 6
-                                                  ? constants.websites[15]
-                                                  : Get.arguments['id'] == 8
-                                                      ? constants.websites[19]
-                                                      : "x",
-                                      overflow: TextOverflow.ellipsis,
+                                      "3.  Carefully fill out all the required fields",
+                                      maxLines: 2,
                                       style: TextStyle(
                                           fontFamily: "Exo-Medium",
                                           fontSize: 15,
-                                          color: MyColors.MainYellow),
+                                          color: Colors.white),
                                     ),
                                   ],
-                                ),
-                                SizedBox(
-                                  height: screenHeight * .006,
-                                ),
-                                Text(
-                                  "2.  Click on the button bellow",
-                                  style: TextStyle(
-                                      fontFamily: "Exo-Medium",
-                                      fontSize: 15,
-                                      color: Colors.white),
-                                ),
-                                SizedBox(
-                                  height: screenHeight * .006,
-                                ),
-                                Text(
-                                  "3.  Carefully fill out all the required fields",
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                      fontFamily: "Exo-Medium",
-                                      fontSize: 15,
-                                      color: Colors.white),
-                                ),
-                              ],
-                            )
+                                )
                     ],
                   ),
                 ),
                 Spacer(),
-                ButtonWithIcon(
-                  onPressed: () {
-                    if (Get.arguments["id"] == 2 ||
-                        Get.arguments["id"] == 3 ||
-                        Get.arguments["id"] == 6 ||
-                        Get.arguments["id"] == 8) {
-                      Get.to(
-                          () => webviewpage(
-                                m: m,
-                              ),
-                          arguments: {
-                            "StepTitle": Get.arguments["StepTitle"],
-                            "id": Get.arguments["id"],
-                            "ssid": "",
-                          });
-                    }
-                    if (Get.arguments["id"] == 1) {
-                      Get.to(() => splitsheet(), arguments: {
-                        "StepTitle": Get.arguments["StepTitle"],
-                        "id": Get.arguments["id"],
-                        "ssid": "",
-                      });
-                    } else {
-                      if (controller.selectedSite.value == 0) {
-                        Get.snackbar("erreur", "selec a site please");
-                      } else {
-                        var sousstep = controller.selectedSite.value.toString();
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: ButtonWithIcon(
+                    onPressed: () {
+                      if (Get.arguments["id"] == 2 ||
+                          Get.arguments["id"] == 3 ||
+                          Get.arguments["id"] == 6 ||
+                          Get.arguments["id"] == 8) {
                         Get.to(
                             () => webviewpage(
                                   m: m,
@@ -206,14 +283,55 @@ class StepInfo extends GetView<stepinfocontroller> {
                             arguments: {
                               "StepTitle": Get.arguments["StepTitle"],
                               "id": Get.arguments["id"],
-                              "ssid": sousstep,
+                              "ssid": "",
                             });
                       }
-                    }
-                  },
-                  iconCol: MyColors.mainGrey,
-                  text: "Get My ${Get.arguments["StepTitle"]}",
-                  MainColor: MyColors.MainYellow,
+                      if (Get.arguments["id"] == 1) {
+                        Get.to(() => splitsheet(), arguments: {
+                          "StepTitle": Get.arguments["StepTitle"],
+                          "id": Get.arguments["id"],
+                          "ssid": "",
+                        });
+                      } else {
+                        if (controller.selectedSite.value == 0) {
+                          Get.snackbar(
+                            "",
+                            "",
+                            titleText: Text(
+                              "Select a Website please",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
+                            ),
+                            messageText: Text(
+                              "Cant be empty select a site",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
+                            ),
+                            snackPosition: SnackPosition.TOP,
+                          );
+                        } else {
+                          var sousstep =
+                              controller.selectedSite.value.toString();
+                          Get.to(
+                              () => webviewpage(
+                                    m: m,
+                                  ),
+                              arguments: {
+                                "StepTitle": Get.arguments["StepTitle"],
+                                "id": Get.arguments["id"],
+                                "ssid": sousstep,
+                              });
+                        }
+                      }
+                    },
+                    iconCol: MyColors.mainGrey,
+                    text: "Get My ${Get.arguments["StepTitle"]}",
+                    MainColor: MyColors.MainYellow,
+                  ),
                 ),
                 SizedBox()
               ]),

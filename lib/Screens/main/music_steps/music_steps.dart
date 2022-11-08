@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_royalty/Screens/main/music_steps/step_info.dart';
 import 'package:music_royalty/Utils/itemslistmodel.dart';
-
+import 'dart:ui' show ImageFilter;
 import 'package:music_royalty/Widgets/item.dart';
 import 'package:music_royalty/controllers/musicstepscontroller.dart';
 
@@ -31,7 +31,7 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
       backgroundColor: MyColors.blackbackground1,
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () => Get.to(() => const myMusic()),
+            onPressed: () => Get.offAll(() => myMusic()),
             icon: Icon(Icons.arrow_back)),
         elevation: 0,
         foregroundColor: Colors.white,
@@ -54,6 +54,29 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
                           thisStep:
                               itemmodeldummy.itemmodelslist[index].thisStep,
                           clickme: () {
+                            if (itemmodeldummy.itemmodelslist[index].thisStep ==
+                                10) {
+                              Get.snackbar(
+                                "",
+                                "",
+                                titleText: Text(
+                                  "Step${itemmodeldummy.itemmodelslist[index].thisStep} is under construction",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white),
+                                ),
+                                messageText: Text(
+                                  "Please Comback later",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white),
+                                ),
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                              return;
+                            }
                             if (itemmodeldummy.itemmodelslist[index].thisStep <=
                                 controller.musiccurrentstep.value) {
                               Get.to(StepInfo(thisMusic), arguments: {
@@ -63,109 +86,118 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
                                     .itemmodelslist[index].thisStep
                               })!
                                   .then((_) {
-                                print("hhh");
                                 if (controller.musiccurrentstep.value ==
                                     itemmodeldummy
                                         .itemmodelslist[index].thisStep)
-                                  return showDialog(
+                                  showDialog(
                                       context: context,
                                       builder: (ctx) {
                                         double screenHeight =
                                             MediaQuery.of(context).size.height;
                                         double screenWidth =
                                             MediaQuery.of(context).size.width;
-                                        return Dialog(
-                                          backgroundColor: Colors.transparent,
-                                          insetPadding: EdgeInsets.all(10),
-                                          child: Container(
-                                            width: screenWidth * 0.9,
-                                            height: screenHeight * 0.28,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                color: MyColors.mainblack),
-                                            padding: EdgeInsets.fromLTRB(
-                                                20, 50, 20, 20),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                    "Did you finish this Step?",
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: Colors.white),
-                                                    textAlign:
-                                                        TextAlign.center),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    MaterialButton(
-                                                      color: Colors
-                                                          .deepPurple[200],
-                                                      onPressed: () {
-                                                        // do something
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: SizedBox(
-                                                          width: screenWidth *
-                                                              0.12,
-                                                          child: Center(
-                                                              child: Text(
-                                                                  "Not Yet"))),
-                                                    ),
-                                                    MaterialButton(
-                                                      color: Colors
-                                                          .deepPurple[200],
-                                                      onPressed: () async {
-                                                        print("firebase");
-                                                        try {
-                                                          await FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  'Music')
-                                                              .doc(FirebaseAuth
-                                                                  .instance
-                                                                  .currentUser!
-                                                                  .uid)
-                                                              .collection(
-                                                                  'MusicList')
-                                                              .doc(thisMusic.id)
-                                                              .update({
-                                                            "CurrentStep":
-                                                                controller
-                                                                        .musiccurrentstep
-                                                                        .value +
-                                                                    1,
-                                                          }).then((value) {
-                                                            controller
-                                                                .musiccurrentstep
-                                                                .value = controller
-                                                                    .musiccurrentstep
-                                                                    .value +
-                                                                1;
-                                                            Navigator.pop(
-                                                                context);
-                                                          }).catchError((e) {
+                                        return BackdropFilter(
+                                          filter: ImageFilter.blur(
+                                              sigmaX: 10, sigmaY: 10),
+                                          child: Dialog(
+                                            backgroundColor: Colors.transparent,
+                                            insetPadding: EdgeInsets.all(10),
+                                            child: Container(
+                                              width: screenWidth * 0.8,
+                                              height: 180,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  color: MyColors.mainblack),
+                                              padding: EdgeInsets.fromLTRB(
+                                                  20, 50, 20, 20),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                      "Did you finish this Step?",
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.white),
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  SizedBox(
+                                                      height:
+                                                          screenHeight * 0.03),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      MaterialButton(
+                                                        color:
+                                                            MyColors.MainYellow,
+                                                        onPressed: () {
+                                                          // do something
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: SizedBox(
+                                                            child: Center(
+                                                                child: Text(
+                                                                    "Not Yet"))),
+                                                      ),
+                                                      MaterialButton(
+                                                        color:
+                                                            MyColors.MainYellow,
+                                                        onPressed: () {
+                                                          print("firebase");
+                                                          Navigator.pop(
+                                                              context);
+                                                          try {
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'Music')
+                                                                .doc(FirebaseAuth
+                                                                    .instance
+                                                                    .currentUser!
+                                                                    .uid)
+                                                                .collection(
+                                                                    'MusicList')
+                                                                .doc(thisMusic
+                                                                    .id)
+                                                                .update({
+                                                              "CurrentStep":
+                                                                  controller
+                                                                          .musiccurrentstep
+                                                                          .value +
+                                                                      1,
+                                                            }).then((value) {
+                                                              controller
+                                                                  .musiccurrentstep
+                                                                  .value = controller
+                                                                      .musiccurrentstep
+                                                                      .value +
+                                                                  1;
+
+                                                              thisMusic
+                                                                      .currentStep =
+                                                                  thisMusic
+                                                                          .currentStep! +
+                                                                      1;
+                                                            }).catchError((e) {
+                                                              print(e);
+                                                            });
+                                                          } catch (e) {
                                                             print(e);
-                                                          });
-                                                        } catch (e) {
-                                                          print(e);
-                                                        }
-                                                      },
-                                                      child: SizedBox(
-                                                          width: screenWidth *
-                                                              0.12,
-                                                          child: Center(
-                                                              child: Text(
-                                                                  "Done"))),
-                                                    )
-                                                  ],
-                                                )
-                                              ],
+                                                          }
+                                                        },
+                                                        child: SizedBox(
+                                                            child: Center(
+                                                                child: Text(
+                                                                    "Done"))),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         );
@@ -178,14 +210,14 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
                                 titleText: Text(
                                   "Step${itemmodeldummy.itemmodelslist[index].thisStep} is Locked",
                                   style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w400,
-                                      color: Colors.deepPurple[400]),
+                                      color: Colors.white),
                                 ),
                                 messageText: Text(
                                   "Please Finish Step ${controller.musiccurrentstep.value} before",
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                       color: Colors.white),
                                 ),
@@ -216,7 +248,7 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
           height: screenHeight * 0.005,
         ),
         Text(
-          thisMusic.Title!,
+          thisMusic.Title!.capitalizeFirst!,
           textAlign: TextAlign.left,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(

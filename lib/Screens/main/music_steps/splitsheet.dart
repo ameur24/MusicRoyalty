@@ -803,50 +803,66 @@ class splitsheet extends GetView<SplitshitController> {
                           birthdatecontroller: new TextEditingController(),
                           affiliation: new TextEditingController()));
                     },
-                    child: Text(
-                      "Add one more writer",
-                      style:
-                          TextStyle(fontSize: 16, color: MyColors.BordersGrey),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: MyColors.MainYellow,
+                        ),
+                        SizedBox(
+                          width: screenWidth * 0.01,
+                        ),
+                        Text(
+                          "Add one more writer",
+                          style: TextStyle(
+                              fontSize: 16, color: MyColors.BordersGrey),
+                        ),
+                      ],
                     ),
                   )),
                   SizedBox(
                     height: screenHeight * .03,
                   ),
-                  Center(
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          // for (int i = 0; i < controller.writers.length; i++) {
-                          //   log(controller.writers[i].name);
-                          //   print(controller.writers[i].name);
-                          //   log(controller.writers[i].address);
-                          //   print(controller.writers[i].lyricsowner);
-                          //   print("asba");
-                          //   print(controller.name.value);
-                          //   print(controller.lyricsowner.value);
-                          // }
-                          bool isvalidate =
-                              controller.splitsheetKey.currentState!.validate();
-                          if (isvalidate) {
-                            await writeOnPdf();
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            // for (int i = 0; i < controller.writers.length; i++) {
+                            //   log(controller.writers[i].name);
+                            //   print(controller.writers[i].name);
+                            //   log(controller.writers[i].address);
+                            //   print(controller.writers[i].lyricsowner);
+                            //   print("asba");
+                            //   print(controller.name.value);
+                            //   print(controller.lyricsowner.value);
+                            // }
+                            bool isvalidate = controller
+                                .splitsheetKey.currentState!
+                                .validate();
+                            if (isvalidate) {
+                              await writeOnPdf();
 
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Screenview()));
-                          }
-                        }, //controller.addUser(),
-                        child: Text(
-                          'Generate',
-                          style: TextStyle(
-                              color: MyColors.mainblack, fontSize: 16),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          elevation: 8,
-                          backgroundColor: MyColors.MainYellow,
-                          padding: EdgeInsets.symmetric(
-                              vertical: screenHeight * .026,
-                              horizontal: screenWidth * .355),
-                        )),
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Screenview()));
+                            }
+                          }, //controller.addUser(),
+                          child: Text(
+                            'Generate',
+                            style: TextStyle(
+                                color: MyColors.mainblack, fontSize: 16),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            elevation: 8,
+                            backgroundColor: MyColors.MainYellow,
+                            padding: EdgeInsets.symmetric(
+                                vertical: screenHeight * .026,
+                                horizontal: screenWidth * .355),
+                          )),
+                    ),
                   ),
                 ],
               )),
