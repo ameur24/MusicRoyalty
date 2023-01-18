@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +55,8 @@ class SignUpController extends GetxController {
           ? last_name.value.text = fullName[1]
           : last_name.value.text = fullName[2];
     }
-    if (FirebaseAuth.instance.currentUser!.email != null) {
+    if (FirebaseAuth.instance.currentUser!.email != null &&
+        Platform.isAndroid) {
       emails.value.text = FirebaseAuth.instance.currentUser!.email.toString();
     }
   }

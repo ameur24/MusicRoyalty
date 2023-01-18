@@ -55,15 +55,17 @@ class EmptyMain extends StatelessWidget {
                     color: MyColors.MainYellow,
                   ),
                 ), */
-                Text(
+                Obx(() => Text(
                     FirebaseAuth.instance.currentUser!.displayName != null
                         ? "  Welcome ${fullName[0]}"
-                        : "  Welcome ${controller.userModel.first_name.toString()}",
+                        : controller.loading.value
+                            ? ""
+                            : "  Welcome ${controller.userModel.first_name.toString()}",
                     style: TextStyle(
                         decoration: TextDecoration.none,
                         color: Colors.white70,
                         fontFamily: 'Exo-Black',
-                        fontSize: 22)),
+                        fontSize: 22))),
               ],
             ),
             Spacer(),

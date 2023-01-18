@@ -41,7 +41,7 @@ class stepViewController extends GetxController {
     }
     if (websitefields[0].url['registre'] != '') {
       botomlist.add(BottomNavigationBarItem(
-        label: "Registre",
+        label: "Register",
         icon: Icon(Icons.account_circle),
       ));
     }

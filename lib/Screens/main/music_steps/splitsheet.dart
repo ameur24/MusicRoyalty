@@ -676,55 +676,52 @@ class splitsheet extends GetView<SplitshitController> {
                             horizontal: screenWidth * 0.01),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text("Samples?",
                                 style: TextStyle(
                                     fontSize: 17,
                                     fontFamily: "Roboto-Regular",
                                     color: Colors.white70)),
-                            SizedBox(
-                              height: screenHeight * 0.07,
-                              child: ToggleButtons(
-                                borderRadius: BorderRadius.circular(12),
-                                isSelected: controller.isSelected4,
-                                selectedColor: Colors.black,
-                                color: Colors.white,
-                                fillColor: MyColors.MainYellow,
-                                children: const [
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 12),
-                                    child: Center(
-                                      child: Text('  Yes ',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: "Roboto-Regular")),
-                                    ),
+                            ToggleButtons(
+                              borderRadius: BorderRadius.circular(12),
+                              isSelected: controller.isSelected4,
+                              selectedColor: Colors.black,
+                              color: Colors.white,
+                              fillColor: MyColors.MainYellow,
+                              children: const [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: Center(
+                                    child: Text('  Yes ',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: "Roboto-Regular")),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 5),
-                                    child: Center(
-                                      child: Text('   No   ',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: "Roboto-Regular")),
-                                    ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 5),
+                                  child: Center(
+                                    child: Text('   No   ',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: "Roboto-Regular")),
                                   ),
-                                ],
-                                onPressed: (int index) {
-                                  controller.isSelected4[index] = true;
-                                  if (index == 0) {
-                                    controller.isOk.value = "Yes";
-                                    print(controller.isOk.value);
-                                    controller.isSelected4[1] = false;
-                                  } else {
-                                    controller.isOk.value = "No";
-                                    print(controller.isOk.value);
-                                    controller.isSelected4[0] = false;
-                                  }
-                                },
-                              ),
+                                ),
+                              ],
+                              onPressed: (int index) {
+                                controller.isSelected4[index] = true;
+                                if (index == 0) {
+                                  controller.isOk.value = "Yes";
+                                  print(controller.isOk.value);
+                                  controller.isSelected4[1] = false;
+                                } else {
+                                  controller.isOk.value = "No";
+                                  print(controller.isOk.value);
+                                  controller.isSelected4[0] = false;
+                                }
+                              },
                             )
                           ],
                         ),
@@ -745,45 +742,43 @@ class splitsheet extends GetView<SplitshitController> {
                   SizedBox(
                     height: screenHeight * .03,
                   ),
-                  SizedBox(
-                    child: Obx(() => ListView.builder(
-                          physics: ClampingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: screenHeight * .02,
-                                ),
-                                Text(
-                                  "#${index + 1} Writer :",
-                                  style: TextStyle(
-                                      color: MyColors.MainYellow, fontSize: 20),
-                                  textAlign: TextAlign.left,
-                                ),
-                                SizedBox(
-                                  height: screenHeight * .02,
-                                ),
-                                writerWidget(
-                                    context, index, controller.textControllers),
-                                SizedBox(
-                                  height: screenHeight * .02,
-                                ),
-                                Divider(
-                                  color:
-                                      MyColors.BordersGrey, //color of divider
-                                  height: 5, //height spacing of divider
-                                  thickness: 3, //thickness of divier line
-                                  indent: 10, //spacing at the start of divider
-                                  endIndent: 10, //spacing at the end of divider
-                                ),
-                              ],
-                            );
-                          },
-                          itemCount: controller.textControllers.length,
-                        )),
-                  ),
+                  Obx(() => ListView.builder(
+                        physics: ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: screenHeight * .02,
+                              ),
+                              Text(
+                                "#${index + 1} Writer :",
+                                style: TextStyle(
+                                    color: MyColors.MainYellow, fontSize: 20),
+                                textAlign: TextAlign.left,
+                              ),
+                              SizedBox(
+                                height: screenHeight * .02,
+                              ),
+                              writerWidget(
+                                  context, index, controller.textControllers),
+                              SizedBox(
+                                height: screenHeight * .02,
+                              ),
+                              Divider(
+                                color: MyColors.BordersGrey, //color of divider
+                                height: 5, //height spacing of divider
+                                thickness: 3, //thickness of divier line
+                                indent: 10, //spacing at the start of divider
+                                endIndent: 10, //spacing at the end of divider
+                              ),
+                            ],
+                          );
+                        },
+                        itemCount: controller.textControllers.length,
+                      )),
                   Center(
                       child: TextButton(
                     onPressed: () {

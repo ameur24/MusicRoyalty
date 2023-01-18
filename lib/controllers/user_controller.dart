@@ -13,24 +13,28 @@ class UserController extends GetxController {
   }
 
   Future getUserDeatails() async {
-    loading.value = true;
-    var res = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
+    await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+      if (user != null) {
+        loading.value = true;
+        var res = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get();
 
-    userModel = Userx(
-        middle_name: res["middle_name"],
-        last_name: res["last_name"],
-        email: res["email"],
-        adress: res["adress"],
-        state: res["state"],
-        phone_number: res["num"],
-        zip: res["zip"],
-        Date: res["birth_date"],
-        userId: res["userId"],
-        first_name: res["first_name"]);
-    loading.value = false;
+        userModel = Userx(
+            middle_name: res["middle_name"],
+            last_name: res["last_name"],
+            email: res["email"],
+            adress: res["adress"],
+            state: res["state"],
+            phone_number: res["num"],
+            zip: res["zip"],
+            Date: res["birth_date"],
+            userId: res["userId"],
+            first_name: res["first_name"]);
+        loading.value = false;
+      }
+    });
   }
 
   final _obj = ''.obs;

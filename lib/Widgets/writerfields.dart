@@ -15,6 +15,7 @@ Widget writerWidget(
   double screenHeight = MediaQuery.of(context).size.height;
   double screenWidth = MediaQuery.of(context).size.width;
   return Obx(() => Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Myinput(
             controller: writer[index].namecontroller,
@@ -59,6 +60,7 @@ Widget writerWidget(
           ),
           Container(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -67,61 +69,59 @@ Widget writerWidget(
                   style: TextStyle(color: MyColors.MainYellow, fontSize: 16),
                   textAlign: TextAlign.left,
                 ),
-                Obx(() => Container(
-                      padding: const EdgeInsets.fromLTRB(1, 10, 0, 2),
-                      child: ListView.builder(
-                        physics: ClampingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, i) {
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  "#${i + 1}",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: MyColors.MainYellow,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: screenWidth * 0.01,
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: SizedBox(
-                                    child: Myinput(
-                                      // what: controller.last_name.value,
-                                      labelText: "Publishing company Name",
-                                      controller: writer[index]
-                                          .companies[i]
-                                          .namecontroller,
-                                      onChanged: (v) {
-                                        final val = TextSelection.collapsed(
-                                            offset: writer[index]
-                                                .companies[i]
-                                                .namecontroller
-                                                .value
-                                                .text
-                                                .length);
-                                        writer[index]
+                Obx(
+                  () => ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(1, 10, 0, 2),
+                    physics: ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, i) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "#${i + 1}",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: MyColors.MainYellow,
+                              ),
+                            ),
+                            SizedBox(
+                              width: screenWidth * 0.01,
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: SizedBox(
+                                child: Myinput(
+                                  // what: controller.last_name.value,
+                                  labelText: "Publishing company Name",
+                                  controller:
+                                      writer[index].companies[i].namecontroller,
+                                  onChanged: (v) {
+                                    final val = TextSelection.collapsed(
+                                        offset: writer[index]
                                             .companies[i]
                                             .namecontroller
-                                            .selection = val;
-                                      },
-                                      validate: (v) =>
-                                          controller.validateThese(v!),
-                                    ),
-                                  ),
+                                            .value
+                                            .text
+                                            .length);
+                                    writer[index]
+                                        .companies[i]
+                                        .namecontroller
+                                        .selection = val;
+                                  },
+                                  validate: (v) => controller.validateThese(v!),
                                 ),
-                              ],
+                              ),
                             ),
-                          );
-                        },
-                        itemCount: writer[index].companies.length,
-                      ),
-                    )),
+                          ],
+                        ),
+                      );
+                    },
+                    itemCount: writer[index].companies.length,
+                  ),
+                ),
               ],
             ),
           ),
@@ -142,9 +142,13 @@ Widget writerWidget(
                   SizedBox(
                     width: screenWidth * 0.01,
                   ),
-                  Text(
-                    "Add one more Third party publishing company",
-                    style: TextStyle(fontSize: 16, color: MyColors.BordersGrey),
+                  Expanded(
+                    child: Text(
+                      "Add one more Third party publishing company",
+                      maxLines: 2,
+                      style:
+                          TextStyle(fontSize: 16, color: MyColors.BordersGrey),
+                    ),
                   ),
                 ],
               ),

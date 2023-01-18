@@ -202,7 +202,7 @@ class signup_google extends GetView<SignUpController> {
                     controller.adress.value.selection = val;
                   },
                   validate: (v) => controller.validateThese(v!),
-                  labelText: "Adress",
+                  labelText: "Address",
                   AutofillHints: [AutofillHints.postalAddress],
                 ),
                 SizedBox(

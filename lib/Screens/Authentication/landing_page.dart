@@ -1,8 +1,10 @@
 import 'dart:ffi';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +16,6 @@ import 'package:music_royalty/Screens/main/empty_main.dart';
 import 'package:music_royalty/Screens/main/mymusic.dart';
 import 'package:music_royalty/Utils/colors.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:music_royalty/Widgets/froms/input_field.dart';
 import 'package:music_royalty/controllers/music_controller.dart';
@@ -38,44 +39,6 @@ class _ImageState extends State<landingPage> {
     MusicController muController = Get.find<MusicController>();
     Get.put(MusicController());
     Splash();
-    Future<UserCredential> signInWithGoogle() async {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      // Once signed in, return the UserCredential
-      await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-        if (user != null) {
-          var Exists = await FirebaseFirestore.instance
-              .collection("users")
-              .doc(FirebaseAuth.instance.currentUser!.uid)
-              .get()
-              .then((docSnapshot) async {
-            if (docSnapshot.exists) {
-              await muController.checkMusicExist();
-              if (muController.Empty.value == false) {
-                Get.offAll(myMusic());
-              } else {
-                Get.offAll(EmptyMain());
-                print("azsss $e");
-              }
-            } else {
-              Get.to(signup_google());
-            }
-          });
-        }
-      });
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    }
 
     return Stack(children: [
       AnimatedContainer(
@@ -129,43 +92,79 @@ class _ImageState extends State<landingPage> {
               ),
             ),
             Spacer(),
-            ElevatedButton(
-                onPressed: () => signInWithGoogle(),
-                style: ElevatedButton.styleFrom(
-                  elevation: 8,
-                  primary: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: screenHeight * .02),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset(
-                      "assets/google.png",
-                      width: 24,
-                      height: 24,
+            Platform.isAndroid
+                ? ElevatedButton(
+                    onPressed: () => signInWithGoogle(muController),
+                    style: ElevatedButton.styleFrom(
+                      elevation: 8,
+                      primary: Colors.white,
+                      padding:
+                          EdgeInsets.symmetric(vertical: screenHeight * .02),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
                     ),
-                    Text(
-                      'Continue with Google',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Color.fromRGBO(70, 68, 68, 1),
-                          fontFamily: 'Exo-Bold',
-                          fontSize: 18,
-                          letterSpacing:
-                              0 /*percentages not used in flutter. defaulting to zero*/,
-                          fontWeight: FontWeight.bold,
-                          height: 1),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset(
+                          "assets/google.png",
+                          width: 24,
+                          height: 24,
+                        ),
+                        Text(
+                          'Continue with Google',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Color.fromRGBO(70, 68, 68, 1),
+                              fontFamily: 'Exo-Bold',
+                              fontSize: 18,
+                              letterSpacing:
+                                  0 /*percentages not used in flutter. defaulting to zero*/,
+                              fontWeight: FontWeight.bold,
+                              height: 1),
+                        ),
+                        Icon(
+                          Icons.arrow_right_outlined,
+                          color: MyColors.ButtonIcon,
+                          size: 30,
+                        ),
+                      ],
+                    ))
+                : ElevatedButton(
+                    onPressed: () => signInWithApple(muController),
+                    style: ElevatedButton.styleFrom(
+                      elevation: 8,
+                      primary: Colors.white,
+                      padding:
+                          EdgeInsets.symmetric(vertical: screenHeight * .02),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
                     ),
-                    Icon(
-                      Icons.arrow_right_outlined,
-                      color: MyColors.ButtonIcon,
-                      size: 30,
-                    ),
-                  ],
-                )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Icon(Icons.apple),
+                        Text(
+                          'Continue with Apple',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Color.fromRGBO(70, 68, 68, 1),
+                              fontFamily: 'Exo-Bold',
+                              fontSize: 18,
+                              letterSpacing:
+                                  0 /*percentages not used in flutter. defaulting to zero*/,
+                              fontWeight: FontWeight.bold,
+                              height: 1),
+                        ),
+                        Icon(
+                          Icons.arrow_right_outlined,
+                          color: MyColors.ButtonIcon,
+                          size: 30,
+                        ),
+                      ],
+                    )),
             SizedBox(height: screenHeight * .02),
             ElevatedButton(
                 onPressed: () => showDialog(
@@ -566,7 +565,83 @@ class _ImageState extends State<landingPage> {
     ]);
   }
 
-  Future<UserCredential> signInWithFacebook() async {
+  Future<UserCredential> signInWithGoogle(muController) async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn(
+            clientId:
+                "338838505507-b3aqp2dm0f089f56rn8llh3p9tnmq94p.apps.googleusercontent.com")
+        .signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+      if (user != null) {
+        var Exists = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get()
+            .then((docSnapshot) async {
+          if (docSnapshot.exists) {
+            await muController.checkMusicExist();
+            if (muController.Empty.value == false) {
+              Get.offAll(myMusic());
+            } else {
+              Get.offAll(EmptyMain());
+              print("azsss $e");
+            }
+          } else {
+            Get.to(signup_google());
+          }
+        });
+      }
+    });
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential> signInWithApple(muController) async {
+    final appleProvider = AppleAuthProvider();
+    late UserCredential credential;
+    if (kIsWeb) {
+      credential = await FirebaseAuth.instance.signInWithPopup(appleProvider);
+    } else {
+      credential =
+          await FirebaseAuth.instance.signInWithProvider(appleProvider);
+    }
+
+    await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+      if (user != null) {
+        var Exists = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get()
+            .then((docSnapshot) async {
+          if (docSnapshot.exists) {
+            await muController.checkMusicExist();
+            if (muController.Empty.value == false) {
+              Get.offAll(myMusic());
+            } else {
+              Get.offAll(EmptyMain());
+              print("azsss $e");
+            }
+          } else {
+            Get.to(signup_google());
+          }
+        });
+      }
+    });
+    return credential;
+  }
+
+/*   Future<UserCredential> signInWithFacebook() async {
     // Trigger the sign-in flow
     final LoginResult loginResult = await FacebookAuth.instance.login();
 
@@ -576,5 +651,5 @@ class _ImageState extends State<landingPage> {
 
     // Once signed in, return the UserCredential
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-  }
+  } */
 }

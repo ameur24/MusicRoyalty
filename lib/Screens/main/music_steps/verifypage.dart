@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:music_royalty/Screens/Authentication/landing_page.dart';
 import 'package:music_royalty/Screens/Authentication/sign_up_google.dart';
 import 'package:music_royalty/Utils/colors.dart';
 
@@ -57,6 +58,9 @@ class VerifyPage extends GetView<Verifyemailcontroller> {
                         ),
                       ),
                     ),
+                    TextButton(
+                        onPressed: () => Get.to(() => landingPage()),
+                        child: Text("cancel"))
                   ],
                 ),
               )));
