@@ -240,7 +240,7 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
           height: screenHeight * .05,
         ),
         Text(
-          "Music name",
+          "Song Name",
           style: TextStyle(
               fontFamily: "Exo-Medium", color: Colors.white, fontSize: 13),
         ),

@@ -69,7 +69,7 @@ class musicTitle extends StatelessWidget {
                 ),
                 BigText(
                   overflow: TextOverflow.clip,
-                  text: "Let's start by getting your music name",
+                  text: "First, Enter Your Song Name",
                   size: 18,
                 ),
                 SizedBox(
@@ -80,7 +80,7 @@ class musicTitle extends StatelessWidget {
                   child: Myinput(
                       onChanged: (v) => controller.musicTitle.value = v,
                       validate: (v) => controller.validateThese(v!),
-                      labelText: "Music name",
+                      labelText: "Song Name",
                       textInputAction: TextInputAction.done),
                 ),
                 SizedBox(

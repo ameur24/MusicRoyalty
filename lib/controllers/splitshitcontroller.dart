@@ -35,6 +35,7 @@ class SplitshitController extends GetxController {
     textControllers.add(textcontroller(
         namecontroller: new TextEditingController(),
         addresscontroller: new TextEditingController(),
+        address2controller: new TextEditingController(),
         phonenumbercontroller: new TextEditingController(),
         companies: a.obs,
         musicOwnercontroller: new TextEditingController(),

@@ -4,6 +4,7 @@ class writer {
   int index;
   String name;
   String address;
+  String address2 = '';
   String phonenumber;
   List<company> companies;
   String musicOwner;
@@ -25,6 +26,7 @@ class writer {
 class textcontroller {
   TextEditingController namecontroller;
   TextEditingController addresscontroller;
+  TextEditingController address2controller;
   TextEditingController phonenumbercontroller;
   List<company> companies;
   TextEditingController musicOwnercontroller;
@@ -35,6 +37,7 @@ class textcontroller {
   textcontroller(
       {required this.namecontroller,
       required this.addresscontroller,
+      required this.address2controller,
       required this.phonenumbercontroller,
       required this.companies,
       required this.musicOwnercontroller,

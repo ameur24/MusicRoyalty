@@ -32,13 +32,25 @@ Widget writerWidget(
           ),
           Myinput(
             controller: writer[index].addresscontroller,
-            labelText: "Address:",
+            labelText: "Address 1",
             onChanged: (v) {
               final val = TextSelection.collapsed(
                   offset: writer[index].addresscontroller.value.text.length);
               writer[index].addresscontroller.selection = val;
             },
             validate: (v) => controller.validateThese(v!),
+          ),
+          SizedBox(
+            height: screenHeight * .01,
+          ),
+          Myinput(
+            controller: writer[index].address2controller,
+            labelText: "Address 2 (optional)",
+            onChanged: (v) {
+              final val = TextSelection.collapsed(
+                  offset: writer[index].address2controller.value.text.length);
+              writer[index].address2controller.selection = val;
+            },
           ),
           SizedBox(
             height: screenHeight * .01,
@@ -159,7 +171,7 @@ Widget writerWidget(
           ),
           Myinput(
             controller: writer[index].affiliation,
-            labelText: "Affiliation:(Bmi/Sesac/Ascap)",
+            labelText: "PRO Affiliation:(Ascap/Bmi/Sesac)",
             onChanged: (v) {
               final val = TextSelection.collapsed(
                   offset: writer[index].affiliation.value.text.length);
@@ -177,6 +189,8 @@ Widget writerWidget(
                 flex: 1,
                 child: SizedBox(
                     child: Myinput(
+                  Suffixiconoff: Icons.percent,
+                  Suffixicon: Icons.percent,
                   controller: writer[index].lyricsownercontroller,
                   onChanged: (v) {
                     final val = TextSelection.collapsed(
@@ -213,20 +227,6 @@ Widget writerWidget(
                 )),
               ),
             ],
-          ),
-          SizedBox(
-            height: screenHeight * .01,
-          ),
-          Myinput(
-            controller: writer[index].securitycodecontroller,
-            labelText: "CAE/Social Security",
-            onChanged: (v) {
-              final val = TextSelection.collapsed(
-                  offset:
-                      writer[index].securitycodecontroller.value.text.length);
-              writer[index].securitycodecontroller.selection = val;
-            },
-            validate: (v) => controller.validateThese(v!),
           ),
           SizedBox(
             height: screenHeight * .01,
