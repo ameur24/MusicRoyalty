@@ -685,10 +685,12 @@ class splitsheet extends GetView<SplitshitController> {
                                     color: Colors.white70)),
                             ToggleButtons(
                               borderRadius: BorderRadius.circular(12),
-                              isSelected: controller.isSelected4,
+                              isSelected: controller.isSelected4.value,
                               selectedColor: Colors.black,
                               color: Colors.white,
-                              fillColor: MyColors.MainYellow,
+                              fillColor: controller.selectedVal.value
+                                  ? MyColors.MainYellow
+                                  : MyColors.MainYellow,
                               children: const [
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 12),

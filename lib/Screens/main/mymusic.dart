@@ -28,6 +28,7 @@ class myMusic extends GetView<MyMusicController> {
         automaticallyImplyLeading: false,
         title: circularMenu(),
         elevation: 0,
+        centerTitle: false,
         toolbarHeight: screenHeight * .1,
         backgroundColor: Colors.transparent,
         actions: [

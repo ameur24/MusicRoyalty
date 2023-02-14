@@ -166,7 +166,7 @@ class signup_google extends GetView<SignUpController> {
                 Myinput(
                   controller: controller.emails.value,
 
-                  enabled: false,
+                  enabled: true,
                   onChanged: (v) => controller.email.value = v,
 
                   validate: (v) {

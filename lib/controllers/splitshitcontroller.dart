@@ -14,6 +14,7 @@ class SplitshitController extends GetxController {
   var isOk = "Yes".obs;
   var takeoff = 1.obs;
   RxList<bool> isSelected4 = <bool>[true, false].obs;
+  var selectedVal = true.obs;
   RxList<textcontroller> textControllers = <textcontroller>[].obs;
 
   RxList<writer> writers = <writer>[].obs;
