@@ -29,8 +29,8 @@ class MusicDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var lastupdate = DateFormat("dd/MM/yyyy on hh:mm")
-        .format(DateTime.parse(lastUpdate.toString()));
+    var lastupdate =
+        DateFormat("MM/dd/yyyy").format(DateTime.parse(lastUpdate.toString()));
     //String Timeago = convertToAgo(Lastupdate);
 
     return Padding(
@@ -132,7 +132,7 @@ class MusicDetails extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Last updated in ${lastupdate.toString()}', //$Timeago',
+                      'Last updated on ${lastupdate.toString()}', //$Timeago',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: Color.fromRGBO(185, 185, 185, 1),

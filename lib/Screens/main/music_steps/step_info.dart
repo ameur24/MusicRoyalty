@@ -290,6 +290,7 @@ class StepInfo extends GetView<stepinfocontroller> {
                         Get.to(() => splitsheet(), arguments: {
                           "StepTitle": Get.arguments["StepTitle"],
                           "id": Get.arguments["id"],
+                          "musicTitle": m.Title,
                           "ssid": "",
                         });
                       } else {

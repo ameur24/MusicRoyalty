@@ -21,8 +21,12 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
+import '../../../models/music.dart';
+
 class splitsheet extends GetView<SplitshitController> {
-  const splitsheet({Key? key}) : super(key: key);
+  const splitsheet({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +79,7 @@ class splitsheet extends GetView<SplitshitController> {
             pw.SizedBox(
               width: PdfPageFormat.cm * 3,
             ),
-            pw.Text(controller.date.value.text.toString(),
+            pw.Text(Get.arguments["musicTitle"],
                 style: pw.TextStyle(
                   fontSize: 13,
                   color: PdfColors.black,
