@@ -70,6 +70,7 @@ class _MyinputState extends State<Myinput> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textCapitalization: TextCapitalization.words,
       onTap: widget.ontap,
       enabled: widget.enabled,
       style: TextStyle(color: Colors.white),

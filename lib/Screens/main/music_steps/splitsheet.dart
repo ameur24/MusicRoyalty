@@ -67,7 +67,7 @@ class splitsheet extends GetView<SplitshitController> {
           ),
           pw.SizedBox(height: 1.5 * PdfPageFormat.cm),
           pw.Row(children: [
-            pw.Text("Song Title:",
+            pw.Text("Song Name :",
                 style: pw.TextStyle(
                     fontSize: 12,
                     color: PdfColors.black,
@@ -113,8 +113,8 @@ class splitsheet extends GetView<SplitshitController> {
               indent: 80),
           pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
           pw.Row(children: [
-            pw.Text("Recording Band/Artist:",
-                overflow: pw.TextOverflow.clip,
+            pw.Text("Artist:",
+                overflow: pw.TextOverflow.visible,
                 style: pw.TextStyle(
                     fontSize: 12,
                     color: PdfColors.black,
@@ -326,6 +326,35 @@ class splitsheet extends GetView<SplitshitController> {
                       thickness: 0.5,
                       indent: 80),
                   pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                  controller.textControllers[index].address2controller.text
+                          .isNotEmpty
+                      ? pw.Column(
+                          children: [
+                            pw.Row(children: [
+                              pw.Text("Address 2:",
+                                  style: pw.TextStyle(
+                                    fontSize: 12,
+                                    color: PdfColors.black,
+                                  )),
+                              pw.SizedBox(width: 3 * PdfPageFormat.cm),
+                              pw.Text(
+                                  "${controller.textControllers[index].address2controller.text}",
+                                  style: pw.TextStyle(
+                                    fontSize: 13,
+                                    font: customFont,
+                                    color: PdfColors.black,
+                                  ))
+                            ]),
+                            pw.Divider(
+                                height: 0.5,
+                                color: PdfColors.black,
+                                endIndent: 0,
+                                thickness: 0.5,
+                                indent: 80),
+                            pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                          ],
+                        )
+                      : pw.SizedBox(),
                   pw.Row(children: [
                     pw.Text("Phone: ",
                         style: pw.TextStyle(
@@ -378,7 +407,7 @@ class splitsheet extends GetView<SplitshitController> {
                       itemCount:
                           controller.textControllers[index].companies.length),
                   pw.Row(children: [
-                    pw.Text("Affiliation (ASCAP/BMI/SESAC):",
+                    pw.Text("PRO Affiliation (ASCAP/BMI/SESAC):",
                         style: pw.TextStyle(
                           fontSize: 12,
                           color: PdfColors.black,
@@ -442,28 +471,6 @@ class splitsheet extends GetView<SplitshitController> {
                       endIndent: 0,
                       thickness: 0.5,
                       indent: 120),
-                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
-                  pw.Row(children: [
-                    pw.Text("CAE/Social Security :",
-                        style: pw.TextStyle(
-                          fontSize: 12,
-                          color: PdfColors.black,
-                        )),
-                    pw.SizedBox(width: 1 * PdfPageFormat.cm),
-                    pw.Text(
-                        "${controller.textControllers[index].securitycodecontroller.text}",
-                        style: pw.TextStyle(
-                          fontSize: 13,
-                          font: customFont,
-                          color: PdfColors.black,
-                        ))
-                  ]),
-                  pw.Divider(
-                      height: 0.5,
-                      color: PdfColors.black,
-                      endIndent: 0,
-                      thickness: 0.5,
-                      indent: 150),
                   pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
                   pw.Row(children: [
                     pw.Text("Birthdate :",
@@ -731,16 +738,18 @@ class splitsheet extends GetView<SplitshitController> {
                   SizedBox(
                     height: screenHeight * .02,
                   ),
-                  Myinput(
-                    controller: controller.artistbandsampled.value,
-                    labelText: "Album & Artist Sampled:(optional)",
-                    onChanged: (v) {
-                      final val = TextSelection.collapsed(
-                          offset:
-                              controller.artistbandsampled.value.text.length);
-                      controller.artistbandsampled.value.selection = val;
-                    },
-                  ),
+                  Obx(() => controller.isOk.value == "Yes"
+                      ? Myinput(
+                          controller: controller.artistbandsampled.value,
+                          labelText: "Album & Artist Sampled:",
+                          onChanged: (v) {
+                            final val = TextSelection.collapsed(
+                                offset: controller
+                                    .artistbandsampled.value.text.length);
+                            controller.artistbandsampled.value.selection = val;
+                          },
+                        )
+                      : SizedBox.shrink()),
                   SizedBox(
                     height: screenHeight * .03,
                   ),
@@ -792,6 +801,7 @@ class splitsheet extends GetView<SplitshitController> {
                       controller.textControllers.add(textcontroller(
                           namecontroller: new TextEditingController(),
                           addresscontroller: new TextEditingController(),
+                          address2controller: new TextEditingController(),
                           phonenumbercontroller: new TextEditingController(),
                           companies: c.obs,
                           musicOwnercontroller: new TextEditingController(),
