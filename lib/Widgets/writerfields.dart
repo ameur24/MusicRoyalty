@@ -70,102 +70,6 @@ Widget writerWidget(
           SizedBox(
             height: screenHeight * .02,
           ),
-          Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "List of 3rd party publishing companies :",
-                  style: TextStyle(color: MyColors.MainYellow, fontSize: 16),
-                  textAlign: TextAlign.left,
-                ),
-                Obx(
-                  () => ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(1, 10, 0, 2),
-                    physics: ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, i) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(4.0, 0, 0, 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "#${i + 1}",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: MyColors.MainYellow,
-                              ),
-                            ),
-                            SizedBox(
-                              width: screenWidth * 0.01,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: SizedBox(
-                                child: Myinput(
-                                  // what: controller.last_name.value,
-                                  labelText: "Publishing company Name",
-                                  controller:
-                                      writer[index].companies[i].namecontroller,
-                                  onChanged: (v) {
-                                    final val = TextSelection.collapsed(
-                                        offset: writer[index]
-                                            .companies[i]
-                                            .namecontroller
-                                            .value
-                                            .text
-                                            .length);
-                                    writer[index]
-                                        .companies[i]
-                                        .namecontroller
-                                        .selection = val;
-                                  },
-                                  validate: (v) => controller.validateThese(v!),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: writer[index].companies.length,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Center(
-            child: TextButton(
-              onPressed: () {
-                writer[index]
-                    .companies
-                    .add(company(namecontroller: new TextEditingController()));
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.add,
-                    color: MyColors.MainYellow,
-                  ),
-                  SizedBox(
-                    width: screenWidth * 0.01,
-                  ),
-                  Expanded(
-                    child: Text(
-                      "Add one more Third party publishing company",
-                      maxLines: 2,
-                      style:
-                          TextStyle(fontSize: 16, color: MyColors.BordersGrey),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
           SizedBox(
             height: screenHeight * .01,
           ),
@@ -189,6 +93,7 @@ Widget writerWidget(
                 flex: 1,
                 child: SizedBox(
                     child: Myinput(
+                  keyboardType: TextInputType.number,
                   Suffixiconoff: Icons.percent,
                   Suffixicon: Icons.percent,
                   controller: writer[index].lyricsownercontroller,

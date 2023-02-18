@@ -28,7 +28,7 @@ class textcontroller {
   TextEditingController addresscontroller;
   TextEditingController address2controller;
   TextEditingController phonenumbercontroller;
-  List<company> companies;
+
   TextEditingController musicOwnercontroller;
   TextEditingController lyricsownercontroller;
   TextEditingController securitycodecontroller;
@@ -39,7 +39,6 @@ class textcontroller {
       required this.addresscontroller,
       required this.address2controller,
       required this.phonenumbercontroller,
-      required this.companies,
       required this.musicOwnercontroller,
       required this.affiliation,
       required this.lyricsownercontroller,
@@ -49,5 +48,6 @@ class textcontroller {
 
 class company {
   TextEditingController namecontroller;
-  company({required this.namecontroller});
+  TextEditingController lyricscontroller;
+  company({required this.namecontroller, required this.lyricscontroller});
 }

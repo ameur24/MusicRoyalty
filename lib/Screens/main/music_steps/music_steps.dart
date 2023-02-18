@@ -81,9 +81,9 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
                                 controller.musiccurrentstep.value) {
                               Get.to(StepInfo(thisMusic), arguments: {
                                 "StepTitle":
-                                    itemmodeldummy.itemmodelslist[index].text,
+                                    itemmodeldummy.itemmodelslist[index]!.text,
                                 "id": itemmodeldummy
-                                    .itemmodelslist[index].thisStep
+                                    .itemmodelslist[index]!.thisStep
                               })!
                                   .then((_) {
                                 if (controller.musiccurrentstep.value ==

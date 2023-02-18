@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "338838505507-4in391iu93jdad46kbs2cqgurve332rp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.music_royalty",
+            "certificate_hash": "d08173cfdbbb47a212091804bf3292ff33e7b0b9"
+          }
+        },
+        {
           "client_id": "338838505507-cpffr8ks25rt2qc3heunssssk901uggi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -35,6 +43,14 @@
           "android_info": {
             "package_name": "com.example.music_royalty",
             "certificate_hash": "338681af719c440931e20f562bd57abd003b3460"
+          }
+        },
+        {
+          "client_id": "338838505507-ortrpa2s6pljlbr2ovejj5tll7441f2v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.music_royalty",
+            "certificate_hash": "c74a1fb2b6ff05107dd5e284b847825e1392e4f2"
           }
         },
         {

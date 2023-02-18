@@ -22,6 +22,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 import '../../../models/music.dart';
+import 'package:get_storage/get_storage.dart';
 
 class splitsheet extends GetView<SplitshitController> {
   const splitsheet({
@@ -123,7 +124,7 @@ class splitsheet extends GetView<SplitshitController> {
                     fontSize: 12,
                     color: PdfColors.black,
                     fontWeight: pw.FontWeight.normal)),
-            pw.SizedBox(width: 1 * PdfPageFormat.cm),
+            pw.SizedBox(width: 4 * PdfPageFormat.cm),
             pw.Text("${controller.bandartist.value.text}",
                 style: pw.TextStyle(
                   fontSize: 13,
@@ -148,7 +149,7 @@ class splitsheet extends GetView<SplitshitController> {
               color: PdfColors.black,
               endIndent: 0,
               thickness: 0.5,
-              indent: 130),
+              indent: 80),
           pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
           controller.label.value.text != ""
               ? pw.Row(children: [
@@ -381,35 +382,6 @@ class splitsheet extends GetView<SplitshitController> {
                       thickness: 0.5,
                       indent: 80),
                   pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
-                  pw.ListView.builder(
-                      itemBuilder: (context, i) {
-                        return pw.Column(children: [
-                          pw.Row(children: [
-                            pw.Text("Publishing Company #${i + 1}",
-                                style: pw.TextStyle(
-                                  fontSize: 12,
-                                  color: PdfColors.black,
-                                )),
-                            pw.SizedBox(width: 1 * PdfPageFormat.cm),
-                            pw.Text(
-                                "${controller.textControllers[index].companies[i].namecontroller.text}",
-                                style: pw.TextStyle(
-                                  fontSize: 13,
-                                  font: customFont,
-                                  color: PdfColors.black,
-                                ))
-                          ]),
-                          pw.Divider(
-                              height: 0.5,
-                              color: PdfColors.black,
-                              endIndent: 0,
-                              thickness: 0.5,
-                              indent: 130),
-                          pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
-                        ]);
-                      },
-                      itemCount:
-                          controller.textControllers[index].companies.length),
                   pw.Row(children: [
                     pw.Text("PRO Affiliation (ASCAP/BMI/SESAC):",
                         style: pw.TextStyle(
@@ -521,7 +493,57 @@ class splitsheet extends GetView<SplitshitController> {
                   pw.SizedBox(height: 2 * PdfPageFormat.cm),
                 ]);
               },
-              itemCount: controller.textControllers.length)
+              itemCount: controller.textControllers.length),
+          pw.ListView.builder(
+              itemBuilder: (context, index) {
+                return pw.Column(children: [
+                  pw.Row(children: [
+                    pw.Text("Publishing Company #${index + 1}",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        )),
+                    pw.SizedBox(width: 1 * PdfPageFormat.cm),
+                    pw.Text(
+                        "${controller.companylist[index].namecontroller.text}",
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          font: customFont,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 130),
+                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                  pw.Row(children: [
+                    pw.Text("Company lyrics ownership #${index + 1}",
+                        style: pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.black,
+                        )),
+                    pw.SizedBox(width: 1 * PdfPageFormat.cm),
+                    pw.Text(
+                        "${controller.companylist[index].lyricscontroller.text}",
+                        style: pw.TextStyle(
+                          fontSize: 13,
+                          font: customFont,
+                          color: PdfColors.black,
+                        ))
+                  ]),
+                  pw.Divider(
+                      height: 0.5,
+                      color: PdfColors.black,
+                      endIndent: 0,
+                      thickness: 0.5,
+                      indent: 130),
+                  pw.SizedBox(height: 0.3 * PdfPageFormat.cm),
+                ]);
+              },
+              itemCount: controller.companylist.length),
         ],
         footer: (context) {
           final text = 'Page ${context.pageNumber} of ${context.pagesCount}';
@@ -548,6 +570,7 @@ class splitsheet extends GetView<SplitshitController> {
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    final box = GetStorage();
 
     return Scaffold(
       backgroundColor: MyColors.mainblack,
@@ -762,35 +785,35 @@ class splitsheet extends GetView<SplitshitController> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: screenHeight * .02,
-                              ),
-                              Text(
-                                "#${index + 1} Writer :",
-                                style: TextStyle(
-                                    color: MyColors.MainYellow, fontSize: 20),
-                                textAlign: TextAlign.left,
-                              ),
-                              SizedBox(
-                                height: screenHeight * .02,
-                              ),
-                              writerWidget(
-                                  context, index, controller.textControllers),
-                              SizedBox(
-                                height: screenHeight * .02,
-                              ),
-                              Divider(
-                                color: MyColors.BordersGrey, //color of divider
-                                height: 5, //height spacing of divider
-                                thickness: 3, //thickness of divier line
-                                indent: 10, //spacing at the start of divider
-                                endIndent: 10, //spacing at the end of divider
-                              ),
-                            ],
-                          );
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: screenHeight * .02,
+                                ),
+                                Text(
+                                  "#${index + 1} Writer :",
+                                  style: TextStyle(
+                                      color: MyColors.MainYellow, fontSize: 20),
+                                  textAlign: TextAlign.left,
+                                ),
+                                SizedBox(
+                                  height: screenHeight * .02,
+                                ),
+                                writerWidget(
+                                    context, index, controller.textControllers),
+                                SizedBox(
+                                  height: screenHeight * .02,
+                                ),
+                                Divider(
+                                  color:
+                                      MyColors.BordersGrey, //color of divider
+                                  height: 5, //height spacing of divider
+                                  thickness: 3, //thickness of divier line
+                                  indent: 10, //spacing at the start of divider
+                                  endIndent: 10, //spacing at the end of divider
+                                ),
+                              ]);
                         },
                         itemCount: controller.textControllers.length,
                       )),
@@ -798,16 +821,12 @@ class splitsheet extends GetView<SplitshitController> {
                       child: TextButton(
                     onPressed: () {
                       //writers.forEach((app) => _textControllers[app.] = new TextEditingController());
-                      List<company> c = <company>[
-                        company(namecontroller: new TextEditingController())
-                      ];
 
                       controller.textControllers.add(textcontroller(
                           namecontroller: new TextEditingController(),
                           addresscontroller: new TextEditingController(),
                           address2controller: new TextEditingController(),
                           phonenumbercontroller: new TextEditingController(),
-                          companies: c.obs,
                           musicOwnercontroller: new TextEditingController(),
                           lyricsownercontroller: new TextEditingController(),
                           securitycodecontroller: new TextEditingController(),
@@ -835,6 +854,145 @@ class splitsheet extends GetView<SplitshitController> {
                   SizedBox(
                     height: screenHeight * .03,
                   ),
+                  Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "List of 3rd party publishing companies :",
+                          style: TextStyle(
+                              color: MyColors.MainYellow, fontSize: 20),
+                          textAlign: TextAlign.left,
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.02,
+                        ),
+                        Obx(
+                          () => ListView.builder(
+                            padding: const EdgeInsets.fromLTRB(1, 10, 0, 2),
+                            physics: ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(4.0, 0, 0, 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "#${index + 1} Company",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: MyColors.MainYellow,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: screenHeight * 0.012,
+                                    ),
+                                    SizedBox(
+                                      child: Myinput(
+                                        // what: controller.last_name.value,
+                                        labelText: "Publishing company Name",
+                                        controller: controller
+                                            .companylist[index].namecontroller,
+                                        onChanged: (v) {
+                                          final val = TextSelection.collapsed(
+                                              offset: controller
+                                                  .companylist[index]
+                                                  .namecontroller
+                                                  .value
+                                                  .text
+                                                  .length);
+                                          controller.companylist[index]
+                                              .namecontroller.selection = val;
+                                        },
+                                        validate: (v) =>
+                                            controller.validateThese(v!),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: screenWidth * 0.01,
+                                    ),
+                                    SizedBox(
+                                      height: screenHeight * 0.01,
+                                    ),
+                                    SizedBox(
+                                      child: Myinput(
+                                        // what: controller.last_name.value,
+                                        labelText: "Lyrics ownership",
+                                        controller: controller
+                                            .companylist[index]
+                                            .lyricscontroller,
+                                        onChanged: (v) {
+                                          final val = TextSelection.collapsed(
+                                              offset: controller
+                                                  .companylist[index]
+                                                  .lyricscontroller
+                                                  .value
+                                                  .text
+                                                  .length);
+                                          controller.companylist[index]
+                                              .lyricscontroller.selection = val;
+                                        },
+                                        validate: (v) =>
+                                            controller.validateThese(v!),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: screenHeight * 0.02,
+                                    ),
+                                    Divider(
+                                      color: MyColors
+                                          .BordersGrey, //color of divider
+                                      height: 5, //height spacing of divider
+                                      thickness: 3, //thickness of divier line
+                                      indent:
+                                          10, //spacing at the start of divider
+                                      endIndent:
+                                          10, //spacing at the end of divider
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            itemCount: controller.companylist.length,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        controller.companylist.add(company(
+                            namecontroller: new TextEditingController(),
+                            lyricscontroller: new TextEditingController()));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: MyColors.MainYellow,
+                          ),
+                          SizedBox(
+                            width: screenWidth * 0.01,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "Add one more Third party publishing company",
+                              maxLines: 2,
+                              style: TextStyle(
+                                  fontSize: 16, color: MyColors.BordersGrey),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
@@ -853,6 +1011,31 @@ class splitsheet extends GetView<SplitshitController> {
                                 .splitsheetKey.currentState!
                                 .validate();
                             if (isvalidate) {
+                              box.write(
+                                  'musicDate', controller.date.value.text);
+                              box.write("bandArtist",
+                                  controller.bandartist.value.text);
+
+                              box.write("studioName",
+                                  controller.studioname.value.text);
+                              box.write("label", controller.label.value.text);
+
+                              box.write("studioAd",
+                                  controller.studioadress.value.text);
+
+                              box.write("studioPh",
+                                  controller.studiophonenumber.value.text);
+                              box.write("sample", controller.isOk.value);
+                              if (controller.isOk.value == "Yes") {
+                                box.write("artistsampled",
+                                    controller.artistbandsampled.value.text);
+                              }
+
+                              box.write("writerList",
+                                  controller.textControllers.value);
+
+                              box.write(
+                                  "compList", controller.companylist.value);
                               await writeOnPdf();
 
                               Navigator.push(
