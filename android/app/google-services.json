@@ -14,6 +14,46 @@
       },
       "oauth_client": [
         {
+          "client_id": "338838505507-4in391iu93jdad46kbs2cqgurve332rp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.music_royalty",
+            "certificate_hash": "d08173cfdbbb47a212091804bf3292ff33e7b0b9"
+          }
+        },
+        {
+          "client_id": "338838505507-cpffr8ks25rt2qc3heunssssk901uggi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.music_royalty",
+            "certificate_hash": "cdad986f8da43115c601e73872f56bbe41166b61"
+          }
+        },
+        {
+          "client_id": "338838505507-csp7otkjfp1aom4mm68kn4faete7pdgd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.music_royalty",
+            "certificate_hash": "4e577ee094bc8a6c93df3d708253d4b7ef8ca176"
+          }
+        },
+        {
+          "client_id": "338838505507-lo768pqqgmjtm9nv77kemq51of8qlm09.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.music_royalty",
+            "certificate_hash": "338681af719c440931e20f562bd57abd003b3460"
+          }
+        },
+        {
+          "client_id": "338838505507-ortrpa2s6pljlbr2ovejj5tll7441f2v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.music_royalty",
+            "certificate_hash": "c74a1fb2b6ff05107dd5e284b847825e1392e4f2"
+          }
+        },
+        {
           "client_id": "338838505507-pf3h82rp1081ggc5mm8euogpo6qi4m0j.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +69,13 @@
             {
               "client_id": "338838505507-pf3h82rp1081ggc5mm8euogpo6qi4m0j.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "338838505507-b3aqp2dm0f089f56rn8llh3p9tnmq94p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.musicRoyalty"
+              }
             }
           ]
         }

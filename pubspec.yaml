@@ -47,6 +47,7 @@ dependencies:
   printing: ^5.9.3
   intl: ^0.17.0
   email_validator: '^2.1.16'
+  get_storage: ^2.0.3
 
 
 

@@ -15,8 +15,11 @@ import 'Utils/authservices.dart';
 import 'controllers/music_controller.dart';
 import 'firebase_options.dart';
 import 'Screens/Authentication/landing_page.dart';
+import 'package:get_storage/get_storage.dart';
 
 void main() async {
+  await GetStorage.init('MyStorage');
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
