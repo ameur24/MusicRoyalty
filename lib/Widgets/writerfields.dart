@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_holo_date_picker/date_picker.dart';
+import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 import 'package:get/get.dart';
 import 'package:music_royalty/Utils/colors.dart';
 import 'package:music_royalty/controllers/splitshitcontroller.dart';
@@ -136,25 +138,39 @@ Widget writerWidget(
           SizedBox(
             height: screenHeight * .01,
           ),
-          Myinput(
-            ontap: () async {
-              DateTime? pickdate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1920),
-                  lastDate: DateTime.now());
-              if (pickdate != null) {
-                writer[index].birthdatecontroller.text =
-                    DateFormat("yyyy-MM-dd").format(pickdate);
-              }
+          GestureDetector(
+            onTap: () async {
+              var datePicked = await DatePicker.showSimpleDatePicker(
+                context,
+                backgroundColor: MyColors.mainblack,
+                itemTextStyle: TextStyle(color: Colors.white),
+                textColor: MyColors.MainYellow,
+                initialDate: DateTime(1994),
+                firstDate: DateTime(1960),
+                lastDate: DateTime(2012),
+                dateFormat: "MMMM-dd-yyyy",
+                locale: DateTimePickerLocale.en_us,
+                looping: true,
+              );
+              writer[index].birthdatecontroller.text =
+                  DateFormat("MM-dd-yyyy").format(datePicked!);
+              final snackBar = SnackBar(
+                  content: Text("Date Picked " +
+                      writer[index].birthdatecontroller.value.text));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+              ;
             },
-            icon: Icon(
-              Icons.calendar_today_rounded,
-              color: MyColors.BordersGrey,
+            child: Myinput(
+              enabled: false,
+              icon: Icon(
+                Icons.calendar_today_rounded,
+                color: MyColors.BordersGrey,
+              ),
+              controller: writer[index].birthdatecontroller,
+              labelText: "Birthday",
+              validate: (v) => controller.validateThese(v!),
             ),
-            controller: writer[index].birthdatecontroller,
-            labelText: "Birthday",
-            validate: (v) => controller.validateThese(v!),
           ),
         ],
       ));

@@ -12,6 +12,7 @@ class SplitshitController extends GetxController {
   var samples = new TextEditingController().obs;
   var artistbandsampled = new TextEditingController().obs;
   var date = new TextEditingController().obs;
+
   var isOk = "Yes".obs;
   var takeoff = 1.obs;
   RxList<bool> isSelected4 = <bool>[true, false].obs;
