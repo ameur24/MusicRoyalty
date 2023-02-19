@@ -104,12 +104,7 @@ class myMusic extends GetView<MyMusicController> {
                           return MusicDetails(
                             screenHeight: screenHeight,
                             screenwidth: MediaQuery.of(context).size.width,
-                            musicName: controller
-                                .mymusicList[index].Title!.capitalizeFirst!,
-                            lastUpdate:
-                                controller.mymusicList[index].created_at!,
-                            currentStep:
-                                controller.mymusicList[index].currentStep!,
+                            music: controller.mymusicList[index],
                             onPressed: () {
                               controller.musiccurrentstep.value =
                                   controller.mymusicList[index].currentStep!;

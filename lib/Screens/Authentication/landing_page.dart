@@ -567,10 +567,7 @@ class _ImageState extends State<landingPage> {
 
   Future<UserCredential> signInWithGoogle(muController) async {
     // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn(
-            clientId:
-                "338838505507-b3aqp2dm0f089f56rn8llh3p9tnmq94p.apps.googleusercontent.com")
-        .signIn();
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =

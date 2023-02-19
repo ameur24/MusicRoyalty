@@ -1,17 +1,21 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:music_royalty/Services/date_time_converter.dart';
 import 'package:music_royalty/Utils/colors.dart';
 import 'package:music_royalty/Utils/itemslistmodel.dart';
+import 'package:music_royalty/models/music.dart';
 
 class MusicDetails extends StatelessWidget {
   final double screenHeight, screenwidth;
   final Function? onPressed;
-  final int currentStep;
-  final String musicName;
-  final String lastUpdate;
+  final Music music;
 
   final Function(dynamic)? menuItemSelected;
   final int? val;
@@ -21,16 +25,14 @@ class MusicDetails extends StatelessWidget {
     required this.screenwidth,
     this.onPressed,
     this.menuItemSelected,
+    required this.music,
     this.val,
-    required this.musicName,
-    required this.currentStep,
-    required this.lastUpdate,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var lastupdate =
-        DateFormat("MM/dd/yyyy").format(DateTime.parse(lastUpdate.toString()));
+        DateFormat("MM/dd/yyyy").format(DateTime.parse(music.created_at!));
     //String Timeago = convertToAgo(Lastupdate);
 
     return Padding(
@@ -66,7 +68,7 @@ class MusicDetails extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          musicName,
+                          music.Title!,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               color: Color.fromRGBO(226, 226, 33, 1),
@@ -77,35 +79,28 @@ class MusicDetails extends StatelessWidget {
                               fontWeight: FontWeight.normal,
                               height: 1),
                         ),
-                        DropdownButtonHideUnderline(
-                          child: DropdownButton<dynamic>(
-                            dropdownColor: MyColors.mainGrey,
-                            iconDisabledColor: Colors.white,
-                            items: const [
-                              DropdownMenuItem(
-                                  value: 1,
-                                  // onTap: menuItemSelected as void Function()?,
-                                  child: Text(
-                                    "Details",
-                                    style: TextStyle(color: Colors.white),
-                                  )),
-                              DropdownMenuItem(
-                                  value: 2,
-                                  //  onTap: menuItemSelected as void Function()?,
-                                  child: Text(
-                                    "Remove",
-                                    style: TextStyle(color: Colors.white),
-                                  )),
-                            ],
-                            icon: IconButton(
-                              onPressed: () => {},
-                              icon: Icon(Icons.more_vert),
-                              color: Colors.white,
-                            ),
-                            onChanged: (value) => menuItemSelected!(value)
-                                as void Function(dynamic)?,
+                        PopupMenuButton<dynamic>(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          color: MyColors.mainGrey,
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<dynamic>>[
+                            PopupMenuItem(
+                                child: Text(
+                              "Update Name",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                            PopupMenuItem(
+                                onTap: () => remove(context),
+                                child: Text(
+                                  "Remove",
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ],
+                          icon: Icon(
+                            Icons.more_vert,
+                            color: Colors.white,
                           ),
-                        ),
+                        )
                       ],
                     ),
                     SizedBox(height: 8),
@@ -118,7 +113,7 @@ class MusicDetails extends StatelessWidget {
                       padding:
                           EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                       child: Text(
-                        '$currentStep/${itemmodeldummy.itemmodelslist.length} Steps completed',
+                        '${music.currentStep}/${itemmodeldummy.itemmodelslist.length} Steps completed',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Color.fromRGBO(251, 251, 251, 1),
@@ -147,5 +142,72 @@ class MusicDetails extends StatelessWidget {
             ),
           )),
     );
+  }
+
+  void remove(BuildContext context) {
+    Get.back();
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    Get.dialog(BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.all(10),
+          child: Container(
+            width: screenWidth * 0.8,
+            height: 180,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: MyColors.mainblack),
+            padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                      "Are you sure you want to remove ${music.Title} ?  All your progress will be lost forever",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      textAlign: TextAlign.center),
+                ),
+                SizedBox(height: screenHeight * 0.03),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    MaterialButton(
+                      color: MyColors.MainYellow,
+                      onPressed: () {
+                        // do something
+                        Navigator.pop(context);
+                      },
+                      child: SizedBox(child: Center(child: Text("Not Yet"))),
+                    ),
+                    MaterialButton(
+                      color: MyColors.MainYellow,
+                      onPressed: () {
+                        print("firebase");
+                        Navigator.pop(context);
+                        try {
+                          FirebaseFirestore.instance
+                              .collection('Music')
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .collection('MusicList')
+                              .doc(music.id)
+                              .delete()
+                              .then((value) {})
+                              .catchError((e) {
+                            print(e);
+                          });
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
+                      child: SizedBox(child: Center(child: Text("Done"))),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        )));
   }
 }
