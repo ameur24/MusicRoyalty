@@ -3,7 +3,10 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_holo_date_picker/date_picker.dart';
+import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:music_royalty/Utils/colors.dart';
 import 'package:music_royalty/Utils/constants.dart';
 import 'package:music_royalty/Widgets/Texts/big_text.dart';
@@ -112,34 +115,26 @@ class signup_google extends GetView<SignUpController> {
                 ), */
                 GestureDetector(
                   onTap: () async {
-                    DateTime? res = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1930),
-                        lastDate: DateTime.now(),
-                        builder: (context, child) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                                textButtonTheme: TextButtonThemeData(
-                                    style: TextButton.styleFrom(
-                              foregroundColor:
-                                  Colors.black, // button text color
-                            ))),
-                            child: child!,
-                          );
-                        });
-                    controller.initDate = res!;
-                    var cx = res.toString().split(" ");
-                    print("yo no no yoooo${cx[0]}");
-                    print("yo yo yo yoooo${controller.initDate}");
-                    if (res == null) {
-                      return;
-                    } else {
-                      controller.Date.value.text = cx[0];
-                    }
-                    controller.update();
+                    var datePicked = await DatePicker.showSimpleDatePicker(
+                      context,
+                      backgroundColor: MyColors.mainblack,
+                      itemTextStyle: TextStyle(color: Colors.white),
+                      textColor: MyColors.MainYellow,
+                      initialDate: DateTime(1994),
+                      firstDate: DateTime(1960),
+                      lastDate: DateTime(2012),
+                      dateFormat: "MMMM-dd-yyyy",
+                      locale: DateTimePickerLocale.en_us,
+                      looping: true,
+                    );
+                    controller.Date.value.text =
+                        DateFormat("MM-dd-yyyy").format(datePicked!);
+                    final snackBar = SnackBar(
+                        content:
+                            Text("Date Picked " + controller.Date.value.text));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-                    print("yo yo yo xs${controller.Date}");
+                    ;
                   },
                   child: Obx(() => Myinput(
                         enabled: false,
