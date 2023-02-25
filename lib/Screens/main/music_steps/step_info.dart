@@ -40,7 +40,7 @@ class StepInfo extends GetView<stepinfocontroller> {
                 } else {
                   Get.to(() => musicSteps(m));
 
-                  showDialog(
+                  /*   showDialog(
                       context: context,
                       builder: (ctx) {
                         double screenHeight =
@@ -120,7 +120,7 @@ class StepInfo extends GetView<stepinfocontroller> {
                             ),
                           ),
                         );
-                      });
+                      }); */
                 }
               },
               icon: Icon(Icons.arrow_back)),

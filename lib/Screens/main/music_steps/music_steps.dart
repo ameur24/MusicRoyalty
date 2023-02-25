@@ -77,15 +77,47 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
                               );
                               return;
                             }
-                            if (itemmodeldummy.itemmodelslist[index].thisStep <=
-                                controller.musiccurrentstep.value) {
-                              Get.to(StepInfo(thisMusic), arguments: {
-                                "StepTitle":
-                                    itemmodeldummy.itemmodelslist[index]!.text,
-                                "id": itemmodeldummy
-                                    .itemmodelslist[index]!.thisStep
-                              })!
-                                  .then((_) {
+                            /*    if (itemmodeldummy.itemmodelslist[index].thisStep <=
+                                controller.musiccurrentstep.value) { */
+                            Get.to(StepInfo(thisMusic), arguments: {
+                              "StepTitle":
+                                  itemmodeldummy.itemmodelslist[index].text,
+                              "id":
+                                  itemmodeldummy.itemmodelslist[index].thisStep
+                            });
+                            try {
+                              FirebaseFirestore.instance
+                                  .collection('Music')
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .collection('MusicList')
+                                  .doc(thisMusic.id)
+                                  .update({
+                                "CurrentStep": index + 1
+                                /*  controller
+                                                                          .musiccurrentstep
+                                                                          .value +
+                                                                      1 */
+                                ,
+                              }).then((value) {
+                                controller.musiccurrentstep.value = index +
+                                    1; /* controller
+                                                                      .musiccurrentstep
+                                                                      .value +
+                                                                  1; */
+
+                                thisMusic.currentStep = index + 1
+                                    /*  thisMusic
+                                                                          .currentStep! +
+                                                                      1 */
+                                    ;
+                              }).catchError((e) {
+                                print(e);
+                              });
+                            } catch (e) {
+                              print(e);
+                            }
+                            ;
+                            /*      .then((_) {
                                 if (controller.musiccurrentstep.value ==
                                     itemmodeldummy
                                         .itemmodelslist[index].thisStep)
@@ -188,7 +220,7 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
                                                           } catch (e) {
                                                             print(e);
                                                           }
-                                                        },
+                                                        }, 
                                                         child: SizedBox(
                                                             child: Center(
                                                                 child: Text(
@@ -223,7 +255,7 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
                                 ),
                                 snackPosition: SnackPosition.BOTTOM,
                               );
-                            }
+                            }*/
                           },
                         ));
                   })),
