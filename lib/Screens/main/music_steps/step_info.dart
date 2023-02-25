@@ -287,12 +287,16 @@ class StepInfo extends GetView<stepinfocontroller> {
                             });
                       }
                       if (Get.arguments["id"] == 1) {
-                        Get.to(() => splitsheet(), arguments: {
-                          "StepTitle": Get.arguments["StepTitle"],
-                          "id": Get.arguments["id"],
-                          "musicTitle": m.Title,
-                          "ssid": "",
-                        });
+                        Get.to(
+                            () => splitsheet(
+                                  music: m,
+                                ),
+                            arguments: {
+                              "StepTitle": Get.arguments["StepTitle"],
+                              "id": Get.arguments["id"],
+                              "musicTitle": m.Title,
+                              "ssid": "",
+                            });
                       } else {
                         if (controller.selectedSite.value == 0) {
                           Get.snackbar(

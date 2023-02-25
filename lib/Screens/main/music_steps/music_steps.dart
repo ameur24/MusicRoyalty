@@ -67,7 +67,7 @@ class musicSteps extends GetView<Mymusicstepscontroller> {
                                       color: Colors.white),
                                 ),
                                 messageText: Text(
-                                  "Please Comback later",
+                                  "Please Come back later",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,

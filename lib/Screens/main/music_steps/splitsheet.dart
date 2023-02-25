@@ -25,7 +25,9 @@ import '../../../models/music.dart';
 import 'package:get_storage/get_storage.dart';
 
 class splitsheet extends GetView<SplitshitController> {
+  final Music music;
   const splitsheet({
+    required this.music,
     Key? key,
   }) : super(key: key);
 
@@ -36,6 +38,8 @@ class splitsheet extends GetView<SplitshitController> {
 
     Get.put(SplitshitController());
     Map<String, TextEditingController> _textControllers = new Map();
+
+    controller.musicId = music.id;
 
     Widget Screenview() {
       return PdfPreview(build: (context) => pdf.save());
@@ -570,7 +574,6 @@ class splitsheet extends GetView<SplitshitController> {
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    final box = GetStorage();
 
     return Scaffold(
       backgroundColor: MyColors.mainblack,
@@ -1010,34 +1013,10 @@ class splitsheet extends GetView<SplitshitController> {
                             bool isvalidate = controller
                                 .splitsheetKey.currentState!
                                 .validate();
+                            controller.saveProgress();
+
                             if (isvalidate) {
-                              box.write(
-                                  'musicDate', controller.date.value.text);
-                              box.write("bandArtist",
-                                  controller.bandartist.value.text);
-
-                              box.write("studioName",
-                                  controller.studioname.value.text);
-                              box.write("label", controller.label.value.text);
-
-                              box.write("studioAd",
-                                  controller.studioadress.value.text);
-
-                              box.write("studioPh",
-                                  controller.studiophonenumber.value.text);
-                              box.write("sample", controller.isOk.value);
-                              if (controller.isOk.value == "Yes") {
-                                box.write("artistsampled",
-                                    controller.artistbandsampled.value.text);
-                              }
-
-                              box.write("writerList",
-                                  controller.textControllers.value);
-
-                              box.write(
-                                  "compList", controller.companylist.value);
                               await writeOnPdf();
-
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

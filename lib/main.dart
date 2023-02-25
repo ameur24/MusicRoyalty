@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.yellow,
       ),
       getPages: [
-        GetPage(name: "/splitsheet", page: () => splitsheet()),
+        //   GetPage(name: "/splitsheet", page: () => splitsheet()),
         GetPage(name: "/landing", page: () => landingPage()),
         GetPage(name: "/signup", page: () => const signup_google()),
         GetPage(name: "/emptymain", page: () => EmptyMain()),
