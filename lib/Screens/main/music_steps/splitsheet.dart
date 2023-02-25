@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:flutter_holo_date_picker/date_picker.dart';
+import 'package:flutter_holo_date_picker/i18n/date_picker_i18n.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -605,25 +607,45 @@ class splitsheet extends GetView<SplitshitController> {
                   SizedBox(
                     height: screenHeight * .02,
                   ),
-                  Myinput(
-                    ontap: () async {
-                      DateTime? pickdate = await showDatePicker(
+                  GestureDetector(
+                    onTap: () async {
+                      /*  DateTime? pickdate = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(1920),
                           lastDate: DateTime.now());
-                      if (pickdate != null) {
-                        controller.date.value.text =
-                            DateFormat("yyyy-MM-dd").format(pickdate);
-                      }
+                      */
+                      var datePicked = await DatePicker.showSimpleDatePicker(
+                        context,
+                        backgroundColor: MyColors.mainblack,
+                        itemTextStyle: TextStyle(color: Colors.white),
+                        textColor: MyColors.MainYellow,
+                        initialDate: DateTime(1994),
+                        firstDate: DateTime(1960),
+                        lastDate: DateTime(2012),
+                        dateFormat: "MMMM-dd-yyyy",
+                        locale: DateTimePickerLocale.en_us,
+                        looping: true,
+                      );
+                      controller.date.value.text =
+                          DateFormat("MM-dd-yyyy").format(datePicked!);
+                      final snackBar = SnackBar(
+                          content: Text(
+                              "Date Picked " + controller.date.value.text));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                      ;
                     },
-                    icon: Icon(
-                      Icons.calendar_today_rounded,
-                      color: MyColors.BordersGrey,
+                    child: Myinput(
+                      enabled: false,
+                      icon: Icon(
+                        Icons.calendar_today_rounded,
+                        color: MyColors.BordersGrey,
+                      ),
+                      controller: controller.date.value,
+                      labelText: "music composed date",
+                      validate: (v) => controller.validateThese(v!),
                     ),
-                    controller: controller.date.value,
-                    labelText: "music composed date",
-                    validate: (v) => controller.validateThese(v!),
                   ),
                   SizedBox(
                     height: screenHeight * .02,

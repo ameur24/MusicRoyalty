@@ -23,6 +23,7 @@ import 'package:music_royalty/controllers/music_controller.dart';
 import '../main/music_steps/checker.dart';
 import '../main/music_steps/verifypage.dart';
 import '../splash.dart';
+import 'forgetpasswordscreen.dart';
 
 class landingPage extends StatefulWidget {
   landingPage({Key? key}) : super(key: key);
@@ -348,10 +349,10 @@ class _ImageState extends State<landingPage> {
                                                                 ),
                                                               ),
                                                               TextSpan(
-                                                                  recognizer:
-                                                                      new TapGestureRecognizer()
-                                                                        ..onTap =
-                                                                            () {} /* Get.to(ForgotPasswordScreen() */,
+                                                                  recognizer: new TapGestureRecognizer()
+                                                                    ..onTap = () =>
+                                                                        Get.to(
+                                                                            ForgotPasswordScreen()) /*  */,
                                                                   text:
                                                                       ' Reset Password',
                                                                   style: TextStyle(
